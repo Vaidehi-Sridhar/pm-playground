@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 9: Your PM Journey - QuickPay - PM Playground</title>
+<style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --accent: #14b8a6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .progress-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neutral-700);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .progress-dot.active { background: var(--primary); transform: scale(1.4); }
+        
+        /* Content */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        /* Section Cards */
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Interview Box */
+        .interview-box {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 20px;
+        }
+        .interview-info {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .interview-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .interview-info .role {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .interview-info .tenure {
+            color: var(--neutral-400);
+            font-size: 0.875rem;
+        }
+        
+        .message {
+            background: rgba(14, 165, 233, 0.08);
+            border-left: 3px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .message strong { color: var(--primary); }
+        
+        /* Questions */
+        .questions {
+            display: grid;
+            gap: 12px;
+            margin: 30px 0;
+        }
+        .question-btn {
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .question-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--ai);
+            transform: translateX(4px);
+        }
+        .question-btn.asked {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: var(--success);
+            opacity: 0.6;
+            cursor: default;
+        }
+        .question-btn.asked:hover { transform: none; }
+        
+        /* Analysis Grid */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .analysis-box {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+        .analysis-box.locked {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .analysis-box.unlocked {
+            animation: unlock 0.3s ease;
+        }
+        @keyframes unlock {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .analysis-box h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+        .analysis-box textarea {
+            width: 100%;
+            background: var(--neutral-900);
+            border: 1px solid var(--neutral-700);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9375rem;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        .analysis-box textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            margin-right: 8px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+        
+        /* Progress Indicator */
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: var(--neutral-700);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .dot.complete {
+            background: var(--success);
+            transform: scale(1.2);
+        }
+        
+        /* Results */
+        .results {
+            text-align: center;
+        }
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border: 8px solid var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 40px auto;
+            animation: scaleIn 0.5s ease;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .analysis-grid { grid-template-columns: 1fr; }
+            .header .container { padding: 0 16px; }
+            .main { padding: 30px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickPay</a>
+                <span class="sep">/</span>
+                <span class="current">Your PM Journey</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main">
+
+    <div class="container">
+        <div class="product-bar">
+            <div style="font-size: 2em;">🏦</div>
+            <div><h2>QuickPay</h2></div>
+            <div style="margin-left: auto; opacity: 0.8;">Journey Complete</div>
+        </div>
+
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <div style="font-size: 6em; margin-bottom: 25px;">🎯</div>
+                <h1 style="font-size: 4em; margin-bottom: 20px;">Your PM Journey</h1>
+                <p style="font-size: 1.6em; color: #10b981; font-weight: bold;">Complete!</p>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #065f46, #059669); border: 3px solid #10b981; border-radius: 20px; padding: 45px; margin: 40px 0; text-align: center;">
+                <h2 style="font-size: 2.5em; margin-bottom: 25px;">8 Cases Completed</h2>
+                <div id="completionSummary" style="font-size: 1.3em; line-height: 2;"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 2.5em; margin-bottom: 35px; text-align: center;">
+                📊 Your Performance
+            </h2>
+
+            <div class="skill-grid" id="skillGrid"></div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 2.5em; margin-bottom: 35px;">Where You Excel</h2>
+
+            <div class="strength-box" id="strengthsBox"></div>
+
+            <div class="improve-box" id="improveBox"></div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 2.5em; margin-bottom: 35px;">Try More PM Journeys</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0;">
+                <div class="journey-card" onclick="window.location.href='../foodexpress-track/index.html'">
+                    <div class="emoji">🍔</div>
+                    <h3>FoodExpress Journey</h3>
+                    <p>Own a food delivery platform. 8 new cases with restaurant dynamics.</p>
+                </div>
+
+                <div class="journey-card" onclick="window.location.href='../quickmart-track/index.html'">
+                    <div class="emoji">⚡</div>
+                    <h3>QuickMart Journey</h3>
+                    <p>Own a quick commerce app. 8 cases in 10-min delivery space.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 2.5em; margin-bottom: 35px;">Continue Learning</h2>
+
+            <div class="resource-card">
+                <h4>📚 Product School</h4>
+                <p style="font-size: 1.1em; color: #93c5fd; margin-bottom: 20px; line-height: 1.8;">
+                    Deep courses on strategy, metrics, roadmapping.
+                </p>
+                <a href="https://productschool.com/" target="_blank" class="resource-link">Explore Courses →</a>
+            </div>
+
+            <div class="resource-card">
+                <h4>📖 Recommended Books</h4>
+                <p style="font-size: 1.1em; color: #93c5fd; margin-bottom: 20px; line-height: 1.8;">
+                    • <strong>Inspired</strong> by Marty Cagan<br/>
+                    • <strong>Cracking the PM Interview</strong><br/>
+                    • <strong>The Lean Product Playbook</strong>
+                </p>
+            </div>
+
+            <div class="resource-card">
+                <h4>👥 Join ProdPal Community</h4>
+                <p style="font-size: 1.1em; color: #93c5fd; margin-bottom: 20px; line-height: 1.8;">
+                    PayPal's internal PM community. Share learnings, get mentorship.
+                </p>
+                <a href="http://go/prodpal" class="resource-link">Join ProdPal →</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 40px 0; color: #6b7280;">
+            <p style="font-size: 1.2em;">Built by PM at PayPal</p>
+        </div>
+    </div>
+
+    <script>
+        // Generate dynamic feedback based on journey
+        function generateFeedback() {
+            // Default data structure
+            const journeyData = {
+                case1_questions: parseInt(localStorage.getItem('case1_questions')) || 3,
+                case2_interviewed: parseInt(localStorage.getItem('case2_interviewed')) || 5,
+                case3_analyzed: localStorage.getItem('case3_analyzed') === 'true',
+                case4_explored: parseInt(localStorage.getItem('case4_explored')) || 5,
+                case5_tasks: parseInt(localStorage.getItem('case5_tasks')) || 3,
+                case6_bugs: parseInt(localStorage.getItem('case6_bugs')) || 7,
+                case7_frameworks: parseInt(localStorage.getItem('case7_frameworks')) || 3,
+                case8_decision: localStorage.getItem('case8_decision') || 'ship'
+            };
+            
+            // Calculate strengths
+            const strengths = [];
+            if (journeyData.case1_questions >= 4) {
+                strengths.push('Thorough interviewing - You asked detailed questions in Case 1');
+            }
+            if (journeyData.case2_interviewed >= 5) {
+                strengths.push('Customer understanding - Interviewed all 5 merchant types');
+            }
+            if (journeyData.case3_analyzed) {
+                strengths.push('Data-driven thinking - Used data to answer CEO question');
+            }
+            if (journeyData.case4_explored >= 5) {
+                strengths.push('Competitive research - Explored multiple competitor features');
+            }
+            if (journeyData.case5_tasks === 3) {
+                strengths.push('Crisis prioritization - Made tough calls under pressure');
+            }
+            if (journeyData.case6_bugs >= 7) {
+                strengths.push('Attention to detail - Found all UX bugs in testing');
+            }
+            if (journeyData.case7_frameworks >= 3) {
+                strengths.push('Framework fluency - Explored multiple prioritization methods');
+            }
+            
+            // Calculate improvements
+            const improvements = [];
+            if (journeyData.case1_questions < 3) {
+                improvements.push('Deeper discovery - Ask more questions before analyzing requests');
+            }
+            if (journeyData.case4_explored < 5) {
+                improvements.push('Competitive research - Spend more time understanding competitors');
+            }
+            if (journeyData.case6_bugs < 5) {
+                improvements.push('Product testing - Use your product more to find issues');
+            }
+            if (journeyData.case7_frameworks < 3) {
+                improvements.push('Framework exploration - Try different prioritization approaches');
+            }
+            
+            // Fallback strengths/improvements if no tracking data
+            if (strengths.length === 0) {
+                strengths.push(
+                    'Customer-first approach - Interviewed before deciding',
+                    'Data-driven decisions - Used analytics over gut feel',
+                    'Strategic thinking - Connected vision to execution',
+                    'Crisis management - Prioritized under pressure'
+                );
+            }
+            
+            if (improvements.length === 0) {
+                improvements.push(
+                    'Technical depth - Learn API design, system architecture',
+                    'Business metrics - Master LTV, CAC, unit economics',
+                    'Stakeholder management - Practice saying no, managing up'
+                );
+            }
+            
+            return { journeyData, strengths, improvements };
+        }
+
+        window.addEventListener('load', function() {
+            const { journeyData, strengths, improvements } = generateFeedback();
+            
+            // Completion summary
+            const summary = `
+                ✓ Product Sense • ✓ Customer Strategy • ✓ Data Analysis • ✓ Strategic Planning<br/>
+                ✓ Crisis Management • ✓ Product Testing • ✓ Prioritization • ✓ Ship Decisions
+            `;
+            document.getElementById('completionSummary').innerHTML = summary;
+            
+            // Skill grid
+            const skills = [
+                {emoji: '🧠', name: 'Product Sense', score: journeyData.case1_questions >= 4 ? 'Strong' : 'Good'},
+                {emoji: '👥', name: 'Customer Focus', score: journeyData.case2_interviewed >= 5 ? 'Strong' : 'Good'},
+                {emoji: '📊', name: 'Data Analysis', score: journeyData.case3_analyzed ? 'Strong' : 'Good'},
+                {emoji: '🗺️', name: 'Strategy', score: journeyData.case4_explored >= 5 ? 'Strong' : 'Good'},
+                {emoji: '🚨', name: 'Crisis Handling', score: journeyData.case5_tasks === 3 ? 'Strong' : 'Good'},
+                {emoji: '🔍', name: 'Testing', score: journeyData.case6_bugs >= 7 ? 'Strong' : 'Good'},
+                {emoji: '⚖️', name: 'Prioritization', score: journeyData.case7_frameworks >= 3 ? 'Strong' : 'Good'},
+                {emoji: '⏰', name: 'Decisions', score: 'Strong'}
+            ];
+            
+            document.getElementById('skillGrid').innerHTML = skills.map(s => `
+                <div class="skill-card">
+                    <div class="emoji">${s.emoji}</div>
+                    <h4>${s.name}</h4>
+                    <div class="score">${s.score}</div>
+                </div>
+            `).join('');
+            
+            // Strengths
+            document.getElementById('strengthsBox').innerHTML = `
+                <h3 style="font-size: 1.8em; margin-bottom: 22px; color: #6ee7b7;">✅ Your Core Strengths:</h3>
+                <div style="font-size: 1.15em; line-height: 2.2;">
+                    ${strengths.map(s => `<div style="margin: 15px 0;"><strong>→</strong> ${s}</div>`).join('')}
+                </div>
+            `;
+            
+            // Improvements
+            document.getElementById('improveBox').innerHTML = `
+                <h3 style="font-size: 1.8em; margin-bottom: 22px; color: #fde047;">📈 Areas to Deepen:</h3>
+                <div style="font-size: 1.15em; line-height: 2.2;">
+                    ${improvements.map(i => `<div style="margin: 15px 0;"><strong>→</strong> ${i}</div>`).join('')}
+                </div>
+            `;
+        });
+    </script>
+
+    </div>
+</body>
+</html>

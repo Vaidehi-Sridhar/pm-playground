@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 7: Prioritization Frameworks - FoodExpress - PM Playground</title>
+    <style>
+        :root {
+            --primary: #f97316;
+            --primary-dark: #0369a1;
+            --accent: #f59e0b;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .home-btn {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            color: #f97316;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .home-btn:hover {
+            background: rgba(249, 115, 22, 0.2);
+            transform: translateX(-2px);
+        }
+        
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .framework-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+        .framework-tab {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .framework-tab:hover {
+            border-color: var(--primary);
+        }
+        .framework-tab.active {
+            background: rgba(14, 165, 233, 0.15);
+            border-color: var(--primary);
+        }
+        
+        .feature-list {
+            margin: 24px 0;
+        }
+        .feature-item {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .feature-name {
+            font-weight: 600;
+            font-size: 0.9375rem;
+        }
+        .feature-score {
+            background: rgba(14, 165, 233, 0.15);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+
+        .ai-suggestion {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            display: none;
+        }
+        .ai-suggestion.show {
+            display: block;
+        }
+        .ai-suggestion h4 {
+            color: var(--ai);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+        }
+        .ai-suggestion p {
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">FoodExpress</a>
+                <span class="sep">/</span>
+                <span class="current">Prioritization Frameworks</span>
+            </div>
+            <a href="../index.html" class="home-btn">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div id="screen1">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>⚖️</span>
+                    <span>CASE 7 OF 8</span>
+                </div>
+                <h1>Prioritization Frameworks</h1>
+                <p>Same features, different rankings</p>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 The Challenge</h2>
+                <p>You have 6 delivery features. Resources to build only 3 this quarter.</p>
+                <p style="margin-top: 16px;">Try 4 different frameworks. See how each ranks features differently.</p>
+            </div>
+
+            <button class="ai-btn" onclick="showAIRecommend()">
+                🤖 AI Recommend
+            </button>
+
+            <div class="ai-suggestion" id="aiRecommend">
+                <h4>💡 Framework Selection Guidance</h4>
+                <p><strong>For FoodExpress's delivery features, we recommend: RICE Framework</strong></p>
+                <p style="margin-top: 12px;">
+                    <strong>Why RICE works best here:</strong>
+                </p>
+                <p style="margin-top: 8px;">
+                    • <strong>Reach:</strong> Delivery features have measurable user counts (customers, restaurants, delivery partners)<br>
+                    • <strong>Impact:</strong> Order volume and delivery success rates are quantifiable - critical for food delivery<br>
+                    • <strong>Confidence:</strong> Food delivery features need validation data before major investment<br>
+                    • <strong>Effort:</strong> Engineering complexity varies significantly across delivery features
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>When to use alternatives:</strong><br>
+                    ICE - Early stage, quick decisions needed<br>
+                    Value/Effort - Simple plotting, less data available<br>
+                    MoSCoW - Stakeholder alignment focus, less quantitative
+                </p>
+                <p style="margin-top: 12px;">
+                    RICE balances all factors for data-driven food delivery product decisions. Explore all 4 to see the differences!
+                </p>
+            </div>
+
+            <button class="btn-primary" onclick="showFrameworks()">
+                Explore Frameworks →
+            </button>
+        </div>
+        
+        <div id="screen2" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>⚖️</span>
+                    <span>COMPARE FRAMEWORKS</span>
+                </div>
+                <h1>Prioritization Methods</h1>
+            </div>
+            
+            <div class="framework-tabs">
+                <div class="framework-tab active" onclick="showFramework('rice', this)">RICE</div>
+                <div class="framework-tab" onclick="showFramework('ice', this)">ICE</div>
+                <div class="framework-tab" onclick="showFramework('matrix', this)">Value/Effort</div>
+                <div class="framework-tab" onclick="showFramework('moscow', this)">MoSCoW</div>
+            </div>
+            
+            <div class="section">
+                <div id="frameworkExplain"></div>
+                <div id="featureRanking" class="feature-list"></div>
+            </div>
+            
+            <div class="section" style="text-align: center;">
+                <p id="exploreMsg"><strong>Explored: 0/4 frameworks</strong></p>
+            </div>
+            
+            <button class="btn-primary" id="continueBtn" disabled onclick="showResults()">
+                See Learnings →
+            </button>
+        </div>
+        
+        <div id="screen3" style="display: none;">
+            <div class="case-header">
+                <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                <h1>Frameworks Compared</h1>
+            </div>
+            
+            <div class="learning-box">
+                <h3>🎓 What You Learned</h3>
+                <ul>
+                    <li>Different frameworks rank features differently</li>
+                    <li>RICE balances reach, impact, confidence, effort</li>
+                    <li>ICE is faster but less detailed</li>
+                    <li>No single "correct" framework - context matters</li>
+                </ul>
+            </div>
+            
+            <button class="btn-primary" onclick="window.location.href='case8.html'">
+                Next: Ship or Wait →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let explored = new Set();
+        
+        const features = [
+            {name: 'Live Order Tracking', rice: 920, ice: 9.2, value: 'High', effort: 'Medium', moscow: 'Must'},
+            {name: 'Delivery Time Prediction', rice: 880, ice: 8.8, value: 'High', effort: 'High', moscow: 'Must'},
+            {name: 'Smart Route Optimization', rice: 750, ice: 8, value: 'High', effort: 'High', moscow: 'Should'},
+            {name: 'Multi-Stop Deliveries', rice: 680, ice: 7.5, value: 'Medium', effort: 'Medium', moscow: 'Should'},
+            {name: 'Contactless Delivery Photos', rice: 550, ice: 6.5, value: 'Medium', effort: 'Low', moscow: 'Could'},
+            {name: 'Delivery Partner Ratings', rice: 420, ice: 5.5, value: 'Low', effort: 'Low', moscow: 'Could'}
+        ];
+        
+        const frameworks = {
+            rice: {
+                name: 'RICE (Reach × Impact × Confidence ÷ Effort)',
+                desc: 'Scores features based on estimated reach, impact, confidence, and effort. Higher score = higher priority.',
+                sort: (a, b) => b.rice - a.rice,
+                display: f => f.rice
+            },
+            ice: {
+                name: 'ICE (Impact × Confidence × Ease)',
+                desc: 'Simpler than RICE. Scores 1-10 on impact, confidence, ease. Multiply for final score.',
+                sort: (a, b) => b.ice - a.ice,
+                display: f => f.ice
+            },
+            matrix: {
+                name: 'Value/Effort Matrix',
+                desc: 'Plot features on 2x2 grid. High Value + Low Effort = Quick wins. Prioritize those.',
+                sort: (a, b) => {
+                    const aScore = (a.value === 'High' ? 3 : a.value === 'Medium' ? 2 : 1) - (a.effort === 'High' ? 3 : a.effort === 'Medium' ? 2 : 1);
+                    const bScore = (b.value === 'High' ? 3 : b.value === 'Medium' ? 2 : 1) - (b.effort === 'High' ? 3 : b.effort === 'Medium' ? 2 : 1);
+                    return bScore - aScore;
+                },
+                display: f => `${f.value} Value / ${f.effort} Effort`
+            },
+            moscow: {
+                name: 'MoSCoW (Must / Should / Could / Won\'t)',
+                desc: 'Categorize features into Must have, Should have, Could have, Won\'t have. Simple but subjective.',
+                sort: (a, b) => {
+                    const order = {Must: 1, Should: 2, Could: 3, Wont: 4};
+                    return order[a.moscow] - order[b.moscow];
+                },
+                display: f => f.moscow + ' Have'
+            }
+        };
+        
+        function showFrameworks() {
+            document.getElementById('screen1').style.display = 'none';
+            document.getElementById('screen2').style.display = 'block';
+            showFramework('rice', document.querySelector('.framework-tab'));
+            window.scrollTo(0, 0);
+        }
+        
+        function showFramework(key, tab) {
+            document.querySelectorAll('.framework-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const fw = frameworks[key];
+            
+            document.getElementById('frameworkExplain').innerHTML = `
+                <h2>${fw.name}</h2>
+                <p style="margin-top: 12px;">${fw.desc}</p>
+            `;
+            
+            const sorted = [...features].sort(fw.sort);
+            const html = sorted.map((f, i) => `
+                <div class="feature-item">
+                    <div>
+                        <div class="feature-name">${i + 1}. ${f.name}</div>
+                    </div>
+                    <div class="feature-score">${fw.display(f)}</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('featureRanking').innerHTML = html;
+            
+            explored.add(key);
+            document.getElementById('exploreMsg').innerHTML = `<strong>Explored: ${explored.size}/4 frameworks</strong>`;
+            
+            if (explored.size >= 3) {
+                document.getElementById('continueBtn').disabled = false;
+            }
+            
+            localStorage.setItem('case7_frameworks', explored.size);
+        }
+        
+        function showResults() {
+            document.getElementById('screen2').style.display = 'none';
+            document.getElementById('screen3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAIRecommend() {
+            const recommend = document.getElementById('aiRecommend');
+            recommend.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

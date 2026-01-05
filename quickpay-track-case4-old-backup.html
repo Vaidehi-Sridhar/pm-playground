@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 4: Build Strategy - QuickPay - PM Playground</title>
+<style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --accent: #14b8a6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .progress-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neutral-700);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .progress-dot.active { background: var(--primary); transform: scale(1.4); }
+        
+        /* Content */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        /* Section Cards */
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Interview Box */
+        .interview-box {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 20px;
+        }
+        .interview-info {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .interview-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .interview-info .role {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .interview-info .tenure {
+            color: var(--neutral-400);
+            font-size: 0.875rem;
+        }
+        
+        .message {
+            background: rgba(14, 165, 233, 0.08);
+            border-left: 3px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .message strong { color: var(--primary); }
+        
+        /* Questions */
+        .questions {
+            display: grid;
+            gap: 12px;
+            margin: 30px 0;
+        }
+        .question-btn {
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .question-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--ai);
+            transform: translateX(4px);
+        }
+        .question-btn.asked {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: var(--success);
+            opacity: 0.6;
+            cursor: default;
+        }
+        .question-btn.asked:hover { transform: none; }
+        
+        /* Analysis Grid */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .analysis-box {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+        .analysis-box.locked {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .analysis-box.unlocked {
+            animation: unlock 0.3s ease;
+        }
+        @keyframes unlock {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .analysis-box h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+        .analysis-box textarea {
+            width: 100%;
+            background: var(--neutral-900);
+            border: 1px solid var(--neutral-700);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9375rem;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        .analysis-box textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            margin-right: 8px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+        
+        /* Progress Indicator */
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: var(--neutral-700);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .dot.complete {
+            background: var(--success);
+            transform: scale(1.2);
+        }
+        
+        /* Results */
+        .results {
+            text-align: center;
+        }
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border: 8px solid var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 40px auto;
+            animation: scaleIn 0.5s ease;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .analysis-grid { grid-template-columns: 1fr; }
+            .header .container { padding: 0 16px; }
+            .main { padding: 30px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickPay</a>
+                <span class="sep">/</span>
+                <span class="current">Build Strategy</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main">
+
+    <div class="container">
+        <div class="product-bar">
+            <div style="font-size: 2em;">🏦</div>
+            <div><h2>QuickPay</h2></div>
+            <div style="margin-left: auto; opacity: 0.8;">Case 4 of 9 • 60 min</div>
+        </div>
+
+        <!-- Screen 1: Intro -->
+        <div class="card" id="s1">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 5.5em; margin-bottom: 25px;">🗺️</div>
+                <h1 style="font-size: 3.8em; margin-bottom: 20px;">Build Your Strategy</h1>
+                <p style="font-size: 1.5em; color: #93c5fd;">Research → Plan → Execute</p>
+            </div>
+
+            <div class="workflow-steps">
+                <div class="step-box"><div style="font-size: 2em; margin-bottom: 10px;">🔍</div>Research<br/>Competitors</div>
+                <div class="step-box"><div style="font-size: 2em; margin-bottom: 10px;">🎯</div>Set<br/>Direction</div>
+                <div class="step-box"><div style="font-size: 2em; margin-bottom: 10px;">📅</div>Plan<br/>Roadmap</div>
+                <div class="step-box"><div style="font-size: 2em; margin-bottom: 10px;">📝</div>Break into<br/>Tasks</div>
+            </div>
+
+            <div style="background: rgba(59, 130, 246, 0.2); padding: 40px; border-radius: 15px;">
+                <h3 style="font-size: 1.7em; margin-bottom: 20px;">CEO asks:</h3>
+                <p style="font-size: 1.2em; line-height: 2;">
+                    "What's QuickPay's strategy for 2026? What are we building?"<br/><br/>
+                    Research competitors → Decide our direction → Plan what to build → Break into doable tasks
+                </p>
+            </div>
+
+            <button class="btn" onclick="startPart1()">Part 1: Research Competitors →</button>
+        </div>
+
+        <!-- Part 1: Research -->
+        <div class="card" id="p1" style="display: none;">
+            <h2 style="font-size: 2.5em; margin-bottom: 25px;">🔍 Part 1: Explore Competitors</h2>
+
+            <div class="workflow-steps">
+                <div class="step-box active">🔍 Research</div>
+                <div class="step-box">🎯 Direction</div>
+                <div class="step-box">📅 Roadmap</div>
+                <div class="step-box">📝 Tasks</div>
+            </div>
+
+            <p style="font-size: 1.15em; color: #93c5fd; margin-bottom: 25px;">
+                Click each company. See what they offer. Discover gaps.
+            </p>
+
+            <div class="competitor-tabs">
+                <div class="comp-tab active" onclick="showComp('quickpay', this)">QuickPay (Us)</div>
+                <div class="comp-tab" onclick="showComp('stripe', this)">Stripe</div>
+                <div class="comp-tab" onclick="showComp('razorpay', this)">Razorpay</div>
+                <div class="comp-tab" onclick="showComp('paypal', this)">PayPal</div>
+                <div class="comp-tab" onclick="showComp('square', this)">Square</div>
+            </div>
+
+            <div id="compFeatures"></div>
+
+            <div class="gap-panel" id="gapPanel">
+                <h3 style="font-size: 1.6em; margin-bottom: 20px; color: #fca5a5;">❌ What QuickPay is Missing:</h3>
+                <div id="gapList" style="font-size: 1.05em; line-height: 2;"></div>
+            </div>
+
+            <div style="background: rgba(251, 191, 36, 0.2); padding: 20px; border-radius: 12px; text-align: center; margin-top: 25px;">
+                <strong style="font-size: 1.15em;" id="exploreMsg">Explore 5 competitor features to continue</strong>
+            </div>
+
+            <button class="btn" id="p1Next" disabled onclick="startPart2()">Part 2: Set Direction →</button>
+        </div>
+
+        <!-- Part 2: Vision/OKR -->
+        <div class="card" id="p2" style="display: none;">
+            <h2 style="font-size: 2.5em; margin-bottom: 25px;">🎯 Part 2: Set Your Direction</h2>
+
+            <div class="workflow-steps">
+                <div class="step-box done">✅ Research</div>
+                <div class="step-box active">🎯 Direction</div>
+                <div class="step-box">📅 Roadmap</div>
+                <div class="step-box">📝 Tasks</div>
+            </div>
+
+            <div style="background: rgba(251, 191, 36, 0.2); padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+                <h4 style="font-size: 1.4em; margin-bottom: 15px;">💡 What is "Direction"?</h4>
+                <p style="font-size: 1.1em; line-height: 1.9;">
+                    <strong>Vision:</strong> Where you want QuickPay to be in 2 years (the dream state)<br/>
+                    <strong>Goals:</strong> Specific measurable targets to track progress<br/><br/>
+                    Think: Vision = Destination, Goals = Milestones along the way
+                </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; margin-bottom: 25px;">
+                <h4 style="font-size: 1.5em; margin-bottom: 18px;">📜 QuickPay's 2026 Vision:</h4>
+                <p style="color: #93c5fd; margin-bottom: 12px;">Based on gaps you found, where should QuickPay be in 2 years?</p>
+                <textarea id="vision" placeholder="QuickPay will be the fastest, easiest payment gateway for..." oninput="checkVision()"></textarea>
+                <div style="text-align: right; color: #60a5fa; margin-top: 8px;">
+                    <span id="vCount">0</span>/100 chars
+                </div>
+                <button class="ai-btn" onclick="aiVision()">✨ Generate Vision</button>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px;">
+                <h4 style="font-size: 1.5em; margin-bottom: 18px;">🎯 Set 2 Goals for 2026:</h4>
+                <p style="color: #93c5fd; margin-bottom: 18px;">What specific numbers will show you're reaching the vision?</p>
+                
+                <div style="margin: 20px 0;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 10px;">Goal 1:</label>
+                    <input type="text" id="goal1" placeholder="Example: Instant payouts in 1 hour (currently 7 days)" oninput="checkGoals()">
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 10px;">Goal 2:</label>
+                    <input type="text" id="goal2" placeholder="Example: 50% merchants are subscription businesses" oninput="checkGoals()">
+                </div>
+                
+                <button class="ai-btn" onclick="aiGoals()">✨ Suggest Goals</button>
+            </div>
+
+            <button class="btn" id="p2Next" disabled onclick="startPart3()">Part 3: Plan Roadmap →</button>
+        </div>
+
+        <!-- Part 3: Roadmap -->
+        <div class="card" id="p3" style="display: none;">
+            <h2 style="font-size: 2.5em; margin-bottom: 25px;">📅 Part 3: Build Roadmap</h2>
+
+            <div class="workflow-steps">
+                <div class="step-box done">✅ Research</div>
+                <div class="step-box done">✅ Direction</div>
+                <div class="step-box active">📅 Roadmap</div>
+                <div class="step-box">📝 Tasks</div>
+            </div>
+
+            <p style="font-size: 1.15em; color: #93c5fd; margin-bottom: 30px;">
+                Based on gaps you found, these features need to be built. Drag to 6-month timeline.
+            </p>
+
+            <div style="background: rgba(251, 191, 36, 0.2); padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                <strong>Capacity: <span id="usedWeeks">0</span>/42 person-weeks</strong>
+                <div style="background: rgba(255,255,255,0.2); height: 12px; border-radius: 6px; margin-top: 12px; overflow: hidden;">
+                    <div id="capacityBar" style="background: linear-gradient(135deg, #10b981, #059669); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 300px 1fr; gap: 25px;">
+                <div>
+                    <h4 style="margin-bottom: 15px; color: #c084fc;">Features (from gaps):</h4>
+                    <div id="featureList"></div>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 15px; color: #10b981;">6-Month Timeline:</h4>
+                    <div id="timeline" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;"></div>
+                    
+                    <button class="ai-btn" style="margin-top: 20px;" onclick="aiPrioritize()">🤖 AI: Visualize Features</button>
+                    <div id="aiViz" style="display: none; margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <button class="btn" id="p3Next" disabled onclick="startPart4()">Part 4: Break into Tasks →</button>
+        </div>
+
+        <!-- Part 4: JIRA -->
+        <div class="card" id="p4" style="display: none;">
+            <h2 style="font-size: 2.5em; margin-bottom: 25px;">📝 Part 4: Break into Tasks</h2>
+
+            <div class="workflow-steps">
+                <div class="step-box done">✅ Research</div>
+                <div class="step-box done">✅ Direction</div>
+                <div class="step-box done">✅ Roadmap</div>
+                <div class="step-box active">📝 Tasks</div>
+            </div>
+
+            <div style="background: rgba(251, 191, 36, 0.2); padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+                <h4 style="font-size: 1.4em; margin-bottom: 15px;">Breaking down: <span id="topFeature">Top feature from roadmap</span></h4>
+                <p style="font-size: 1.1em; line-height: 1.8;">
+                    Write task for engineering team. Make it clear what to build.
+                </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px;">
+                <h4 style="font-size: 1.4em; margin-bottom: 18px;">Task Format:</h4>
+                
+                <div style="margin: 20px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">As a...</label>
+                    <input type="text" id="asA" placeholder="merchant with subscription customers">
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">I want to...</label>
+                    <input type="text" id="iWant" placeholder="receive instant payouts within 1 hour">
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">So that...</label>
+                    <input type="text" id="soThat" placeholder="I can manage cash flow without 7-day wait">
+                </div>
+                
+                <button class="ai-btn" onclick="aiTask()">✨ Generate Task</button>
+                <button class="ai-btn" onclick="aiImprove()">🔧 Improve Description</button>
+            </div>
+
+            <button class="btn" onclick="completeCase()">Complete Strategy Building →</button>
+        </div>
+
+        <!-- Screen: Summary -->
+        <div class="card" id="s5" style="display: none;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 5em; margin-bottom: 20px;">✅</div>
+                <h2 style="font-size: 3em;">Strategy Complete!</h2>
+            </div>
+
+            <div style="background: rgba(59, 130, 246, 0.2); padding: 40px; border-radius: 15px; border-left: 5px solid #3b82f6;">
+                <h3 style="font-size: 1.8em; margin-bottom: 20px;">🎓 What You Built:</h3>
+                <p style="font-size: 1.15em; line-height: 2;">
+                    ✓ Researched payment competitors (Stripe, Razorpay)<br/>
+                    ✓ Found QuickPay's gaps<br/>
+                    ✓ Set 2026 vision and goals<br/>
+                    ✓ Built 6-month roadmap<br/>
+                    ✓ Wrote first engineering task
+                </p>
+            </div>
+
+            <button class="btn" onclick="window.location.href='case5.html'">Case 5: Handle Crisis →</button>
+        </div>
+
+    </div>
+
+    <script>
+        let gaps = [];
+        let explored = 0;
+
+        const compData = {
+            quickpay: ['Basic Payments (UPI, Cards, Wallets)', '7-day Settlement', 'Email Notifications', 'Basic Dashboard', 'API Integration (Complex)'],
+            stripe: ['Instant Payouts (1 hour)', 'No-code Integration', 'Multi-currency (135+)', 'Subscription Billing', 'Fraud Detection ML'],
+            razorpay: ['Same-day Settlement', 'Payment Links', 'QR Code Payments', 'Smart Collect', 'Recurring Payments'],
+            paypal: ['Global Trust', 'Buyer Protection', 'One Touch Checkout', '200+ Countries', 'PayPal Credit'],
+            square: ['Point of Sale', 'Instant Deposit', 'Team Management', 'Inventory Tracking', 'Business Loans']
+        };
+
+        const quickpayHas = ['Basic Payments', '7-day Settlement', 'API Integration'];
+
+        function startPart1() {
+            document.getElementById('s1').style.display = 'none';
+            document.getElementById('p1').style.display = 'block';
+            showComp('quickpay', document.querySelector('.comp-tab'));
+            window.scrollTo(0, 0);
+        }
+
+        function showComp(name, tab) {
+            document.querySelectorAll('.comp-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const isQuickPay = name === 'quickpay';
+            const color = isQuickPay ? 'rgba(16,185,129,0.3)' : 'rgba(59,130,246,0.2)';
+            const borderColor = isQuickPay ? '#10b981' : 'rgba(59,130,246,0.4)';
+            
+            const html = compData[name].map(f => `
+                <div class="feature-card" style="background: ${color}; border-color: ${borderColor};" onclick="exploreFeature(this, '${f}', ${isQuickPay})">
+                    <strong style="font-size: 1.1em;">${f}</strong>
+                </div>
+            `).join('');
+            
+            document.getElementById('compFeatures').innerHTML = html;
+        }
+
+        function exploreFeature(el, feature, isQuickPay) {
+            if (el.classList.contains('checked')) return;
+            if (isQuickPay) return; // Don't count QuickPay features as explored
+            
+            el.classList.add('checked');
+            explored++;
+            localStorage.setItem("case4_explored", explored);
+            
+            if (!quickpayHas.some(h => feature.toLowerCase().includes(h.toLowerCase().split(' ')[0]))) {
+                gaps.push(feature);
+                updateGaps();
+            }
+            
+            // Show progress
+            const msg = document.getElementById('exploreMsg');
+            msg.textContent = `Explored ${explored}/5 competitor features`;
+            
+            if (explored >= 5) {
+                document.getElementById('p1Next').disabled = false;
+            }
+        }
+
+        function updateGaps() {
+            const html = gaps.map(g => `<div style="padding: 12px; margin: 8px 0; background: rgba(239,68,68,0.2); border-radius: 10px;">→ ${g}</div>`).join('');
+            document.getElementById('gapList').innerHTML = html;
+        }
+
+        function startPart2() {
+            document.getElementById('p1').style.display = 'none';
+            document.getElementById('p2').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function checkVision() {
+            const len = document.getElementById('vision').value.length;
+            document.getElementById('vCount').textContent = len;
+            checkP2Complete();
+        }
+
+        function checkGoals() {
+            checkP2Complete();
+        }
+
+        function checkP2Complete() {
+            const v = document.getElementById('vision').value.length;
+            const g1 = document.getElementById('goal1').value.length;
+            const g2 = document.getElementById('goal2').value.length;
+            
+            if (v >= 100 && g1 >= 20 && g2 >= 20) {
+                document.getElementById('p2Next').disabled = false;
+            }
+        }
+
+        function aiVision() {
+            document.getElementById('vision').value = `QuickPay will be India's fastest, easiest payment gateway for subscription businesses, known for instant settlements and seamless recurring billing.`;
+            checkVision();
+        }
+
+        function aiGoals() {
+            document.getElementById('goal1').value = 'Launch instant payouts (1 hour) by Q2 2026';
+            document.getElementById('goal2').value = '50% of merchants are subscription businesses by end of 2026';
+            checkGoals();
+        }
+
+        function startPart3() {
+            document.getElementById('p2').style.display = 'none';
+            document.getElementById('p3').style.display = 'block';
+            
+            // Load features from gaps
+            const features = gaps.slice(0, 6).map((g, i) => ({
+                name: g,
+                weeks: [5, 8, 12, 5, 8, 3][i] || 5
+            }));
+            
+            const html = features.map((f, i) => `
+                <div draggable="true" ondragstart="dragStart(event, ${i})" style="background: rgba(139,92,246,0.3); border: 2px solid #8b5cf6; padding: 15px; border-radius: 10px; margin: 10px 0; cursor: grab;">
+                    <strong>${f.name}</strong><br/>
+                    <span style="font-size: 0.9em; color: #c084fc;">${f.weeks} weeks</span>
+                </div>
+            `).join('');
+            document.getElementById('featureList').innerHTML = html;
+            
+            // Create timeline
+            const timeline = Array.from({length: 6}, (_, i) => `
+                <div ondrop="drop(event, ${i})" ondragover="allowDrop(event)" style="background: rgba(255,255,255,0.08); border: 2px dashed rgba(59,130,246,0.4); border-radius: 10px; padding: 20px 10px; min-height: 100px; text-align: center;">
+                    <div style="font-size: 0.85em; color: #9ca3af; margin-bottom: 8px;">Month ${i+1}</div>
+                    <div id="slot${i}"></div>
+                </div>
+            `).join('');
+            document.getElementById('timeline').innerHTML = timeline;
+            
+            window.features = features;
+            window.usedCapacity = 0;
+            window.scrollTo(0, 0);
+        }
+
+        function dragStart(e, idx) {
+            e.dataTransfer.setData('featureIdx', idx);
+        }
+
+        function allowDrop(e) {
+            e.preventDefault();
+        }
+
+        function drop(e, month) {
+            e.preventDefault();
+            const idx = parseInt(e.dataTransfer.getData('featureIdx'));
+            const feature = window.features[idx];
+            
+            if (window.usedCapacity + feature.weeks > 42) {
+                alert('Not enough capacity!');
+                return;
+            }
+            
+            window.usedCapacity += feature.weeks;
+            document.getElementById('usedWeeks').textContent = window.usedCapacity;
+            document.getElementById('capacityBar').style.width = (window.usedCapacity / 42 * 100) + '%';
+            
+            document.getElementById('slot' + month).innerHTML = `<strong style="font-size: 0.9em;">${feature.name.split('(')[0].substring(0, 20)}...</strong>`;
+            
+            if (window.usedCapacity >= 20) {
+                document.getElementById('p3Next').disabled = false;
+            }
+        }
+
+        function aiPrioritize() {
+            const viz = `
+                <div style="background: linear-gradient(135deg, #1e3a8a, #1e40af); border: 3px solid #3b82f6; padding: 30px; border-radius: 15px;">
+                    <h4 style="font-size: 1.4em; margin-bottom: 20px; color: #ec4899;">🤖 AI Feature Visualization:</h4>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
+                        ${gaps.slice(0,3).map(g => `
+                            <div style="background: rgba(59,130,246,0.3); padding: 20px; border-radius: 12px; text-align: center;">
+                                <strong style="display: block; margin-bottom: 12px; font-size: 1.1em;">${g.split('(')[0]}</strong>
+                                <div style="font-size: 0.9em; color: #93c5fd; line-height: 1.7;">
+                                    Impact: High<br/>
+                                    Effort: Medium<br/>
+                                    Priority: ⭐⭐⭐
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('aiViz').innerHTML = viz;
+            document.getElementById('aiViz').style.display = 'block';
+        }
+
+        function startPart4() {
+            document.getElementById('p3').style.display = 'none';
+            document.getElementById('p4').style.display = 'block';
+            document.getElementById('topFeature').textContent = gaps[0] || 'Top feature';
+            window.scrollTo(0, 0);
+        }
+
+        function aiTask() {
+            const feat = gaps[0] || 'Instant Payouts';
+            document.getElementById('asA').value = 'subscription business owner';
+            document.getElementById('iWant').value = `use ${feat.toLowerCase().split('(')[0]}`;
+            document.getElementById('soThat').value = 'I can manage cash flow better';
+        }
+
+        function aiImprove() {
+            const current = document.getElementById('soThat').value;
+            if (current.length < 10) {
+                alert('Write something first!');
+                return;
+            }
+            document.getElementById('soThat').value = current + ' and reduce payment friction for customers';
+        }
+
+        function completeCase() {
+            document.getElementById('p4').style.display = 'none';
+            document.getElementById('s5').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+    </div>
+</body>
+</html>

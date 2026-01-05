@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 4: Build Strategy - QuickMart - PM Playground</title>
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #0369a1;
+            --accent: #a855f7;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .home-btn {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .home-btn:hover {
+            background: rgba(16, 185, 129, 0.2);
+            transform: translateX(-2px);
+        }
+        
+        .main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0;
+        }
+        .step-box {
+            flex: 1;
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            padding: 16px 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+        .step-box.active {
+            border-color: var(--primary);
+            background: rgba(14, 165, 233, 0.1);
+        }
+        .step-box.done {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        .competitor-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+        .comp-tab {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .comp-tab:hover {
+            border-color: var(--primary);
+        }
+        .comp-tab.active {
+            background: rgba(14, 165, 233, 0.15);
+            border-color: var(--primary);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 24px 0;
+        }
+        .feature-card {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .feature-card.checked {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+        }
+        
+        .gap-panel {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 24px;
+            border-radius: 12px;
+            margin: 24px 0;
+        }
+        
+        .input-box {
+            margin: 24px 0;
+        }
+        .input-box label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9375rem;
+        }
+        .input-box textarea, .input-box input {
+            width: 100%;
+            background: var(--neutral-900);
+            border: 1px solid var(--neutral-700);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9375rem;
+        }
+        .input-box textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .input-box textarea:focus, .input-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 8px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .reality-check {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-left: 4px solid var(--ai);
+            padding: 24px;
+            border-radius: 12px;
+            margin: 24px 0;
+        }
+        .reality-check h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--ai);
+        }
+        .reality-check p {
+            color: var(--neutral-400);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .reality-check ul {
+            list-style: none;
+            margin: 12px 0;
+        }
+        .reality-check li {
+            color: var(--neutral-400);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .reality-check li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--ai);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid { grid-template-columns: 1fr; }
+            .workflow-steps { flex-direction: column; }
+            .competitor-tabs { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickMart</a>
+                <span class="sep">/</span>
+                <span class="current">Build Strategy</span>
+            </div>
+            <a href="../index.html" class="home-btn">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div id="screen1">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>🎯</span>
+                    <span>CASE 4 OF 8</span>
+                </div>
+                <h1>Build Your Strategy</h1>
+                <p>Research → Vision → OKR → Roadmap → Tasks</p>
+            </div>
+            
+            <div class="section">
+                <div class="workflow-steps">
+                    <div class="step-box">🔍 Research</div>
+                    <div class="step-box">🎯 Direction</div>
+                    <div class="step-box">📅 Roadmap</div>
+                    <div class="step-box">📝 Tasks</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 From CEO</h2>
+                <p>"What's QuickMart's strategy for 2026? What are we building?"</p>
+                <p style="margin-top: 16px;">Research competitors → Set direction → Plan roadmap → Break into tasks</p>
+            </div>
+
+            <div class="reality-check">
+                <h4>⏰ REALITY CHECK</h4>
+                <p>In real PM work, building a full strategy takes <strong>4-6 weeks</strong> because:</p>
+                <ul>
+                    <li>Competitive research: 1-2 weeks analyzing Blinkit, Zepto, Instamart</li>
+                    <li>Vision & OKR alignment: 1 week with exec team and dark store operators</li>
+                    <li>Roadmap prioritization: 1-2 weeks with Supply Chain, Engineering, Operations</li>
+                    <li>Supply chain feasibility: 1 week for 10-min delivery infrastructure scoping</li>
+                </ul>
+                <p style="margin-top: 12px;"><em>Real example: Blinkit's 10-minute delivery strategy (2021) took 7 weeks with input from 25+ teams across product, supply chain, and city operations.</em></p>
+            </div>
+
+            <button class="btn-primary" onclick="startPart1()">
+                Part 1: Research Competitors →
+            </button>
+        </div>
+        
+        <div id="part1" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>🔍</span>
+                    <span>PART 1: RESEARCH</span>
+                </div>
+                <h1>Explore Competitors</h1>
+                <p>Click each company to see their features</p>
+            </div>
+            
+            <div class="section">
+                <div class="workflow-steps">
+                    <div class="step-box active">🔍 Research</div>
+                    <div class="step-box">🎯 Direction</div>
+                    <div class="step-box">📅 Roadmap</div>
+                    <div class="step-box">📝 Tasks</div>
+                </div>
+            </div>
+            
+            <div class="competitor-tabs">
+                <div class="comp-tab active" onclick="showComp('quickpay', this)">QuickMart (Us)</div>
+                <div class="comp-tab" onclick="showComp('stripe', this)">Blinkit</div>
+                <div class="comp-tab" onclick="showComp('razorpay', this)">Zepto</div>
+                <div class="comp-tab" onclick="showComp('paypal', this)">Dunzo</div>
+                <div class="comp-tab" onclick="showComp('square', this)">Swiggy Instamart</div>
+            </div>
+            
+            <div id="compFeatures" class="feature-grid"></div>
+            
+            <div class="gap-panel" id="gapPanel" style="display: none;">
+                <h3 style="font-size: 1.125rem; margin-bottom: 16px; color: #fca5a5;">❌ What QuickMart is Missing</h3>
+                <div id="gapList"></div>
+            </div>
+            
+            <div class="section" style="text-align: center;">
+                <p id="exploreMsg"><strong>Explored: 0/5 competitor features</strong></p>
+            </div>
+            
+            <button class="btn-primary" id="p1Next" disabled onclick="startPart2()">
+                Part 2: Set Direction →
+            </button>
+        </div>
+        
+        <div id="part2" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>🎯</span>
+                    <span>PART 2: DIRECTION</span>
+                </div>
+                <h1>Set Your Direction</h1>
+                <p>Vision + OKR for Q1 2026</p>
+            </div>
+            
+            <div class="section">
+                <div class="workflow-steps">
+                    <div class="step-box done">✅ Research</div>
+                    <div class="step-box active">🎯 Direction</div>
+                    <div class="step-box">📅 Roadmap</div>
+                    <div class="step-box">📝 Tasks</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>💡 What is Direction?</h2>
+                <p><strong>Vision:</strong> Where QuickMart will be in 2 years</p>
+                <p style="margin-top: 8px;"><strong>OKR:</strong> Measurable targets for next quarter</p>
+            </div>
+            
+            <div class="input-box">
+                <label>Vision Statement (100+ chars):</label>
+                <button class="ai-btn" onclick="aiVision()">🤖 AI Suggest</button>
+                <textarea id="vision" placeholder="QuickMart will be..." oninput="checkVision()"></textarea>
+                <div style="text-align: right; font-size: 0.875rem; color: var(--neutral-400); margin-top: 4px;">
+                    <span id="vCount">0</span>/100
+                </div>
+            </div>
+            
+            <div class="input-box">
+                <label>OKR - Objective:</label>
+                <input type="text" id="objective" placeholder="Become #1 for quick grocery delivery" oninput="checkP2()">
+            </div>
+            
+            <div class="input-box">
+                <label>Key Result 1:</label>
+                <button class="ai-btn" onclick="aiKR()">🤖 AI Suggest</button>
+                <input type="text" id="kr1" placeholder="Launch instant payouts by Q2 2026" oninput="checkP2()">
+            </div>
+            
+            <div class="input-box">
+                <label>Key Result 2:</label>
+                <input type="text" id="kr2" placeholder="50% customers are professionals/families by 2026" oninput="checkP2()">
+            </div>
+            
+            <button class="btn-primary" id="p2Next" disabled onclick="startPart3()">
+                Part 3: Plan Roadmap →
+            </button>
+        </div>
+        
+        <div id="part3" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>📅</span>
+                    <span>PART 3: ROADMAP</span>
+                </div>
+                <h1>6-Month Roadmap</h1>
+                <p>Prioritize features for Q1-Q2 2026</p>
+            </div>
+            
+            <div class="section">
+                <div class="workflow-steps">
+                    <div class="step-box done">✅ Research</div>
+                    <div class="step-box done">✅ Direction</div>
+                    <div class="step-box active">📅 Roadmap</div>
+                    <div class="step-box">📝 Tasks</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Top Features from Gap Analysis</h2>
+                <div id="featureList" style="margin-top: 16px;"></div>
+            </div>
+            
+            <div class="input-box">
+                <label>Q1 2026 Priority Feature:</label>
+                <input type="text" id="q1Feature" placeholder="Feature name" oninput="checkP3()">
+            </div>
+            
+            <div class="input-box">
+                <label>Q2 2026 Priority Feature:</label>
+                <input type="text" id="q2Feature" placeholder="Feature name" oninput="checkP3()">
+            </div>
+            
+            <button class="btn-primary" id="p3Next" disabled onclick="startPart4()">
+                Part 4: Write Task →
+            </button>
+        </div>
+        
+        <div id="part4" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>📝</span>
+                    <span>PART 4: EXECUTION</span>
+                </div>
+                <h1>First JIRA Task</h1>
+                <p>Break strategy into engineering work</p>
+            </div>
+            
+            <div class="section">
+                <div class="workflow-steps">
+                    <div class="step-box done">✅ Research</div>
+                    <div class="step-box done">✅ Direction</div>
+                    <div class="step-box done">✅ Roadmap</div>
+                    <div class="step-box active">📝 Tasks</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>User Story Format</h2>
+                <p>As a [who], I want [what], so that [why]</p>
+            </div>
+            
+            <div class="input-box">
+                <label>As a:</label>
+                <button class="ai-btn" onclick="aiTask()">🤖 AI Fill</button>
+                <input type="text" id="asA" placeholder="busy professional shopper">
+            </div>
+            
+            <div class="input-box">
+                <label>I want:</label>
+                <input type="text" id="iWant" placeholder="instant settlement of my earnings">
+            </div>
+            
+            <div class="input-box">
+                <label>So that:</label>
+                <input type="text" id="soThat" placeholder="I can manage cash flow better">
+            </div>
+            
+            <button class="btn-primary" onclick="submitTask()">
+                Create JIRA Task →
+            </button>
+        </div>
+        
+        <div id="screen5" style="display: none;">
+            <div class="case-header">
+                <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                <h1>Strategy Complete</h1>
+            </div>
+            
+            <div class="learning-box">
+                <h3>🎓 What You Learned</h3>
+                <ul>
+                    <li>Research competitors to find gaps</li>
+                    <li>Vision sets long-term direction</li>
+                    <li>OKRs track quarterly progress</li>
+                    <li>Roadmaps prioritize features</li>
+                    <li>User stories break work into tasks</li>
+                </ul>
+            </div>
+            
+            <button class="btn-primary" onclick="window.location.href='case5.html'">
+                Next: Handle Crisis →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let explored = 0;
+        let gaps = [];
+        
+        const compData = {
+            quickpay: ['UPI', 'Cards', 'Wallets', 'Voice Ordering', 'Invoicing', 'Reports'],
+            stripe: ['Smart Recommendations', 'Global Payments', '10-Min Guarantee', 'Fraud Detection', 'Mobile SDKs', 'Marketplace Support'],
+            razorpay: ['Smart Routing', 'Auto-Retry', 'EMI Options', 'QR Codes', 'Payment Pages', 'Magic Checkout'],
+            paypal: ['Buyer Protection', 'One-Click', 'Recurring Payments', 'Multi-Currency', 'Dispute Resolution', 'Dunzo Credit'],
+            square: ['Point of Sale', 'Inventory', 'Staff Management', 'Customer Directory', 'Marketing Tools', 'Analytics']
+        };
+        
+        const quickpayHas = compData.quickpay;
+        
+        function startPart1() {
+            document.getElementById('screen1').style.display = 'none';
+            document.getElementById('part1').style.display = 'block';
+            showComp('quickpay', document.querySelector('.comp-tab'));
+            window.scrollTo(0, 0);
+        }
+        
+        function showComp(name, tab) {
+            document.querySelectorAll('.comp-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const html = compData[name].map(f => `
+                <div class="feature-card" onclick="exploreFeature(this, '${f}', ${name === 'quickpay'})">
+                    ${f}
+                </div>
+            `).join('');
+            
+            document.getElementById('compFeatures').innerHTML = html;
+        }
+        
+        function exploreFeature(el, feature, isQuickMart) {
+            if (el.classList.contains('checked') || isQuickMart) return;
+            
+            el.classList.add('checked');
+            explored++;
+            
+            if (!quickpayHas.includes(feature)) {
+                gaps.push(feature);
+                document.getElementById('gapPanel').style.display = 'block';
+                const html = gaps.map(g => `<div style="padding: 10px; margin: 8px 0; background: rgba(239,68,68,0.1); border-radius: 8px; font-size: 0.875rem;">→ ${g}</div>`).join('');
+                document.getElementById('gapList').innerHTML = html;
+            }
+            
+            document.getElementById('exploreMsg').innerHTML = `<strong>Explored: ${explored}/5</strong>`;
+            
+            if (explored >= 5) {
+                document.getElementById('p1Next').disabled = false;
+            }
+            
+            localStorage.setItem('case4_explored', explored);
+        }
+        
+        function startPart2() {
+            document.getElementById('part1').style.display = 'none';
+            document.getElementById('part2').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        function checkVision() {
+            const len = document.getElementById('vision').value.length;
+            document.getElementById('vCount').textContent = len;
+            checkP2();
+        }
+        
+        function checkP2() {
+            const v = document.getElementById('vision').value.length;
+            const obj = document.getElementById('objective').value.length;
+            const kr1 = document.getElementById('kr1').value.length;
+            const kr2 = document.getElementById('kr2').value.length;
+            
+            if (v >= 100 && obj >= 20 && kr1 >= 20 && kr2 >= 20) {
+                document.getElementById('p2Next').disabled = false;
+            }
+        }
+        
+        function aiVision() {
+            document.getElementById('vision').value = "QuickMart will be India's fastest grocery delivery platform for busy professionals, known for 10-minute delivery and quality products.";
+            checkVision();
+        }
+        
+        function aiKR() {
+            document.getElementById('kr1').value = 'Launch instant payouts (1 hour) by Q2 2026';
+            document.getElementById('kr2').value = '50% of customers are busy professionals/young families by end of 2026';
+            checkP2();
+        }
+        
+        function startPart3() {
+            const features = gaps.slice(0, 6);
+            const html = features.map(f => `
+                <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); padding: 16px; border-radius: 8px; margin: 8px 0; font-size: 0.875rem;">
+                    ${f}
+                </div>
+            `).join('');
+            
+            document.getElementById('featureList').innerHTML = html || '<p style="color: var(--neutral-400); font-size: 0.875rem;">Smart Recommendations, 10-Min Guarantee, Smart Routing, Fraud Detection, Mobile SDKs</p>';
+            
+            document.getElementById('part2').style.display = 'none';
+            document.getElementById('part3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        function checkP3() {
+            const q1 = document.getElementById('q1Feature').value.length;
+            const q2 = document.getElementById('q2Feature').value.length;
+            
+            if (q1 >= 10 && q2 >= 10) {
+                document.getElementById('p3Next').disabled = false;
+            }
+        }
+        
+        function startPart4() {
+            document.getElementById('part3').style.display = 'none';
+            document.getElementById('part4').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        function aiTask() {
+            document.getElementById('asA').value = 'busy professional shopper';
+            document.getElementById('iWant').value = 'receive my groceries within 10 minutes';
+            document.getElementById('soThat').value = 'I can manage cash flow better';
+        }
+        
+        function submitTask() {
+            document.getElementById('part4').style.display = 'none';
+            document.getElementById('screen5').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('case4_explored')) {
+                explored = parseInt(localStorage.getItem('case4_explored'));
+            }
+        });
+    </script>
+</body>
+</html>

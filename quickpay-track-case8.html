@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 8: Ship or Wait - QuickPay - PM Playground</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --accent: #14b8a6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .home-btn {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            color: #0ea5e9;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .home-btn:hover {
+            background: rgba(14, 165, 233, 0.2);
+            transform: translateX(-2px);
+        }
+        
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .decision-grid {
+            display: grid;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .decision-card {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            padding: 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .decision-card:hover {
+            border-color: var(--primary);
+        }
+        .decision-card.selected {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .decision-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+        }
+        .decision-card p {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+        
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+
+        .ai-suggestion {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            display: none;
+        }
+        .ai-suggestion.show {
+            display: block;
+        }
+        .ai-suggestion h4 {
+            color: var(--ai);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+        }
+        .ai-suggestion p {
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .ai-suggestion .dimension {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickPay</a>
+                <span class="sep">/</span>
+                <span class="current">Ship or Wait</span>
+            </div>
+            <a href="../index.html" class="home-btn">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div id="screen1">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>⏰</span>
+                    <span>CASE 8 OF 8</span>
+                </div>
+                <h1>Ship or Wait</h1>
+                <p>Feature ready but imperfect - your call</p>
+            </div>
+            
+            <div class="section">
+                <h2>⚡ The Situation</h2>
+                <p><strong style="color: var(--warning);">Thursday, 4:30 PM.</strong></p>
+                <p style="margin-top: 16px; font-size: 1.05rem; line-height: 1.7;">
+                    You're staring at your laptop. Instant Payouts feature is 80% ready - core functionality works perfectly, but edge cases remain. Your engineering lead Ananya says <em>"Give me 3 more weeks to polish this properly."</em>
+                </p>
+                <p style="margin-top: 16px;"><strong style="color: var(--primary);">The catch:</strong> Your biggest merchant opportunity (₹50L monthly GMV) wants a demo <strong style="color: var(--warning);">tomorrow 10 AM</strong>. They're evaluating Razorpay simultaneously.</p>
+                <p style="margin-top: 16px; padding: 12px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; font-size: 0.95rem;">
+                    <strong style="color: var(--warning);">📬 VP Sales:</strong> <em>"If we ship tomorrow and demo works, we close them. If we wait 3 weeks, Razorpay will have them signed. Your call, but I'll remember it."</em>
+                </p>
+                <p style="margin-top: 12px; padding: 12px; background: rgba(14, 165, 233, 0.1); border-radius: 8px; font-size: 0.95rem;">
+                    <strong style="color: var(--primary);">📬 Engineering Lead Ananya:</strong> <em>"We can ship, but if edge cases hit in production, merchants will lose trust. I don't want to cut corners on quality."</em>
+                </p>
+                <p style="margin-top: 16px; color: var(--text); font-weight: 600;">
+                    This is YOUR decision as PM. Balance speed vs quality. Revenue vs reputation. Ship or wait?
+                </p>
+            </div>
+            
+            <button class="btn-primary" onclick="showDecisions()">
+                Evaluate Trade-offs →
+            </button>
+        </div>
+        
+        <div id="screen2" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>⏰</span>
+                    <span>MAKE THE CALL</span>
+                </div>
+                <h1>Your Decision</h1>
+            </div>
+
+            <button class="ai-btn" onclick="showAIAnalyze()">
+                🤖 AI Analyze
+            </button>
+
+            <div class="ai-suggestion" id="aiAnalyze">
+                <h4>💡 Decision Framework Analysis</h4>
+                <p><strong>Evaluating 6 Key Dimensions:</strong></p>
+
+                <div class="dimension">
+                    <strong>1. Customer Impact:</strong> High - ₹50L merchant could be anchor customer, demonstrates instant payouts to market
+                </div>
+
+                <div class="dimension">
+                    <strong>2. Revenue Opportunity:</strong> High - Large merchant locked early, potential referrals to similar merchants
+                </div>
+
+                <div class="dimension">
+                    <strong>3. Quality Risk:</strong> Medium - 80% ready, edge cases exist but core flow works, can fix post-launch
+                </div>
+
+                <div class="dimension">
+                    <strong>4. Technical Debt:</strong> Low-Medium - Edge cases are known, can be prioritized in backlog
+                </div>
+
+                <div class="dimension">
+                    <strong>5. Competitive Timing:</strong> Critical - Demo tomorrow, competitor could swoop in during 3-week wait
+                </div>
+
+                <div class="dimension">
+                    <strong>6. Learning Value:</strong> Very High - Real merchant usage reveals true edge cases faster than internal testing
+                </div>
+
+                <p style="margin-top: 16px;"><strong>Recommendation: Ship Tomorrow</strong></p>
+                <p style="margin-top: 8px;">
+                    The 80% solution captures the opportunity while competitive timing is favorable. Edge cases in instant payouts
+                    are better discovered with real merchant flows. Set clear expectations with the merchant, ship with monitoring,
+                    and iterate based on real usage data.
+                </p>
+            </div>
+
+            <div class="decision-grid">
+                <div class="decision-card" onclick="selectDecision('ship', this)">
+                    <h3>🚀 Ship Tomorrow</h3>
+                    <p>Demo with current version. Lock ₹50L merchant. Fix edge cases after.</p>
+                    <p style="margin-top: 12px; color: var(--success);">+ Revenue opportunity</p>
+                    <p style="color: var(--danger);">- Potential bugs in production</p>
+                </div>
+                
+                <div class="decision-card" onclick="selectDecision('wait', this)">
+                    <h3>⏸️ Wait 3 Weeks</h3>
+                    <p>Fix all edge cases. Ship perfect product. Risk losing merchant.</p>
+                    <p style="margin-top: 12px; color: var(--success);">+ Perfect quality</p>
+                    <p style="color: var(--danger);">- Lose competitive advantage</p>
+                </div>
+            </div>
+            
+            <div class="section" style="text-align: center;">
+                <p id="decisionMsg"><strong>Make your decision</strong></p>
+            </div>
+            
+            <button class="btn-primary" id="submitBtn" disabled onclick="submitDecision()">
+                Submit Decision →
+            </button>
+        </div>
+        
+        <div id="screen3" style="display: none;">
+            <div class="case-header">
+                <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                <h1>Decision Made</h1>
+            </div>
+            
+            <div class="learning-box">
+                <h3>🎓 What You Learned</h3>
+                <ul>
+                    <li>Perfect is the enemy of good</li>
+                    <li>80% ready can be better than 100% late</li>
+                    <li>Customer feedback > internal polish</li>
+                    <li>Ship, learn, iterate</li>
+                </ul>
+            </div>
+
+            <div class="section" style="background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.3);">
+                <h2 style="color: var(--ai);">📖 Storytelling Practice</h2>
+                <p style="margin-top: 12px; color: var(--text-muted);">
+                    <strong>Scenario:</strong> You need to announce your ship/wait decision in the all-hands meeting tomorrow. The team is split - Sales wants to ship, Engineering wants to wait.
+                </p>
+                <p style="margin-top: 12px; color: var(--text); font-weight: 600;">
+                    How would you tell this story to align the team? (Write 2-3 sentences)
+                </p>
+                <textarea id="storyText8" placeholder="Your team announcement..." style="width: 100%; min-height: 100px; background: var(--neutral-900); border: 1px solid var(--neutral-700); color: white; padding: 14px; border-radius: 8px; font-family: inherit; font-size: 0.9375rem; margin-top: 12px; resize: vertical;"></textarea>
+                <button class="ai-btn" onclick="showStoryFeedback8()" style="margin-top: 12px;">
+                    See Example Stories →
+                </button>
+
+                <div id="storyFeedback8" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                    <h3 style="color: var(--danger); margin-bottom: 12px;">❌ Weak Story (Just the Decision):</h3>
+                    <p style="background: rgba(239, 68, 68, 0.08); padding: 16px; border-radius: 8px; color: var(--text-muted); font-style: italic; line-height: 1.7;">
+                        "We decided to ship tomorrow instead of waiting 3 weeks. The feature is 80% ready and we need to demo to the merchant. Sales wants to move fast so we'll do that."
+                    </p>
+                    <p style="margin-top: 8px; font-size: 0.875rem; color: var(--text-dim);">
+                        <strong>Why weak:</strong> Sounds like Sales won the argument. Engineering feels overruled. No context about trade-offs or strategic thinking. Team isn't aligned.
+                    </p>
+
+                    <h3 style="color: var(--success); margin-top: 24px; margin-bottom: 12px;">✅ Strong Story (Strategic Narrative):</h3>
+                    <p style="background: rgba(16, 185, 129, 0.08); padding: 16px; border-radius: 8px; color: var(--text-muted); font-style: italic; line-height: 1.7;">
+                        "We have a ₹50L merchant who needs instant payouts tomorrow. We could wait 3 weeks for perfect, but here's what we'd lose: this anchor customer, competitive advantage, and real-world feedback on edge cases. So we're shipping the 80% solution - core flow works perfectly, edge cases are documented and prioritized for next sprint. We'll monitor closely, learn fast, and iterate. This isn't Sales vs Engineering - it's choosing smart speed over blind perfection."
+                    </p>
+                    <p style="margin-top: 8px; font-size: 0.875rem; color: var(--text-dim);">
+                        <strong>Why strong:</strong> Acknowledges trade-offs (not blind speed), gives concrete stakes (₹50L merchant, competitive timing), shows respect for Engineering concerns (edge cases documented, monitoring planned), frames as strategic choice not departmental win. Team understands the WHY.
+                    </p>
+
+                    <div style="margin-top: 20px; padding: 16px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 4px solid var(--ai);">
+                        <strong style="color: var(--ai);">💡 Ship/Wait Decision Storytelling Formula:</strong><br>
+                        <span style="color: var(--text-muted); font-size: 0.9375rem; margin-top: 8px; display: block;">
+                            <strong>Opportunity at Stake</strong> (what we'd capture/lose) + <strong>Trade-off Analysis</strong> (not blind, evaluated both sides) + <strong>Risk Mitigation</strong> (how we'll handle it) + <strong>Learning Mindset</strong> (ship, monitor, iterate) + <strong>Team Unity</strong> (not Sales vs Eng) = Aligned execution
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="window.location.href='case9.html'">
+                See Your Results →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let decision = null;
+        
+        function showDecisions() {
+            document.getElementById('screen1').style.display = 'none';
+            document.getElementById('screen2').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        function selectDecision(choice, card) {
+            document.querySelectorAll('.decision-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            decision = choice;
+            
+            document.getElementById('decisionMsg').innerHTML = '<strong>Decision selected</strong>';
+            document.getElementById('submitBtn').disabled = false;
+            
+            localStorage.setItem('case8_decision', choice);
+        }
+        
+        function submitDecision() {
+            document.getElementById('screen2').style.display = 'none';
+            document.getElementById('screen3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAIAnalyze() {
+            const analyze = document.getElementById('aiAnalyze');
+            analyze.classList.toggle('show');
+        }
+
+        function showStoryFeedback8() {
+            document.getElementById('storyFeedback8').style.display = 'block';
+            document.getElementById('storyFeedback8').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>

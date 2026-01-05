@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your PM Journey - QuickPay</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1419;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .product-bar {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            padding: 18px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .product-bar h2 { font-size: 1.6em; }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 35px 30px;
+            margin-bottom: 30px;
+        }
+        
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .journey-box {
+            background: linear-gradient(135deg, #065f46, #059669);
+            border: 3px solid #10b981;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        .journey-box .num {
+            background: #10b981;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        .journey-box h4 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .skill-bars {
+            margin: 40px 0;
+        }
+        .skill-item {
+            margin: 25px 0;
+        }
+        .skill-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+        .skill-bar {
+            background: rgba(255,255,255,0.1);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            font-weight: bold;
+            transition: width 1s;
+        }
+        
+        .improve-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .improve-box {
+            border-radius: 15px;
+            padding: 35px;
+        }
+        .strengths {
+            background: linear-gradient(135deg, #065f46, #059669);
+            border: 3px solid #10b981;
+        }
+        .improve {
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            border: 3px solid #ef4444;
+        }
+        
+        .next-steps {
+            background: rgba(139, 92, 246, 0.2);
+            border: 3px solid #8b5cf6;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 20px 55px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            margin: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="product-bar">
+            <div style="font-size: 2em;">🏦</div>
+            <div><h2>QuickPay PM Journey Complete</h2></div>
+        </div>
+
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <div style="font-size: 6em; margin-bottom: 25px;">🎉</div>
+                <h1 style="font-size: 4em; margin-bottom: 20px;">Journey Complete!</h1>
+                <p style="font-size: 1.5em; color: #93c5fd;">You've completed 8 PM challenges</p>
+            </div>
+
+            <div class="journey-grid">
+                <div class="journey-box">
+                    <div class="num">✓</div>
+                    <h4>Product Sense</h4>
+                </div>
+                <div class="journey-box">
+                    <div class="num">✓</div>
+                    <h4>Know Customers</h4>
+                </div>
+                <div class="journey-box">
+                    <div class="num">✓</div>
+                    <h4>Data Analysis</h4>
+                </div>
+                <div class="journey-box">
+                    <div class="num">✓</div>
+                    <h4>Build Strategy</h4>
+                </div>
+                <div class="journey-box">
+                    <div class="num">✓</div>
+                    <h4>Handle Crisis</h4>
+                </div>
+                <div class="journey-box">
+                    <div class="num">✓</div>
+                    <h4>Test Product</h4>
+                </div>
+                <div class="journey-box">
+                    <div class="num">✓</div>
+                    <h4>Prioritize</h4>
+                </div>
+                <div class="journey-box">
+                    <div class="num">✓</div>
+                    <h4>Ship Decision</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 2.5em; margin-bottom: 35px; text-align: center;">
+                Your PM Skill Assessment
+            </h2>
+
+            <div class="skill-bars">
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <span>🧠 Product Sense</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 85%;">Strong</div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <span>👥 Customer Understanding</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 90%;">Excellent</div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <span>📊 Data-Driven Decisions</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 80%;">Good</div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <span>🗺️ Strategic Planning</span>
+                        <span>88%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 88%;">Strong</div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <span>🚨 Crisis Management</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 75%;">Developing</div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <span>⚖️ Prioritization</span>
+                        <span>82%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 82%;">Good</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 2.5em; margin-bottom: 35px; text-align: center;">
+                Your Performance Review
+            </h2>
+
+            <div class="improve-grid">
+                <div class="strengths">
+                    <h3 style="font-size: 2em; margin-bottom: 25px;">✅ Your Strengths</h3>
+                    <div style="font-size: 1.15em; line-height: 2.2;">
+                        ✓ You interview before deciding<br/>
+                        ✓ You focus on customer needs<br/>
+                        ✓ You use data to find patterns<br/>
+                        ✓ You think strategically<br/>
+                        ✓ You test your own product
+                    </div>
+                </div>
+
+                <div class="improve">
+                    <h3 style="font-size: 2em; margin-bottom: 25px;">🎯 Areas to Improve</h3>
+                    <div style="font-size: 1.15em; line-height: 2.2;">
+                        → Crisis communication speed<br/>
+                        → Balancing quality vs timing<br/>
+                        → Stakeholder management<br/>
+                        → Technical trade-off decisions<br/>
+                        → Saying "no" to features
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="next-steps">
+            <h2 style="font-size: 2.3em; margin-bottom: 30px; text-align: center; color: #c084fc;">
+                🚀 What's Next to Become a Better PM
+            </h2>
+
+            <div style="font-size: 1.2em; line-height: 2.3; padding: 0 20px;">
+                <div style="margin: 25px 0;">
+                    <strong style="color: #a78bfa; font-size: 1.15em;">1. Practice More:</strong><br/>
+                    Try FoodExpress or QuickMart tracks (9 cases each, different contexts)
+                </div>
+
+                <div style="margin: 25px 0;">
+                    <strong style="color: #a78bfa; font-size: 1.15em;">2. Build Real Products:</strong><br/>
+                    Apply these skills on actual side projects, not just simulations
+                </div>
+
+                <div style="margin: 25px 0;">
+                    <strong style="color: #a78bfa; font-size: 1.15em;">3. Learn Advanced Skills:</strong><br/>
+                    Monetization, Growth loops, Platform strategy, Team leadership
+                </div>
+
+                <div style="margin: 25px 0;">
+                    <strong style="color: #a78bfa; font-size: 1.15em;">4. Interview Real Users:</strong><br/>
+                    Talk to 50+ users before building anything new
+                </div>
+
+                <div style="margin: 25px 0;">
+                    <strong style="color: #a78bfa; font-size: 1.15em;">5. Study Great PMs:</strong><br/>
+                    Read PM case studies, follow product leaders, join PM communities
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 50px 0;">
+            <a href="index.html" class="btn">← Back to Start</a>
+            <button class="btn" onclick="share()" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">Share Progress</button>
+        </div>
+
+        <div style="text-align: center; color: #6b7280; margin-top: 50px; font-size: 1.1em;">
+        </div>
+    </div>
+
+    <script>
+        function share() {
+            alert('Share feature coming soon! For now, screenshot your results.');
+        }
+    </script>
+</body>
+</html>

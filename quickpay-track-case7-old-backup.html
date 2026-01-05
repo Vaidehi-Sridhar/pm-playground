@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 7: Prioritization Frameworks - QuickPay - PM Playground</title>
+<style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --accent: #14b8a6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .progress-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neutral-700);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .progress-dot.active { background: var(--primary); transform: scale(1.4); }
+        
+        /* Content */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        /* Section Cards */
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Interview Box */
+        .interview-box {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 20px;
+        }
+        .interview-info {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .interview-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .interview-info .role {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .interview-info .tenure {
+            color: var(--neutral-400);
+            font-size: 0.875rem;
+        }
+        
+        .message {
+            background: rgba(14, 165, 233, 0.08);
+            border-left: 3px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .message strong { color: var(--primary); }
+        
+        /* Questions */
+        .questions {
+            display: grid;
+            gap: 12px;
+            margin: 30px 0;
+        }
+        .question-btn {
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .question-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--ai);
+            transform: translateX(4px);
+        }
+        .question-btn.asked {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: var(--success);
+            opacity: 0.6;
+            cursor: default;
+        }
+        .question-btn.asked:hover { transform: none; }
+        
+        /* Analysis Grid */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .analysis-box {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+        .analysis-box.locked {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .analysis-box.unlocked {
+            animation: unlock 0.3s ease;
+        }
+        @keyframes unlock {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .analysis-box h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+        .analysis-box textarea {
+            width: 100%;
+            background: var(--neutral-900);
+            border: 1px solid var(--neutral-700);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9375rem;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        .analysis-box textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            margin-right: 8px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+        
+        /* Progress Indicator */
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: var(--neutral-700);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .dot.complete {
+            background: var(--success);
+            transform: scale(1.2);
+        }
+        
+        /* Results */
+        .results {
+            text-align: center;
+        }
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border: 8px solid var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 40px auto;
+            animation: scaleIn 0.5s ease;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .analysis-grid { grid-template-columns: 1fr; }
+            .header .container { padding: 0 16px; }
+            .main { padding: 30px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickPay</a>
+                <span class="sep">/</span>
+                <span class="current">Prioritization Frameworks</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main">
+
+    <div class="container">
+        <div class="product-bar">
+            <div style="font-size: 2em;">🏦</div>
+            <div><h2>QuickPay</h2></div>
+            <div style="margin-left: auto; opacity: 0.8;">Case 7 of 8</div>
+        </div>
+
+        <!-- Screen 1: Choose Framework -->
+        <div class="card" id="s1">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 5.5em; margin-bottom: 25px;">⚖️</div>
+                <h1 style="font-size: 3.8em; margin-bottom: 20px;">Prioritization Frameworks</h1>
+                <p style="font-size: 1.5em; color: #93c5fd;">Click each to see how it ranks features</p>
+            </div>
+
+            <div style="background: rgba(59, 130, 246, 0.2); padding: 40px; border-radius: 15px; margin-bottom: 40px;">
+                <h3 style="font-size: 1.7em; margin-bottom: 20px;">Your Task:</h3>
+                <p style="font-size: 1.2em; line-height: 2;">
+                    6 QuickPay features. Build 3 this quarter.<br/><br/>
+                    PMs use different frameworks. Each gives different rankings.<br/>
+                    Try 3 frameworks to see how results differ.
+                </p>
+            </div>
+
+            <div class="framework-grid">
+                <div class="framework-card" id="card-rice" onclick="showFramework('rice', this)">
+                    <h3>RICE</h3>
+                    <p><strong>R</strong>each × <strong>I</strong>mpact × <strong>C</strong>onfidence ÷ <strong>E</strong>ffort</p>
+                    <div class="when">Best for: Data-driven teams</div>
+                </div>
+
+                <div class="framework-card" id="card-ice" onclick="showFramework('ice', this)">
+                    <h3>ICE</h3>
+                    <p><strong>I</strong>mpact × <strong>C</strong>onfidence × <strong>E</strong>ase</p>
+                    <div class="when">Best for: Quick decisions</div>
+                </div>
+
+                <div class="framework-card" id="card-matrix" onclick="showFramework('matrix', this)">
+                    <h3>Value/Effort Matrix</h3>
+                    <p>High value + Low effort wins</p>
+                    <div class="when">Best for: Visual clarity</div>
+                </div>
+
+                <div class="framework-card" id="card-moscow" onclick="showFramework('moscow', this)">
+                    <h3>MoSCoW</h3>
+                    <p>Must / Should / Could / Won't</p>
+                    <div class="when">Best for: Stakeholder alignment</div>
+                </div>
+            </div>
+
+            <div style="background: rgba(251, 191, 36, 0.2); padding: 22px; border-radius: 12px; text-align: center; margin-top: 30px;">
+                <strong>Explored: <span id="exploredCount">0/3</span></strong>
+            </div>
+
+            <button class="btn" id="compareBtn" disabled onclick="showComparison()">Compare All Frameworks →</button>
+        </div>
+
+        <!-- Screen 2: Framework Result -->
+        <div class="card" id="s2" style="display: none;">
+            <div style="margin-bottom: 30px;">
+                <button onclick="backToFrameworks()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: bold;">
+                    ← Try Another Framework
+                </button>
+            </div>
+
+            <h2 style="font-size: 2.8em; margin-bottom: 25px; text-align: center;" id="frameworkTitle"></h2>
+            
+            <div id="frameworkExplain" style="background: rgba(251, 191, 36, 0.2); padding: 30px; border-radius: 15px; margin-bottom: 30px;"></div>
+
+            <div class="ranking-list" id="rankingList"></div>
+        </div>
+
+        <!-- Screen 3: Comparison -->
+        <div class="card" id="s3" style="display: none;">
+            <h2 style="font-size: 2.5em; margin-bottom: 30px; text-align: center;">
+                Same Features, Different Rankings
+            </h2>
+
+            <div style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; padding-left: 20px;">Feature</th>
+                            <th>RICE</th>
+                            <th>ICE</th>
+                            <th>Value/Effort</th>
+                            <th>MoSCoW</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left; font-weight: bold; padding-left: 20px;">Instant Payouts</td>
+                            <td class="rank-2">2nd</td>
+                            <td class="rank-2">2nd</td>
+                            <td class="rank-1">1st</td>
+                            <td class="rank-1" style="color: #ef4444;">Must</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; font-weight: bold; padding-left: 20px;">Recurring Billing</td>
+                            <td class="rank-3">3rd</td>
+                            <td class="rank-1">1st</td>
+                            <td class="rank-1">1st</td>
+                            <td class="rank-1" style="color: #ef4444;">Must</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; font-weight: bold; padding-left: 20px;">Fraud Detection</td>
+                            <td class="rank-3">3rd</td>
+                            <td class="rank-3">3rd</td>
+                            <td>5th</td>
+                            <td class="rank-2" style="color: #fbbf24;">Should</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; font-weight: bold; padding-left: 20px;">UPI AutoPay</td>
+                            <td>4th</td>
+                            <td>4th</td>
+                            <td class="rank-2">2nd</td>
+                            <td class="rank-2" style="color: #fbbf24;">Should</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; font-weight: bold; padding-left: 20px;">Multi-currency</td>
+                            <td>6th</td>
+                            <td>6th</td>
+                            <td>6th</td>
+                            <td style="color: #93c5fd;">Could</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; font-weight: bold; padding-left: 20px;">Payment Links 2.0</td>
+                            <td class="rank-1">1st</td>
+                            <td class="rank-1">1st</td>
+                            <td class="rank-3">3rd</td>
+                            <td class="rank-2" style="color: #fbbf24;">Should</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="background: rgba(239, 68, 68, 0.2); padding: 35px; border-radius: 15px; margin: 40px 0; border-left: 5px solid #ef4444;">
+                <h3 style="font-size: 1.8em; margin-bottom: 20px;">🔍 See the Problem?</h3>
+                <p style="font-size: 1.15em; line-height: 2;">
+                    <strong>RICE & ICE:</strong> Payment Links #1 (quick win, high reach)<br/>
+                    <strong>Value/Effort & MoSCoW:</strong> Instant Payouts & Recurring #1 (strategic)<br/><br/>
+                    Different frameworks → Different priorities!
+                </p>
+            </div>
+
+            <button class="btn" onclick="showLearning()">What's the Right Answer? →</button>
+        </div>
+
+        <!-- Screen 4: Learning -->
+        <div class="card" id="s4" style="display: none;">
+            <h2 style="font-size: 2.5em; margin-bottom: 35px; text-align: center;">
+                When to Use Each Framework
+            </h2>
+
+            <div style="display: grid; gap: 25px; margin: 30px 0;">
+                <div style="background: rgba(59, 130, 246, 0.2); padding: 30px; border-radius: 15px; border-left: 5px solid #3b82f6;">
+                    <h3 style="font-size: 1.5em; margin-bottom: 15px; color: #60a5fa;">📊 RICE - Data-Heavy</h3>
+                    <p style="font-size: 1.1em; line-height: 1.9; color: #93c5fd;">
+                        <strong>Use:</strong> When you have analytics, usage data<br/>
+                        <strong>Good:</strong> Quantifies gut feelings<br/>
+                        <strong>Bad:</strong> Favors quick wins over strategic bets
+                    </p>
+                </div>
+
+                <div style="background: rgba(59, 130, 246, 0.2); padding: 30px; border-radius: 15px; border-left: 5px solid #3b82f6;">
+                    <h3 style="font-size: 1.5em; margin-bottom: 15px; color: #60a5fa;">⚡ ICE - Fast</h3>
+                    <p style="font-size: 1.1em; line-height: 1.9; color: #93c5fd;">
+                        <strong>Use:</strong> Startups, limited data, need speed<br/>
+                        <strong>Good:</strong> Simple, fast decisions<br/>
+                        <strong>Bad:</strong> Very subjective
+                    </p>
+                </div>
+
+                <div style="background: rgba(59, 130, 246, 0.2); padding: 30px; border-radius: 15px; border-left: 5px solid #3b82f6;">
+                    <h3 style="font-size: 1.5em; margin-bottom: 15px; color: #60a5fa;">📈 Value/Effort - Visual</h3>
+                    <p style="font-size: 1.1em; line-height: 1.9; color: #93c5fd;">
+                        <strong>Use:</strong> Presenting to stakeholders/executives<br/>
+                        <strong>Good:</strong> Easy to understand visually<br/>
+                        <strong>Bad:</strong> Oversimplifies complexity
+                    </p>
+                </div>
+
+                <div style="background: rgba(59, 130, 246, 0.2); padding: 30px; border-radius: 15px; border-left: 5px solid #3b82f6;">
+                    <h3 style="font-size: 1.5em; margin-bottom: 15px; color: #60a5fa;">🎯 MoSCoW - Alignment</h3>
+                    <p style="font-size: 1.1em; line-height: 1.9; color: #93c5fd;">
+                        <strong>Use:</strong> Fixed timeline, need commitments<br/>
+                        <strong>Good:</strong> Forces tough conversations<br/>
+                        <strong>Bad:</strong> Everyone wants "Must Have"
+                    </p>
+                </div>
+            </div>
+
+            <div style="background: rgba(16, 185, 129, 0.2); padding: 40px; border-radius: 15px; margin: 40px 0; border-left: 5px solid #10b981;">
+                <h3 style="font-size: 1.9em; margin-bottom: 20px; color: #6ee7b7;">💡 What Good PMs Do:</h3>
+                <p style="font-size: 1.2em; line-height: 2;">
+                    Don't pick one framework.<br/><br/>
+                    Start with <strong>RICE/ICE</strong> for baseline.<br/>
+                    Overlay <strong>strategic vision</strong> (from Case 4).<br/>
+                    Use <strong>Value/Effort</strong> to present to CEO.<br/>
+                    Confirm with <strong>MoSCoW</strong> for roadmap.
+                </p>
+            </div>
+
+            <div style="background: rgba(59, 130, 246, 0.2); padding: 35px; border-radius: 15px; border-left: 5px solid #3b82f6; margin-bottom: 30px;">
+                <h3 style="font-size: 1.7em; margin-bottom: 18px;">🎓 What You Learned:</h3>
+                <p style="font-size: 1.15em; line-height: 2;">
+                    ✓ 4 common prioritization frameworks exist<br/>
+                    ✓ Each ranks features differently<br/>
+                    ✓ Choose framework based on context<br/>
+                    ✓ Combine multiple frameworks for best results
+                </p>
+            </div>
+
+            <button class="btn" onclick="window.location.href='case8.html'">Case 8: Ship or Wait? →</button>
+        </div>
+
+    </div>
+
+    <script>
+        let explored = new Set();
+
+        const rankings = {
+            rice: [
+                {name: 'Payment Links 2.0', score: '1000', reason: 'Highest reach (2000) × Low effort (2 weeks)'},
+                {name: 'Recurring Billing', score: '270', reason: 'High impact × Good confidence ÷ Medium effort'},
+                {name: 'Fraud Detection', score: '262', reason: 'Very high reach (1500) ÷ Medium effort (8 weeks)'},
+                {name: 'UPI AutoPay', score: '240', reason: 'Good reach × High impact ÷ Medium effort'},
+                {name: 'Instant Payouts', score: '210', reason: 'Highest reach but highest effort (12 weeks)'},
+                {name: 'Multi-currency', score: '36', reason: 'Low reach × Low confidence ÷ High effort'}
+            ],
+            ice: [
+                {name: 'Recurring Billing', score: '8.1', reason: 'High impact (3) × High confidence (90%) × Easy (6 weeks)'},
+                {name: 'Instant Payouts', score: '6.3', reason: 'High impact (3) × Medium confidence (70%)'},
+                {name: 'Fraud Detection', score: '3.5', reason: 'Medium impact (2) × Medium confidence (70%)'},
+                {name: 'UPI AutoPay', score: '3.0', reason: 'High impact but medium confidence & ease'},
+                {name: 'Payment Links 2.0', score: '2.0', reason: 'Low impact (1) despite high confidence'},
+                {name: 'Multi-currency', score: '1.2', reason: 'Medium impact × Low confidence'}
+            ],
+            matrix: [
+                {name: 'Instant Payouts', pos: 'High Value / Medium Effort', reason: 'Strategic differentiator, worth the 12 weeks'},
+                {name: 'Recurring Billing', pos: 'High Value / Low Effort', reason: 'Best position - high value, only 6 weeks'},
+                {name: 'Payment Links 2.0', pos: 'Medium Value / Low Effort', reason: 'Easy win but not strategic'},
+                {name: 'UPI AutoPay', pos: 'High Value / Medium Effort', reason: 'Important but 8 weeks effort'},
+                {name: 'Fraud Detection', pos: 'Medium Value / Medium Effort', reason: 'Important but not urgent'},
+                {name: 'Multi-currency', pos: 'Low Value / High Effort', reason: 'Avoid - small market, high effort'}
+            ],
+            moscow: [
+                {name: 'Instant Payouts', cat: 'Must Have', reason: 'Core differentiator for subscription merchants'},
+                {name: 'Recurring Billing', cat: 'Must Have', reason: 'Essential for target segment'},
+                {name: 'Fraud Detection', cat: 'Should Have', reason: 'Important but merchants surviving without it'},
+                {name: 'UPI AutoPay', cat: 'Should Have', reason: 'Requested but workarounds exist'},
+                {name: 'Payment Links 2.0', cat: 'Could Have', reason: 'Nice improvement, not critical'},
+                {name: 'Multi-currency', cat: 'Won\'t Have', reason: 'Low impact for India-focused merchants'}
+            ]
+        };
+
+        const explanations = {
+            rice: '<p style="font-size: 1.1em; line-height: 2;"><strong>Formula:</strong> (Reach × Impact × Confidence ÷ 100) ÷ Effort<br/>Prioritizes features that touch many users with low effort.</p>',
+            ice: '<p style="font-size: 1.1em; line-height: 2;"><strong>Formula:</strong> Impact × Confidence × Ease (0-10 each)<br/>Simpler than RICE, focuses on impact and feasibility.</p>',
+            matrix: '<p style="font-size: 1.1em; line-height: 2;"><strong>Approach:</strong> Plot Value vs Effort in 2×2 grid<br/>Prioritize High Value + Low Effort quadrant first.</p>',
+            moscow: '<p style="font-size: 1.1em; line-height: 2;"><strong>Categories:</strong> Must / Should / Could / Won\'t Have<br/>Forces hard conversations about what\'s truly essential.</p>'
+        };
+
+        function showFramework(type, card) {
+            if (!explored.has(type)) {
+                explored.add(type);
+            localStorage.setItem("case7_frameworks", explored.size);
+                card.classList.add('explored');
+                document.getElementById('exploredCount').textContent = explored.size + '/3';
+                
+                if (explored.size >= 3) {
+                    document.getElementById('compareBtn').disabled = false;
+                }
+            }
+            
+            const titles = {
+                rice: '📊 RICE Framework',
+                ice: '⚡ ICE Framework',
+                matrix: '📈 Value/Effort Matrix',
+                moscow: '🎯 MoSCoW Method'
+            };
+            
+            document.getElementById('frameworkTitle').textContent = titles[type];
+            document.getElementById('frameworkExplain').innerHTML = explanations[type];
+            
+            const data = rankings[type];
+            const html = data.map((item, i) => {
+                const isTop3 = i < 3;
+                const scoreText = item.score || item.pos || item.cat;
+                return `
+                    <div class="rank-item ${isTop3 ? 'top3' : ''}">
+                        <div class="rank-number">${i + 1}</div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 8px;">${item.name}</div>
+                            <div style="font-size: 0.95em; color: #93c5fd;">${item.reason}</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 10px; font-weight: bold; min-width: 120px; text-align: center;">
+                            ${scoreText}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('rankingList').innerHTML = html;
+            
+            document.getElementById('s1').style.display = 'none';
+            document.getElementById('s2').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function backToFrameworks() {
+            document.getElementById('s2').style.display = 'none';
+            document.getElementById('s1').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showComparison() {
+            document.getElementById('s1').style.display = 'none';
+            document.getElementById('s3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showLearning() {
+            document.getElementById('s3').style.display = 'none';
+            document.getElementById('s4').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+    </div>
+</body>
+</html>

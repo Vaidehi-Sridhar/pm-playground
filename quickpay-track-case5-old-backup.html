@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 5: Handle Crisis - QuickPay - PM Playground</title>
+<style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --accent: #14b8a6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .progress-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neutral-700);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .progress-dot.active { background: var(--primary); transform: scale(1.4); }
+        
+        /* Content */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        /* Section Cards */
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            animation: fadeIn 0.4s ease;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Interview Box */
+        .interview-box {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(20, 184, 166, 0.1));
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 20px;
+        }
+        .interview-info {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .interview-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .interview-info .role {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .interview-info .tenure {
+            color: var(--neutral-400);
+            font-size: 0.875rem;
+        }
+        
+        .message {
+            background: rgba(14, 165, 233, 0.08);
+            border-left: 3px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .message strong { color: var(--primary); }
+        
+        /* Questions */
+        .questions {
+            display: grid;
+            gap: 12px;
+            margin: 30px 0;
+        }
+        .question-btn {
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .question-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--ai);
+            transform: translateX(4px);
+        }
+        .question-btn.asked {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: var(--success);
+            opacity: 0.6;
+            cursor: default;
+        }
+        .question-btn.asked:hover { transform: none; }
+        
+        /* Analysis Grid */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .analysis-box {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+        .analysis-box.locked {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .analysis-box.unlocked {
+            animation: unlock 0.3s ease;
+        }
+        @keyframes unlock {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .analysis-box h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+        .analysis-box textarea {
+            width: 100%;
+            background: var(--neutral-900);
+            border: 1px solid var(--neutral-700);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9375rem;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        .analysis-box textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            margin-right: 8px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+        
+        /* Progress Indicator */
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: var(--neutral-700);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .dot.complete {
+            background: var(--success);
+            transform: scale(1.2);
+        }
+        
+        /* Results */
+        .results {
+            text-align: center;
+        }
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border: 8px solid var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 40px auto;
+            animation: scaleIn 0.5s ease;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .analysis-grid { grid-template-columns: 1fr; }
+            .header .container { padding: 0 16px; }
+            .main { padding: 30px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickPay</a>
+                <span class="sep">/</span>
+                <span class="current">Handle Crisis</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main">
+
+    <div class="container">
+        <div class="product-bar">
+            <div style="font-size: 2em;">🏦</div>
+            <div><h2>QuickPay</h2></div>
+            <div style="margin-left: auto; opacity: 0.8;">Case 5 of 9</div>
+        </div>
+
+        <!-- Screen 1: Crisis Alert -->
+        <div class="card" id="s1">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 5.5em; margin-bottom: 25px;">🚨</div>
+                <h1 style="font-size: 3.8em; margin-bottom: 20px;">Handle Crisis</h1>
+                <p style="font-size: 1.5em; color: #fca5a5;">Prioritize under pressure</p>
+            </div>
+
+            <div class="crisis-alert">
+                <h2 style="font-size: 2.5em; margin-bottom: 20px; text-align: center;">⚠️ QUICKPAY GATEWAY DOWN</h2>
+                <div style="font-size: 1.3em; line-height: 2; text-align: center;">
+                    <strong>Tuesday, 11:30 AM</strong><br/><br/>
+                    Payment processing stopped.<br/>
+                    ₹2.1Cr transactions stuck.<br/>
+                    847 merchants affected.
+                </div>
+            </div>
+
+            <button class="btn" onclick="showTasks()">Prioritize Actions →</button>
+        </div>
+
+        <!-- Screen 2: Prioritize with Live Metrics -->
+        <div class="card" id="s2" style="display: none;">
+            <h2 style="font-size: 2.5em; margin-bottom: 20px; text-align: center; color: #fca5a5;">
+                ⚡ Crisis Dashboard
+            </h2>
+
+            <p style="text-align: center; font-size: 1.15em; color: #93c5fd; margin-bottom: 25px;">
+                Watch metrics change as you select actions ↓
+            </p>
+
+            <!-- Live Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-box" id="metricChurn">
+                    <div class="metric-label">Merchant Churn</div>
+                    <div class="metric-value" id="churnVal">40%</div>
+                    <div class="metric-change" id="churnChange"></div>
+                </div>
+                <div class="metric-box" id="metricTweets">
+                    <div class="metric-label">Angry Tweets/min</div>
+                    <div class="metric-value" id="tweetVal">8</div>
+                    <div class="metric-change" id="tweetChange"></div>
+                </div>
+                <div class="metric-box" id="metricSentiment">
+                    <div class="metric-label">Merchant Sentiment</div>
+                    <div class="metric-value" id="sentVal" style="font-size: 2em;">😡</div>
+                    <div class="metric-change" id="sentChange"></div>
+                </div>
+                <div class="metric-box" id="metricCEO">
+                    <div class="metric-label">CEO Confidence</div>
+                    <div class="metric-value" id="ceoVal" style="font-size: 2em;">😰</div>
+                    <div class="metric-change" id="ceoChange"></div>
+                </div>
+            </div>
+
+            <div style="background: rgba(239, 68, 68, 0.2); padding: 30px; border-radius: 15px; margin: 30px 0; border-left: 5px solid #ef4444;">
+                <p style="font-size: 1.2em; line-height: 2;">
+                    ⏰ <strong>15 minutes to act.</strong> Engineering fixing gateway.<br/>
+                    6 urgent tasks. <strong style="color: #fde047;">Choose only 3.</strong>
+                </p>
+            </div>
+
+            <div class="task-grid">
+                <div class="task-card" onclick="selectTask(1, this)">
+                    <h4>🐦 Tweet Public Update</h4>
+                    <p>"Investigating payment issues. Update in 15 min."</p>
+                    <div class="task-impact">↓ Tweets -5/min • Sentiment +1</div>
+                </div>
+
+                <div class="task-card" onclick="selectTask(2, this)">
+                    <h4>📧 Email All 847 Merchants</h4>
+                    <p>Detailed status update with timeline and next steps.</p>
+                    <div class="task-impact">↓ Churn -10%</div>
+                </div>
+
+                <div class="task-card" onclick="selectTask(3, this)">
+                    <h4>📞 Call Top 10 Clients</h4>
+                    <p>Personal calls to merchants with ₹1.2Cr stuck (60% of total).</p>
+                    <div class="task-impact">↓ Churn -8% • CEO +1</div>
+                </div>
+
+                <div class="task-card" onclick="selectTask(4, this)">
+                    <h4>👔 Brief CEO</h4>
+                    <p>Update leadership on incident, recovery plan, merchant impact.</p>
+                    <div class="task-impact">CEO Confidence: High</div>
+                </div>
+
+                <div class="task-card" onclick="selectTask(5, this)">
+                    <h4>🔍 Monitor Competitors</h4>
+                    <p>Check Stripe/Razorpay tweets, prepare counter-messaging.</p>
+                    <div class="task-impact">Sentiment +1</div>
+                </div>
+
+                <div class="task-card" onclick="selectTask(6, this)">
+                    <h4>💰 Draft Compensation</h4>
+                    <p>Calculate fee waivers, prepare goodwill offers for affected merchants.</p>
+                    <div class="task-impact">↓ Churn -7% • Sentiment +2</div>
+                </div>
+            </div>
+
+            <div style="background: rgba(251, 191, 36, 0.2); padding: 22px; border-radius: 12px; text-align: center; margin-top: 30px;">
+                <strong style="font-size: 1.2em;">Actions Selected: <span id="taskCount">0/3</span></strong>
+            </div>
+
+            <button class="btn" id="nextBtn" disabled onclick="showMessage()">Gateway Restored - Send Message →</button>
+        </div>
+
+        <!-- Screen 3: Draft Message -->
+        <div class="card" id="s3" style="display: none;">
+            <h2 style="font-size: 2.5em; margin-bottom: 25px;">📝 Message to Merchants</h2>
+
+            <div style="background: rgba(16, 185, 129, 0.2); padding: 30px; border-radius: 15px; margin-bottom: 25px;">
+                <p style="font-size: 1.15em; line-height: 2;">
+                    ✅ Gateway restored after 28 minutes.<br/>
+                    ✅ All ₹2.1Cr transactions processed.<br/><br/>
+                    Send update to 847 merchants.
+                </p>
+            </div>
+
+            <textarea id="message" placeholder="Dear QuickPay merchant,&#10;&#10;Update on today's service disruption..."></textarea>
+
+            <div style="text-align: right; margin-top: 10px; color: #60a5fa;">
+                <span id="msgCount">0</span>/150 chars
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button class="ai-btn" onclick="aiDraft()">✨ AI: Draft Message</button>
+                <button class="ai-btn" onclick="aiImprove()">🔧 Improve Tone</button>
+            </div>
+
+            <button class="btn" id="sendBtn" disabled onclick="showResults()">Send to Merchants →</button>
+        </div>
+
+        <!-- Screen 4: Results -->
+        <div class="card" id="s4" style="display: none;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 5em; margin-bottom: 20px;">✅</div>
+                <h2 style="font-size: 3em; margin-bottom: 30px;">Crisis Handled</h2>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #065f46, #059669); border: 3px solid #10b981; border-radius: 20px; padding: 40px; margin: 30px 0; text-align: center;">
+                <h3 style="font-size: 2em; margin-bottom: 25px;">Final Results:</h3>
+                <div style="font-size: 1.3em; line-height: 2.2;">
+                    ⏱️ <strong>28 minutes</strong> downtime<br/>
+                    💰 <strong>₹2.1Cr</strong> recovered<br/>
+                    📉 Merchant churn: <strong id="finalChurn">--</strong><br/>
+                    😊 Sentiment: <strong id="finalSent">--</strong>
+                </div>
+            </div>
+
+            <div style="background: rgba(59, 130, 246, 0.2); padding: 35px; border-radius: 15px; border-left: 5px solid #3b82f6; margin-bottom: 30px;">
+                <h3 style="font-size: 1.7em; margin-bottom: 18px;">🎓 What You Learned:</h3>
+                <p style="font-size: 1.15em; line-height: 2;">
+                    ✓ Watch metrics as you decide - numbers guide priorities<br/>
+                    ✓ Each action impacts different outcomes<br/>
+                    ✓ Can't do everything - choose what moves key metrics<br/>
+                    ✓ Communication speed affects merchant trust
+                </p>
+            </div>
+
+            <button class="btn" onclick="window.location.href='case6.html'">Case 6: Test Your Product →</button>
+        </div>
+
+    </div>
+
+    <script>
+        let selectedTasks = [];
+        let churn = 40;
+        let tweets = 8;
+        let sentiment = 0; // 0=angry, 1=mixed, 2=calm
+        let ceo = 0; // 0=low, 1=medium, 2=high
+
+        const taskImpacts = {
+            1: { churn: -15, tweets: -5, sentiment: 1 }, // Tweet
+            2: { churn: -10 }, // Email
+            3: { churn: -8, ceo: 1 }, // Call clients
+            4: { ceo: 2 }, // Brief CEO
+            5: { sentiment: 1 }, // Monitor competitors
+            6: { churn: -7, sentiment: 1 } // Compensation
+        };
+
+        function showTasks() {
+            document.getElementById('s1').style.display = 'none';
+            document.getElementById('s2').style.display = 'block';
+            updateMetrics();
+            window.scrollTo(0, 0);
+        }
+
+        function selectTask(id, el) {
+            if (selectedTasks.includes(id)) {
+                selectedTasks = selectedTasks.filter(t => t !== id);
+                el.classList.remove('selected');
+                
+                // Reverse impact
+                const impact = taskImpacts[id];
+                if (impact.churn) churn -= impact.churn;
+                if (impact.tweets) tweets -= impact.tweets;
+                if (impact.sentiment) sentiment -= impact.sentiment;
+                if (impact.ceo) ceo -= impact.ceo;
+            } else {
+                if (selectedTasks.length >= 3) {
+                    alert('Choose only 3! Deselect one first.');
+                    return;
+                }
+                selectedTasks.push(id);
+            localStorage.setItem("case5_tasks", selectedTasks.length);
+                el.classList.add('selected');
+                
+                // Apply impact
+                const impact = taskImpacts[id];
+                if (impact.churn) churn += impact.churn;
+                if (impact.tweets) tweets += impact.tweets;
+                if (impact.sentiment) sentiment += impact.sentiment;
+                if (impact.ceo) ceo += impact.ceo;
+            }
+            
+            updateMetrics();
+            document.getElementById('taskCount').textContent = selectedTasks.length + '/3';
+            document.getElementById('nextBtn').disabled = selectedTasks.length !== 3;
+        }
+
+        function updateMetrics() {
+            // Churn
+            const churnBox = document.getElementById('metricChurn');
+            document.getElementById('churnVal').textContent = Math.max(churn, 8) + '%';
+            if (churn < 40) {
+                churnBox.classList.add('improving');
+                document.getElementById('churnChange').textContent = '↓ Improving';
+            } else {
+                churnBox.classList.remove('improving');
+                document.getElementById('churnChange').textContent = '';
+            }
+            
+            // Tweets
+            const tweetBox = document.getElementById('metricTweets');
+            document.getElementById('tweetVal').textContent = Math.max(tweets, 1);
+            if (tweets < 8) {
+                tweetBox.classList.add('improving');
+                document.getElementById('tweetChange').textContent = '↓ Decreasing';
+            } else {
+                tweetBox.classList.remove('improving');
+                document.getElementById('tweetChange').textContent = '';
+            }
+            
+            // Sentiment
+            const sentBox = document.getElementById('metricSentiment');
+            const sentiments = ['😡', '😐', '😊'];
+            const sentLabels = ['Angry', 'Mixed', 'Calm'];
+            document.getElementById('sentVal').textContent = sentiments[Math.min(sentiment, 2)];
+            if (sentiment > 0) {
+                sentBox.classList.add('improving');
+                document.getElementById('sentChange').textContent = sentLabels[Math.min(sentiment, 2)];
+            } else {
+                sentBox.classList.remove('improving');
+                document.getElementById('sentChange').textContent = 'Angry';
+            }
+            
+            // CEO
+            const ceoBox = document.getElementById('metricCEO');
+            const ceoEmojis = ['😰', '😐', '😌'];
+            const ceoLabels = ['Low', 'Medium', 'High'];
+            document.getElementById('ceoVal').textContent = ceoEmojis[Math.min(ceo, 2)];
+            if (ceo > 0) {
+                ceoBox.classList.add('improving');
+                document.getElementById('ceoChange').textContent = ceoLabels[Math.min(ceo, 2)];
+            } else {
+                ceoBox.classList.remove('improving');
+                document.getElementById('ceoChange').textContent = 'Worried';
+            }
+        }
+
+        function showMessage() {
+            document.getElementById('s2').style.display = 'none';
+            document.getElementById('s3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function aiDraft() {
+            document.getElementById('message').value = `Dear QuickPay Merchant,
+
+QuickPay experienced a 28-minute disruption today (11:30-11:58 AM).
+
+✅ All systems restored
+✅ All transactions (₹2.1Cr) processed successfully
+
+Compensation: We're waiving fees for 30 days for affected merchants.
+
+We apologize for the inconvenience.
+
+Team QuickPay`;
+            checkMessage();
+        }
+
+        function aiImprove() {
+            const current = document.getElementById('message').value;
+            if (current.length < 50) {
+                alert('Write a draft first!');
+                return;
+            }
+            document.getElementById('message').value = current + '\n\nOur team is available 24/7 for any questions.';
+            checkMessage();
+        }
+
+        function checkMessage() {
+            const len = document.getElementById('message').value.length;
+            document.getElementById('msgCount').textContent = len;
+            document.getElementById('sendBtn').disabled = len < 150;
+        }
+
+        document.getElementById('message').addEventListener('input', checkMessage);
+
+        function showResults() {
+            document.getElementById('finalChurn').textContent = Math.max(churn, 8) + '%';
+            const sentLabels = ['Angry', 'Mixed', 'Calm'];
+            document.getElementById('finalSent').textContent = sentLabels[Math.min(sentiment, 2)];
+            
+            document.getElementById('s3').style.display = 'none';
+            document.getElementById('s4').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+    </div>
+</body>
+</html>

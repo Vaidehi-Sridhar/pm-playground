@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 6: Dogfooding - QuickPay - PM Playground</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --accent: #14b8a6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .home-btn {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            color: #0ea5e9;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .home-btn:hover {
+            background: rgba(14, 165, 233, 0.2);
+            transform: translateX(-2px);
+        }
+        
+        .main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .dashboard-nav {
+            display: flex;
+            gap: 8px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover {
+            border-color: var(--primary);
+        }
+        .nav-btn.active {
+            background: rgba(14, 165, 233, 0.15);
+            border-color: var(--primary);
+        }
+        
+        .dashboard-screen {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 32px;
+            color: #1e293b;
+            min-height: 400px;
+        }
+        .dashboard-screen h3 {
+            font-size: 1.25rem;
+            margin-bottom: 24px;
+            color: #1e293b;
+        }
+        
+        .bug-marker {
+            position: relative;
+            cursor: pointer;
+        }
+        .bug-marker:hover {
+            outline: 2px solid var(--danger);
+        }
+        
+        .bug-list {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .bug-list h3 {
+            color: #fca5a5;
+            font-size: 1.125rem;
+            margin-bottom: 16px;
+        }
+        .bug-item {
+            background: rgba(239, 68, 68, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            font-size: 0.875rem;
+        }
+        
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+
+        .ai-suggestion {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            display: none;
+        }
+        .ai-suggestion.show {
+            display: block;
+        }
+        .ai-suggestion h4 {
+            color: var(--ai);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+        }
+        .ai-suggestion p {
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .ai-suggestion .priority {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            margin-right: 8px;
+        }
+        .ai-suggestion .p0 {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+        .ai-suggestion .p1 {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+        .ai-suggestion .p2 {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        /* Phone Mockup Styles */
+        .phone-mockup {
+            max-width: 420px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 32px;
+            padding: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 24px;
+            background: #0f172a;
+            border-radius: 0 0 16px 16px;
+            z-index: 10;
+        }
+        .phone-screen {
+            background: #f8fafc;
+            border-radius: 20px;
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        /* Enhanced Bug Marker */
+        .bug-marker {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .bug-marker:hover {
+            outline: 3px solid var(--danger);
+            outline-offset: 2px;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        .bug-marker.found {
+            outline: 2px solid var(--danger);
+            animation: pulseRed 0.5s ease;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseRed {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .bug-item {
+            animation: slideIn 0.3s ease;
+        }
+        .dashboard-screen {
+            animation: fadeIn 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickPay</a>
+                <span class="sep">/</span>
+                <span class="current">Dogfooding</span>
+            </div>
+            <a href="../index.html" class="home-btn">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div id="screen1">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>🔍</span>
+                    <span>CASE 6 OF 8</span>
+                </div>
+                <h1>Dogfooding</h1>
+                <p>Use your own product to find bugs</p>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Your Task</h2>
+                <p>Use the QuickPay merchant dashboard as if you're a merchant.</p>
+                <p style="margin-top: 16px;">Try features. Click around. Type in fields. Test the payment flow.</p>
+                <p style="margin-top: 16px;"><strong style="color: var(--primary);">Click broken things to mark bugs. Find 7 issues.</strong></p>
+            </div>
+            
+            <button class="btn-primary" onclick="startTest()">
+                Open Merchant Dashboard →
+            </button>
+        </div>
+        
+        <div id="screen2" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>🔍</span>
+                    <span>TESTING</span>
+                </div>
+                <h1>Merchant Dashboard</h1>
+            </div>
+            
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="dashboard-nav">
+                        <button class="nav-btn active" onclick="showDashboard(1, this)">Dashboard</button>
+                        <button class="nav-btn" onclick="showDashboard(2, this)">Create Link</button>
+                        <button class="nav-btn" onclick="showDashboard(3, this)">Transactions</button>
+                        <button class="nav-btn" onclick="showDashboard(4, this)">Settings</button>
+                    </div>
+
+                    <div id="dash1" class="dashboard-screen">
+                <h3>Dashboard Overview</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;">
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 8px;">Today's Sales</div>
+                        <div class="bug-marker" onclick="markBug(this, 'Shows ₹0 even with active sales')" style="font-size: 2rem; font-weight: 700; color: #0369a1;">₹0</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 8px;">Success Rate</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #059669;">97.2%</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 8px;">Pending Settlement</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #0369a1;">₹8.4L</div>
+                    </div>
+                </div>
+                <button class="bug-marker" onclick="markBug(this, 'Button does nothing when clicked')" style="background: #0369a1; color: white; padding: 14px 28px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">View Detailed Reports</button>
+            </div>
+            
+            <div id="dash2" class="dashboard-screen" style="display: none;">
+                <h3>Create Payment Link</h3>
+                <div style="margin: 24px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.875rem; color: #475569;">Amount (₹)</label>
+                    <input type="text" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem;" placeholder="1000">
+                    
+                    <label style="display: block; margin: 20px 0 8px; font-weight: 600; font-size: 0.875rem; color: #475569;">Description</label>
+                    <input type="text" class="bug-marker" onclick="markBug(this, 'Text box too small, cuts off descriptions')" style="width: 150px; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem;" placeholder="Payment for...">
+                    
+                    <button style="background: #059669; color: white; padding: 14px 28px; border: none; border-radius: 8px; font-weight: 600; margin-top: 24px; cursor: pointer;">Generate Link</button>
+                </div>
+            </div>
+            
+            <div id="dash3" class="dashboard-screen" style="display: none;">
+                <h3>Transaction History</h3>
+                <div style="text-align: right; margin-bottom: 16px;">
+                    <button class="bug-marker" onclick="markBug(this, 'No download button to export transaction data')" style="background: #0369a1; color: white; padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">📥 Export CSV</button>
+                </div>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: white;">
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb; font-size: 0.875rem;">Date</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb; font-size: 0.875rem;">Amount</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb; font-size: 0.875rem;">Status</th>
+                            <th class="bug-marker" onclick="markBug(this, 'Column header text cut off')" style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb; font-size: 0.875rem; cursor: pointer;">Customer Na...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="padding: 12px; font-size: 0.875rem;">Dec 29</td><td style="font-size: 0.875rem;">₹2,500</td><td style="color: #059669; font-weight: 600; font-size: 0.875rem;">Success</td><td style="font-size: 0.875rem;">Rahul K.</td></tr>
+                        <tr><td style="padding: 12px; font-size: 0.875rem;" class="bug-marker" onclick="markBug(this, 'Date format inconsistent')">Dec 29 14:30</td><td style="font-size: 0.875rem;">₹850</td><td style="color: #dc2626; font-weight: 600; font-size: 0.875rem;">Failed</td><td style="font-size: 0.875rem;">Amit P.</td></tr>
+                        <tr><td style="padding: 12px; font-size: 0.875rem;">Dec 28</td><td style="font-size: 0.875rem;">₹5,400</td><td style="color: #059669; font-weight: 600; font-size: 0.875rem;">Success</td><td style="font-size: 0.875rem;">Neha M.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="dash4" class="dashboard-screen" style="display: none;">
+                <h3>Account Settings</h3>
+                <div style="margin: 24px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.875rem; color: #475569;">Business Name</label>
+                    <input type="text" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem;" value="My Store">
+                    
+                    <label style="display: block; margin: 20px 0 8px; font-weight: 600; font-size: 0.875rem; color: #475569;">Settlement Bank</label>
+                    <input type="text" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem;" value="HDFC Bank - ****1234">
+                    
+                    <button class="bug-marker" onclick="markBug(this, 'Save button shows no confirmation')" style="background: #0369a1; color: white; padding: 12px 28px; border: none; border-radius: 8px; margin-top: 20px; font-weight: 600; cursor: pointer;">Save Changes</button>
+                </div>
+            </div>
+                </div>
+            </div>
+
+            <div class="bug-list">
+                <h3>🐛 Bugs Found: <span id="bugCount">0/7</span></h3>
+                <div id="bugList"></div>
+            </div>
+
+            <button class="ai-btn" onclick="showAICategorize()" id="aiCategorizeBtn" style="display: none;">
+                🤖 AI Categorize
+            </button>
+
+            <div class="ai-suggestion" id="aiCategorize">
+                <h4>💡 AI Mentor: Bug Severity Classification</h4>
+                <p style="margin-bottom: 16px;"><strong>AI-Suggested Priorities:</strong></p>
+                <p>
+                    <span class="priority p0">P0</span> <strong>Today's Sales shows ₹0</strong> - Critical data bug affecting merchant revenue visibility<br>
+                    <span class="priority p0">P0</span> <strong>Export CSV button does nothing</strong> - Blocks critical merchant workflow for compliance
+                </p>
+                <p style="margin-top: 12px;">
+                    <span class="priority p1">P1</span> <strong>Description text box too small</strong> - UX issue causing frequent user frustration<br>
+                    <span class="priority p1">P1</span> <strong>Save button no confirmation</strong> - Could lead to data loss assumptions<br>
+                    <span class="priority p1">P1</span> <strong>View Reports button broken</strong> - Blocks important analytics feature
+                </p>
+                <p style="margin-top: 12px;">
+                    <span class="priority p2">P2</span> <strong>Column header text cut off</strong> - Minor UI polish issue<br>
+                    <span class="priority p2">P2</span> <strong>Inconsistent date format</strong> - Minor UX inconsistency, non-blocking
+                </p>
+                <p style="margin-top: 16px;">
+                    <strong>📚 Framework:</strong> This uses the <em>SEV (Severity) Prioritization Framework</em>: P0 = Revenue/Business Impact, P1 = User Workflow Blocker, P2 = Polish/Consistency. Always fix P0 bugs first regardless of effort - they cost money every hour they exist.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>🏢 Real Example:</strong> When Razorpay found a merchant dashboard bug showing ₹0 settlements (2020), they fixed it within 90 minutes even during a product launch event. Why? 800+ merchants were filing support tickets, worried about missing payments. A P2 UI polish (button alignment) waited 2 weeks. Impact > Effort for bug prioritization.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>💡 Template You Can Reuse:</strong><br>
+                    <em>"Classify bugs as P0 (Revenue/Data loss), P1 (Workflow blocker), P2 (Polish). Fix P0 immediately regardless of effort. Fix P1 within sprint. Fix P2 when you have bandwidth. Never let low-effort P2s delay high-impact P0s."</em>
+                </p>
+            </div>
+
+            <button class="btn-primary" id="completeBtn" disabled onclick="complete()">
+                Submit Bug Report →
+            </button>
+        </div>
+        
+        <div id="screen3" style="display: none;">
+            <div class="case-header">
+                <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                <h1>Bugs Found</h1>
+            </div>
+            
+            <div class="learning-box">
+                <h3>🎓 What You Learned</h3>
+                <ul>
+                    <li>Use your own product regularly</li>
+                    <li>Find bugs before customers do</li>
+                    <li>Small UX issues compound over time</li>
+                    <li>Dogfooding builds product empathy</li>
+                </ul>
+            </div>
+            
+            <button class="btn-primary" onclick="window.location.href='case7.html'">
+                Next: Prioritization →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let bugsFound = new Set();
+        
+        function startTest() {
+            document.getElementById('screen1').style.display = 'none';
+            document.getElementById('screen2').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        function showDashboard(num, btn) {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.querySelectorAll('.dashboard-screen').forEach(s => s.style.display = 'none');
+            document.getElementById('dash' + num).style.display = 'block';
+        }
+        
+        function markBug(el, description) {
+            if (bugsFound.has(description)) return;
+
+            bugsFound.add(description);
+            el.classList.add('found');
+
+            const bugItem = document.createElement('div');
+            bugItem.className = 'bug-item';
+            bugItem.textContent = '→ ' + description;
+            document.getElementById('bugList').appendChild(bugItem);
+
+            document.getElementById('bugCount').textContent = bugsFound.size + '/7';
+
+            if (bugsFound.size >= 3) {
+                document.getElementById('aiCategorizeBtn').style.display = 'block';
+            }
+
+            if (bugsFound.size >= 7) {
+                document.getElementById('completeBtn').disabled = false;
+            }
+
+            localStorage.setItem('case6_bugs', bugsFound.size);
+        }
+        
+        function complete() {
+            document.getElementById('screen2').style.display = 'none';
+            document.getElementById('screen3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAICategorize() {
+            const categorize = document.getElementById('aiCategorize');
+            categorize.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

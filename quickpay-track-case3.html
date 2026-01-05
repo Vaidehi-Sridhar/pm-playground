@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 3: Data Analysis - QuickPay - PM Playground</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --accent: #14b8a6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .home-btn {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            color: #0ea5e9;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .home-btn:hover {
+            background: rgba(14, 165, 233, 0.2);
+            transform: translateX(-2px);
+        }
+        
+        /* Content */
+        .main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        /* Section Cards */
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Data Table */
+        .data-container {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .controls {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .controls select {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        .data-table th {
+            background: rgba(59, 130, 246, 0.15);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--neutral-700);
+        }
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--neutral-700);
+        }
+        .data-table tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .answer-box {
+            margin: 24px 0;
+        }
+        .answer-box textarea {
+            width: 100%;
+            background: var(--neutral-900);
+            border: 1px solid var(--neutral-700);
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9375rem;
+            min-height: 120px;
+            resize: vertical;
+        }
+        .answer-box textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+        
+        .insight-box {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            display: none;
+        }
+        .insight-box h3 {
+            color: var(--ai);
+            font-size: 1.125rem;
+            margin-bottom: 16px;
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .consequence-badge {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 0.9375rem;
+        }
+        .consequence-badge strong {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .data-table { font-size: 0.75rem; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickPay</a>
+                <span class="sep">/</span>
+                <span class="current">Data Analysis</span>
+            </div>
+            <a href="../index.html" class="home-btn">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div id="screen1">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>📊</span>
+                    <span>CASE 3 OF 8</span>
+                </div>
+                <h1>Data Analysis</h1>
+                <p>Find patterns in merchant transaction data</p>
+            </div>
+            
+            <div class="section">
+                <h2>📧 From CEO</h2>
+                <p>"Why are some QuickPay merchants thriving (high success rates, growing revenue) while others churn?"</p>
+                <p style="margin-top: 16px;">"Analyze our transaction data. Find the pattern. Tell me which merchant segment we should focus on and why."</p>
+            </div>
+            
+            <button class="btn-primary" onclick="showData()">
+                Analyze 200 Transactions →
+            </button>
+        </div>
+        
+        <div id="screen2" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>📊</span>
+                    <span>ANALYZING DATA</span>
+                </div>
+                <h1>Merchant Transactions</h1>
+            </div>
+
+            <div class="consequence-badge" id="consequenceBadge" style="display: none;">
+                <strong>📈 Consequence of Case 2 Decision:</strong> Your focus on <span id="focusedSegments"></span> led to higher GMV and success rates in these segments.
+            </div>
+
+            <div class="data-container">
+                <div class="controls">
+                    <select id="filterType" onchange="filterData()">
+                        <option value="all">All Merchants</option>
+                        <option value="high-gmv">High GMV (>₹10L)</option>
+                        <option value="low-gmv">Low GMV (<₹5L)</option>
+                        <option value="high-success">High Success (>98%)</option>
+                        <option value="low-success">Low Success (<95%)</option>
+                    </select>
+                    <button class="ai-btn" onclick="showAIAnalysis()">🤖 AI: Explain Pattern</button>
+                </div>
+                
+                <div style="max-height: 450px; overflow-y: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Merchant</th>
+                                <th>Type</th>
+                                <th>Monthly GMV</th>
+                                <th>Success Rate</th>
+                                <th>Avg Transaction</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                
+                <div class="insight-box" id="aiInsight">
+                    <h3>🤖 AI Analysis</h3>
+                    <div id="aiContent"></div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Answer CEO's Question</h2>
+                <p style="margin-bottom: 16px;">Which merchant segment should QuickPay focus on and why?</p>
+                <div class="answer-box">
+                    <textarea id="ceoAnswer" placeholder="Based on the data, QuickPay should focus on..." oninput="checkAnswer()"></textarea>
+                    <div style="text-align: right; margin-top: 8px; color: var(--neutral-400); font-size: 0.875rem;">
+                        <span id="answerCount">0</span>/80 chars
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-primary" id="submitBtn" disabled onclick="submitAnswer()">
+                Submit Answer →
+            </button>
+        </div>
+        
+        <div id="screen3" style="display: none;">
+            <div class="case-header">
+                <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                <h1>Data-Driven Decision</h1>
+            </div>
+            
+            <div class="section" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+                <h2>Your Answer to CEO</h2>
+                <div id="userAnswer" style="padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 16px;"></div>
+            </div>
+            
+            <div class="learning-box">
+                <h3>🎓 What You Learned</h3>
+                <ul>
+                    <li>Data reveals patterns gut feeling misses</li>
+                    <li>SaaS merchants have higher success rates</li>
+                    <li>Success rate correlates with retention</li>
+                    <li>Focus on high-performing segments</li>
+                </ul>
+            </div>
+
+            <div class="section" style="background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.3);">
+                <h2 style="color: var(--ai);">📖 Storytelling Practice</h2>
+                <p style="margin-top: 12px; color: var(--text-muted);">
+                    <strong>Scenario:</strong> CEO Raj is presenting to the board next week. He asks you: "In 2-3 sentences, how do I explain our segment focus strategy?"
+                </p>
+                <p style="margin-top: 12px; color: var(--text); font-weight: 600;">
+                    How would you tell this data story for the board? (Write 2-3 sentences)
+                </p>
+                <textarea id="storyText3" placeholder="Your board narrative..." style="width: 100%; min-height: 100px; background: var(--neutral-900); border: 1px solid var(--neutral-700); color: white; padding: 14px; border-radius: 8px; font-family: inherit; font-size: 0.9375rem; margin-top: 12px; resize: vertical;"></textarea>
+                <button class="ai-btn" onclick="showStoryFeedback3()" style="margin-top: 12px;">
+                    See Example Stories →
+                </button>
+
+                <div id="storyFeedback3" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                    <h3 style="color: var(--danger); margin-bottom: 12px;">❌ Weak Story (Data Dump):</h3>
+                    <p style="background: rgba(239, 68, 68, 0.08); padding: 16px; border-radius: 8px; color: var(--text-muted); font-style: italic; line-height: 1.7;">
+                        "We analyzed 200 merchants and identified that SaaS has 98-99.5% success rates versus E-commerce at 94-97%. We're focusing resources on the higher-performing segment."
+                    </p>
+                    <p style="margin-top: 8px; font-size: 0.875rem; color: var(--text-dim);">
+                        <strong>Why weak:</strong> Board members glaze over. No context. No "why should we care?" No future vision.
+                    </p>
+
+                    <h3 style="color: var(--success); margin-top: 24px; margin-bottom: 12px;">✅ Strong Story (Narrative):</h3>
+                    <p style="background: rgba(16, 185, 129, 0.08); padding: 16px; border-radius: 8px; color: var(--text-muted); font-style: italic; line-height: 1.7;">
+                        "We studied where QuickPay wins. SaaS merchants have 99% success rates - they love predictable recurring payments. E-commerce is more volatile. So we're doubling down on SaaS: better product-market fit, higher retention, and Razorpay isn't focused there yet. We can own this segment."
+                    </p>
+                    <p style="margin-top: 8px; font-size: 0.875rem; color: var(--text-dim);">
+                        <strong>Why strong:</strong> "Where QuickPay wins" (strategic framing), "love predictable payments" (customer insight), "Razorpay isn't focused there" (competitive angle), "own this segment" (bold vision). Board understands WHY this matters.
+                    </p>
+
+                    <div style="margin-top: 20px; padding: 16px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 4px solid var(--ai);">
+                        <strong style="color: var(--ai);">💡 Board Storytelling Formula:</strong><br>
+                        <span style="color: var(--text-muted); font-size: 0.9375rem; margin-top: 8px; display: block;">
+                            <strong>Insight</strong> (where we win) + <strong>Customer Truth</strong> (why they love us) + <strong>Competitive Edge</strong> (white space) + <strong>Bold Vision</strong> (we can own this) = Board buys in
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(14, 165, 233, 0.08)); border-color: rgba(16, 185, 129, 0.3);">
+                <h2 style="color: var(--success);">📊 6 Months Later: Impact of Your Focus</h2>
+                <p style="margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">
+                    <strong style="color: var(--text);">Your Case 2 decision to focus on specific segments paid off:</strong>
+                </p>
+                <div id="impactMetrics" style="margin-top: 24px; display: grid; gap: 12px;"></div>
+                <p style="margin-top: 20px; padding: 16px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; border-left: 4px solid var(--success);">
+                    <strong style="color: var(--success);">📬 Slack from CEO Raj:</strong><br>
+                    <span style="color: var(--text-muted); font-style: italic; margin-top: 8px; display: block;">
+                        "Your data analysis in Case 3 guided us to double down on the right segments. Q2 board meeting went well - they're impressed with our focused growth strategy. Keep it up."
+                    </span>
+                </p>
+                <p style="margin-top: 16px; font-size: 0.9375rem; color: var(--neutral-400);">
+                    <strong style="color: var(--text);">Your reputation:</strong> Raj now brings you into strategy meetings. Your analytical rigor is earning respect.
+                </p>
+            </div>
+
+            <button class="btn-primary" onclick="window.location.href='case4.html'">
+                Next: Build Strategy →
+            </button>
+        </div>
+    </div>
+    <script>
+        const merchantData = [];
+        
+        function generateData() {
+            const types = ['E-commerce', 'SaaS', 'Freelancer', 'Services', 'Creator'];
+            const ranges = {
+                'E-commerce': { gmv: [5,15], success: [94,97], txn: [800, 2000] },
+                'SaaS': { gmv: [15,50], success: [98,99.5], txn: [2000, 8000] },
+                'Freelancer': { gmv: [2,8], success: [96,98], txn: [300, 800] },
+                'Services': { gmv: [3,10], success: [95,97], txn: [400, 1200] },
+                'Creator': { gmv: [10,30], success: [97,99], txn: [1500, 4000] }
+            };
+
+            // Get focused segments from Case 2 decision
+            const focusedSegments = JSON.parse(localStorage.getItem('case2_focus') || '[]');
+            const segmentMap = {1: 'E-commerce', 2: 'SaaS', 3: 'Freelancer', 4: 'Services', 5: 'Creator'};
+            const focusedTypes = focusedSegments.map(id => segmentMap[parseInt(id)]);
+
+            for (let i = 1; i <= 200; i++) {
+                // 60% of data from focused segments (showing consequence of Case 2 decision)
+                let type;
+                if (focusedTypes.length > 0 && Math.random() < 0.6) {
+                    type = focusedTypes[Math.floor(Math.random() * focusedTypes.length)];
+                } else {
+                    type = types[Math.floor(Math.random() * types.length)];
+                }
+
+                const r = ranges[type];
+
+                // Boost metrics for focused segments (showing product focus pays off)
+                const isFocused = focusedTypes.includes(type);
+                const gmvBoost = isFocused ? 1.2 : 1;
+                const successBoost = isFocused ? 0.5 : 0;
+
+                merchantData.push({
+                    id: 'M-' + (10000 + i),
+                    type: type,
+                    gmv: ((Math.random() * (r.gmv[1] - r.gmv[0]) + r.gmv[0]) * gmvBoost).toFixed(1),
+                    success: Math.min(99.9, (Math.random() * (r.success[1] - r.success[0]) + r.success[0] + successBoost)).toFixed(1),
+                    txn: Math.floor(Math.random() * (r.txn[1] - r.txn[0]) + r.txn[0])
+                });
+            }
+        }
+
+        function showData() {
+            generateData();
+            renderTable(merchantData);
+
+            // Show consequence of Case 2 decision
+            const focusedSegments = JSON.parse(localStorage.getItem('case2_focus') || '[]');
+            if (focusedSegments.length > 0) {
+                const segmentMap = {1: 'E-commerce', 2: 'SaaS', 3: 'Freelancer', 4: 'Services', 5: 'Creator'};
+                const focusedNames = focusedSegments.map(id => segmentMap[parseInt(id)]).join(' & ');
+                document.getElementById('focusedSegments').textContent = focusedNames;
+                document.getElementById('consequenceBadge').style.display = 'block';
+            }
+
+            document.getElementById('screen1').style.display = 'none';
+            document.getElementById('screen2').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function renderTable(data) {
+            const html = data.slice(0, 50).map(row => `
+                <tr>
+                    <td>${row.id}</td>
+                    <td>${row.type}</td>
+                    <td>₹${row.gmv}L</td>
+                    <td>${row.success}%</td>
+                    <td>₹${parseInt(row.txn).toLocaleString()}</td>
+                </tr>
+            `).join('');
+            
+            document.getElementById('tableBody').innerHTML = html;
+        }
+
+        function filterData() {
+            const filter = document.getElementById('filterType').value;
+            let filtered = merchantData;
+            
+            if (filter === 'high-gmv') filtered = merchantData.filter(m => parseFloat(m.gmv) > 10);
+            if (filter === 'low-gmv') filtered = merchantData.filter(m => parseFloat(m.gmv) < 5);
+            if (filter === 'high-success') filtered = merchantData.filter(m => parseFloat(m.success) > 98);
+            if (filter === 'low-success') filtered = merchantData.filter(m => parseFloat(m.success) < 95);
+            
+            renderTable(filtered);
+        }
+
+        function showAIAnalysis() {
+            document.getElementById('aiContent').innerHTML = `
+                <p style="font-size: 1.15em; line-height: 2;">
+                    <strong style="color: #6ee7b7; font-size: 1.2em;">Pattern Found:</strong><br/><br/>
+                    
+                    📈 <strong>SaaS merchants:</strong> 98-99.5% success rate<br/>
+                    📉 <strong>E-commerce:</strong> 94-97% success rate<br/><br/>
+                    
+                    <strong style="color: #fde047;">Why?</strong><br/>
+                    • SaaS = Predictable subscription payments = Fewer failures<br/>
+                    • E-commerce = One-time transactions = Higher failure rate<br/><br/>
+                    
+                    <strong style="color: #6ee7b7;">Recommendation:</strong> Focus QuickPay on SaaS merchants. 
+                    Better success rates = Better retention.
+                </p>
+            `;
+            
+            document.getElementById('aiInsight').style.display = 'block';
+            document.getElementById('aiInsight').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function checkAnswer() {
+            const len = document.getElementById('ceoAnswer').value.length;
+            document.getElementById('answerCount').textContent = len;
+            
+            if (len >= 80) {
+                document.getElementById('submitBtn').disabled = false;
+            }
+        }
+
+        function showStoryFeedback3() {
+            document.getElementById('storyFeedback3').style.display = 'block';
+            document.getElementById('storyFeedback3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function submitAnswer() {
+            const answer = document.getElementById('ceoAnswer').value;
+            document.getElementById('userAnswer').textContent = answer;
+
+            // Show impact of Case 2 decision
+            const focusedSegments = JSON.parse(localStorage.getItem('case2_focus') || '[]');
+            const segmentMap = {1: 'E-commerce', 2: 'SaaS', 3: 'Freelancer', 4: 'Services', 5: 'Creator'};
+            const focusedNames = focusedSegments.map(id => segmentMap[parseInt(id)]);
+
+            const growthMetrics = {
+                'E-commerce': { gmvGrowth: 180, successRate: '94% → 96.5%', churn: '8% → 3%' },
+                'SaaS': { gmvGrowth: 220, successRate: '98% → 99.2%', churn: '12% → 2%' },
+                'Freelancer': { gmvGrowth: 140, successRate: '96% → 97.8%', churn: '10% → 5%' },
+                'Services': { gmvGrowth: 160, successRate: '95% → 96.9%', churn: '14% → 6%' },
+                'Creator': { gmvGrowth: 190, successRate: '97% → 98.5%', churn: '9% → 3%' }
+            };
+
+            let impactHTML = '';
+            focusedNames.forEach(name => {
+                const metrics = growthMetrics[name];
+                impactHTML += `
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 16px; border-radius: 8px; border-left: 3px solid var(--success);">
+                        <strong style="color: var(--text); font-size: 1.05rem;">${name}:</strong><br>
+                        <span style="color: var(--neutral-400); font-size: 0.9375rem;">
+                            • GMV grew <strong style="color: var(--success);">${metrics.gmvGrowth}%</strong> in 6 months<br>
+                            • Success rate improved: <strong style="color: var(--success);">${metrics.successRate}</strong><br>
+                            • Churn decreased: <strong style="color: var(--success);">${metrics.churn}</strong>
+                        </span>
+                    </div>
+                `;
+            });
+
+            if (focusedNames.length === 0) {
+                impactHTML = '<p style="color: var(--neutral-400);">Your focus on key segments drove measurable growth across the board.</p>';
+            }
+
+            document.getElementById('impactMetrics').innerHTML = impactHTML;
+
+            document.getElementById('screen2').style.display = 'none';
+            document.getElementById('screen3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body></html>

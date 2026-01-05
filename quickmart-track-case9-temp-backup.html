@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 9: Your PM Journey - FoodExpress - PM Playground</title>
+    <style>
+        :root {
+            --primary: #f97316;
+            --primary-dark: #0369a1;
+            --accent: #f59e0b;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .home-btn {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            color: #f97316;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .home-btn:hover {
+            background: rgba(249, 115, 22, 0.2);
+            transform: translateX(-2px);
+        }
+        
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .section.success {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 30px 0;
+        }
+        .skill-card {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 12px;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .skill-card .icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .skill-card h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .skill-card .score {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 0.9375rem;
+        }
+        
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .journey-card {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            padding: 32px 24px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+        }
+        .journey-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        .journey-card .icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        .journey-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        .journey-card p {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+
+        .ai-suggestion {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            display: none;
+        }
+        .ai-suggestion.show {
+            display: block;
+        }
+        .ai-suggestion h4 {
+            color: var(--ai);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+        }
+        .ai-suggestion p {
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .ai-suggestion .idea {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .skills-grid { grid-template-columns: repeat(2, 1fr); }
+            .journey-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">FoodExpress</a>
+                <span class="sep">/</span>
+                <span class="current">Your PM Journey</span>
+            </div>
+            <a href="../index.html" class="home-btn">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div class="case-header">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+            <h1>Journey Complete</h1>
+            <p>8 cases finished - Review your PM skills</p>
+        </div>
+        
+        <div class="section success">
+            <h2>✅ What You Completed</h2>
+            <p>Product Sense • Customer Research • Data Analysis • Strategy Building</p>
+            <p style="margin-top: 8px;">Crisis Management • Product Testing • Prioritization • Shipping Decisions</p>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Your PM Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="icon">🧠</div>
+                    <h4>Product Sense</h4>
+                    <div class="score">Strong</div>
+                </div>
+                <div class="skill-card">
+                    <div class="icon">👥</div>
+                    <h4>Customer Focus</h4>
+                    <div class="score">Strong</div>
+                </div>
+                <div class="skill-card">
+                    <div class="icon">📊</div>
+                    <h4>Data Analysis</h4>
+                    <div class="score">Strong</div>
+                </div>
+                <div class="skill-card">
+                    <div class="icon">🎯</div>
+                    <h4>Strategy</h4>
+                    <div class="score">Good</div>
+                </div>
+                <div class="skill-card">
+                    <div class="icon">🚨</div>
+                    <h4>Crisis Handling</h4>
+                    <div class="score">Strong</div>
+                </div>
+                <div class="skill-card">
+                    <div class="icon">🔍</div>
+                    <h4>Testing</h4>
+                    <div class="score">Good</div>
+                </div>
+                <div class="skill-card">
+                    <div class="icon">⚖️</div>
+                    <h4>Prioritization</h4>
+                    <div class="score">Strong</div>
+                </div>
+                <div class="skill-card">
+                    <div class="icon">⏰</div>
+                    <h4>Decisions</h4>
+                    <div class="score">Strong</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="learning-box">
+            <h3>🎓 Key Learnings</h3>
+            <ul>
+                <li>Interview before building anything</li>
+                <li>Data reveals patterns gut feeling misses</li>
+                <li>Focus wins, scattered loses</li>
+                <li>Ship fast, learn, iterate</li>
+                <li>Use frameworks but don't be dogmatic</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>💡 Bonus: Restaurant Menu Update Challenge</h2>
+            <p>Only 30% of restaurant partners update menus regularly. How would you improve adoption?</p>
+
+            <button class="ai-btn" onclick="showAIBrainstorm()">
+                🤖 AI Brainstorm
+            </button>
+
+            <div class="ai-suggestion" id="aiBrainstorm">
+                <h4>💡 Creative Solutions for Menu Update Adoption</h4>
+
+                <div class="idea">
+                    <strong>1. Automated Menu Sync</strong><br>
+                    Integrate with restaurant POS systems to auto-sync menu changes. Reduces manual work from 15 min to 0 min per update.
+                    Partner with major POS providers (Lightspeed, Square, Toast) for seamless integration.
+                </div>
+
+                <div class="idea">
+                    <strong>2. Photo-to-Menu AI</strong><br>
+                    Let restaurants snap photos of their menu boards - AI extracts items and prices. Makes updates as easy as taking a picture.
+                    Especially valuable for small restaurants without digital menus.
+                </div>
+
+                <div class="idea">
+                    <strong>3. Menu Freshness Scoring</strong><br>
+                    Show restaurants how "stale" menus hurt orders. Display metrics: "Fresh menus get 27% more orders."
+                    Create gamification with badges for "Menu Champion" restaurants.
+                </div>
+
+                <div class="idea">
+                    <strong>4. Scheduled Reminder System</strong><br>
+                    Smart reminders based on seasonality and historical patterns. E.g., "Winter menu update recommended based on last year."
+                    WhatsApp/SMS integration for easy mobile updates.
+                </div>
+
+                <div class="idea">
+                    <strong>5. Revenue Impact Dashboard</strong><br>
+                    Show restaurants direct revenue impact: "Out-of-stock items cost you ₹45K this month."
+                    Make the business case clear with data-driven insights.
+                </div>
+
+                <p style="margin-top: 16px;"><strong>Recommended Approach:</strong> Start with automated POS sync for top 100 restaurants
+                (drives 60% of volume), then add photo-to-menu AI for long-tail partners. Combine with menu freshness scoring to drive behavioral change.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Try More PM Journeys</h2>
+            <div class="journey-grid">
+                <a href="../foodexpress-track/index.html" class="journey-card">
+                    <div class="icon">🍔</div>
+                    <h3>FoodExpress</h3>
+                    <p>Food delivery platform - 8 new cases</p>
+                </a>
+                
+                <a href="../quickmart-track/index.html" class="journey-card">
+                    <div class="icon">⚡</div>
+                    <h3>QuickMart</h3>
+                    <p>Quick commerce - 8 new cases</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAIBrainstorm() {
+            const brainstorm = document.getElementById('aiBrainstorm');
+            brainstorm.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

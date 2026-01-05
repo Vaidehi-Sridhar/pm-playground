@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 5: Handle Crisis - QuickPay - PM Playground</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0369a1;
+            --accent: #14b8a6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .home-btn {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            color: #0ea5e9;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .home-btn:hover {
+            background: rgba(14, 165, 233, 0.2);
+            transform: translateX(-2px);
+        }
+        
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .section.alert {
+            background: rgba(239, 68, 68, 0.08);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        .task-grid {
+            display: grid;
+            gap: 12px;
+            margin: 24px 0;
+        }
+        .task-card {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .task-card:hover {
+            border-color: var(--primary);
+        }
+        .task-card.selected {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .task-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .task-card p {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+        }
+        
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+
+        .ai-suggestion {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            display: none;
+        }
+        .ai-suggestion.show {
+            display: block;
+        }
+        .ai-suggestion h4 {
+            color: var(--ai);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+        }
+        .ai-suggestion p {
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">QuickPay</a>
+                <span class="sep">/</span>
+                <span class="current">Handle Crisis</span>
+            </div>
+            <a href="../index.html" class="home-btn">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div id="screen1">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>🚨</span>
+                    <span>CASE 5 OF 8</span>
+                </div>
+                <h1>Handle Crisis</h1>
+                <p>Gateway down. Prioritize under pressure.</p>
+            </div>
+            
+            <div class="section alert">
+                <h2>⚠️ CRITICAL ALERT</h2>
+                <p><strong style="color: #fca5a5;">Friday 2:15 PM - Payment gateway is DOWN</strong></p>
+                <p style="margin-top: 16px; font-size: 1.05rem; line-height: 1.7; color: var(--text);">
+                    Your phone explodes with Slack pings. You're at your desk, hands shaking as you pull up the dashboard.
+                </p>
+                <p style="margin-top: 12px;"><strong>₹2.1 Crore transactions stuck. 847 merchants affected.</strong></p>
+                <p style="margin-top: 16px; padding: 12px; background: rgba(239, 68, 68, 0.15); border-radius: 8px; font-size: 0.95rem;">
+                    <strong style="color: #fca5a5;">📬 CEO Raj (2:18 PM):</strong> <em>"This is bad. Board meeting is Monday. They already questioned our reliability last quarter. We need this fixed NOW."</em>
+                </p>
+                <p style="margin-top: 12px; padding: 12px; background: rgba(239, 68, 68, 0.15); border-radius: 8px; font-size: 0.95rem;">
+                    <strong style="color: #fca5a5;">📬 VP Sales (2:19 PM):</strong> <em>"Merchants are calling. One of them is our biggest account (₹50L GMV). If we lose them over this..."</em>
+                </p>
+                <p style="margin-top: 16px; color: var(--warning); font-weight: 600;">
+                    This is your first major crisis as PM. How you handle the next 30 minutes will define your reputation.
+                </p>
+            </div>
+
+            <div class="section">
+                <h2>Your Decision</h2>
+                <p>You have 3 simultaneous urgent tasks. Can only do one first.</p>
+                <p style="margin-top: 12px;"><strong>What do you prioritize?</strong> Your call. Right now.</p>
+            </div>
+
+            <button class="ai-btn" onclick="showAIGuidance()">
+                🤖 AI Guidance
+            </button>
+
+            <div class="ai-suggestion" id="aiGuidance">
+                <h4>💡 AI Mentor: Crisis Management</h4>
+                <p><strong>Recommended Priority: Fix Database Connection First</strong></p>
+                <p style="margin-top: 12px;">
+                    <strong>Why?</strong> In crisis situations, follow this order:
+                </p>
+                <p style="margin-top: 8px;">
+                    1. <strong>Stop the bleeding</strong> - Fix the immediate problem (30 min database fix stops ₹2.1 Cr stuck)<br>
+                    2. <strong>Communicate proactively</strong> - Update merchants while fix is in progress (prevents panic)<br>
+                    3. <strong>Root cause analysis</strong> - After stability, investigate why it happened (prevents recurrence)
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>📚 Framework:</strong> This follows the <em>SEV-1 Incident Response Framework</em> used by tech companies:
+                    <strong>Mitigate → Communicate → Investigate → Prevent</strong>. Never reverse this order during active outages.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>🏢 Real Example:</strong> When Stripe had a major outage in July 2019 (API down for 2 hours), they fixed the root cause first (database connection pool exhaustion), communicated updates every 15 minutes via status page, then published a detailed post-mortem 48 hours later. They didn't wait to "fully understand" before fixing.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>💡 Template You Can Reuse:</strong><br>
+                    <em>"During [crisis], prioritize [immediate fix] to stop [revenue/user impact]. Communicate [update cadence] while fixing. Investigate [root cause] only after system is stable. Never let analysis delay mitigation."</em>
+                </p>
+            </div>
+
+            <button class="btn-primary" onclick="showTasks()">
+                See Priority Options →
+            </button>
+        </div>
+        
+        <div id="screen2" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>🚨</span>
+                    <span>PRIORITIZE NOW</span>
+                </div>
+                <h1>Choose Your Priority</h1>
+                <p>Pick what you do FIRST</p>
+            </div>
+            
+            <div class="task-grid">
+                <div class="task-card" onclick="selectTask(1, this)">
+                    <h4>Fix Database Connection</h4>
+                    <p>Restore gateway immediately. 30 min fix. Stops the bleeding.</p>
+                </div>
+                
+                <div class="task-card" onclick="selectTask(2, this)">
+                    <h4>Communicate to Merchants</h4>
+                    <p>Send update to 847 affected merchants. Set expectations. Prevent panic.</p>
+                </div>
+                
+                <div class="task-card" onclick="selectTask(3, this)">
+                    <h4>Analyze Root Cause</h4>
+                    <p>Investigate why it failed. Prevent future outages. Takes 2 hours.</p>
+                </div>
+            </div>
+            
+            <div class="section" style="text-align: center;">
+                <p id="selectionMsg"><strong>Select your priority</strong></p>
+            </div>
+            
+            <button class="btn-primary" id="submitBtn" disabled onclick="submitChoice()">
+                Submit Priority →
+            </button>
+        </div>
+        
+        <div id="screen3" style="display: none;">
+            <div class="case-header">
+                <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                <h1>Crisis Handled</h1>
+            </div>
+            
+            <div class="learning-box">
+                <h3>🎓 What You Learned</h3>
+                <ul>
+                    <li>In crisis, fix the problem first</li>
+                    <li>Communicate early and often</li>
+                    <li>Root cause analysis prevents recurrence</li>
+                    <li>Impact > Effort in emergencies</li>
+                </ul>
+            </div>
+
+            <div class="section" style="background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.3);">
+                <h2 style="color: var(--ai);">📖 Storytelling Practice</h2>
+                <p style="margin-top: 12px; color: var(--text-muted);">
+                    <strong>Scenario:</strong> The crisis is fixed (gateway back up). Now you need to send an email to all 847 affected merchants explaining what happened.
+                </p>
+                <p style="margin-top: 12px; color: var(--text); font-weight: 600;">
+                    How would you communicate this crisis to merchants? (Write 2-3 sentences)
+                </p>
+                <textarea id="storyText5" placeholder="Your merchant communication..." style="width: 100%; min-height: 100px; background: var(--neutral-900); border: 1px solid var(--neutral-700); color: white; padding: 14px; border-radius: 8px; font-family: inherit; font-size: 0.9375rem; margin-top: 12px; resize: vertical;"></textarea>
+                <button class="ai-btn" onclick="showStoryFeedback5()" style="margin-top: 12px;">
+                    See Example Communications →
+                </button>
+
+                <div id="storyFeedback5" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                    <h3 style="color: var(--danger); margin-bottom: 12px;">❌ Weak Communication (Defensive/Technical):</h3>
+                    <p style="background: rgba(239, 68, 68, 0.08); padding: 16px; border-radius: 8px; color: var(--text-muted); font-style: italic; line-height: 1.7;">
+                        "We experienced a database connection failure that impacted payment processing for 2 hours. Our engineering team resolved the issue. We apologize for any inconvenience caused."
+                    </p>
+                    <p style="margin-top: 8px; font-size: 0.875rem; color: var(--text-dim);">
+                        <strong>Why weak:</strong> Generic, defensive, no empathy. "Inconvenience" minimizes real business impact. No transparency about what they'll do differently.
+                    </p>
+
+                    <h3 style="color: var(--success); margin-top: 24px; margin-bottom: 12px;">✅ Strong Communication (Honest + Empathetic):</h3>
+                    <p style="background: rgba(16, 185, 129, 0.08); padding: 16px; border-radius: 8px; color: var(--text-muted); font-style: italic; line-height: 1.7;">
+                        "Today, ₹2.1 Cr in transactions were stuck for 2 hours because our database failed. We know this hurt your business - lost sales, angry customers. We fixed it in 30 minutes and added failover monitoring so it won't happen again. If you lost revenue, email us - we're reviewing compensation case-by-case. You deserve better from QuickPay."
+                    </p>
+                    <p style="margin-top: 8px; font-size: 0.875rem; color: var(--text-dim);">
+                        <strong>Why strong:</strong> Specific impact (₹2.1Cr), acknowledges merchant pain ("lost sales, angry customers"), owns it ("you deserve better"), concrete action ("failover monitoring"), offers remedy ("reviewing compensation"). Builds trust through honesty.
+                    </p>
+
+                    <div style="margin-top: 20px; padding: 16px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 4px solid var(--ai);">
+                        <strong style="color: var(--ai);">💡 Crisis Communication Formula:</strong><br>
+                        <span style="color: var(--text-muted); font-size: 0.9375rem; margin-top: 8px; display: block;">
+                            <strong>Specific Impact</strong> (what broke) + <strong>Empathy</strong> (acknowledge pain) + <strong>Ownership</strong> (we failed you) + <strong>Prevention</strong> (won't happen again) + <strong>Remedy</strong> (how we make it right) = Trust restored
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="window.location.href='case6.html'">
+                Next: Test Product →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedTask = null;
+        
+        function showTasks() {
+            document.getElementById('screen1').style.display = 'none';
+            document.getElementById('screen2').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        function selectTask(num, card) {
+            document.querySelectorAll('.task-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedTask = num;
+            
+            document.getElementById('selectionMsg').innerHTML = '<strong>Priority selected</strong>';
+            document.getElementById('submitBtn').disabled = false;
+            
+            localStorage.setItem('case5_priority', num);
+        }
+        
+        function submitChoice() {
+            document.getElementById('screen2').style.display = 'none';
+            document.getElementById('screen3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAIGuidance() {
+            const guidance = document.getElementById('aiGuidance');
+            guidance.classList.toggle('show');
+        }
+
+        function showStoryFeedback5() {
+            document.getElementById('storyFeedback5').style.display = 'block';
+            document.getElementById('storyFeedback5').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
