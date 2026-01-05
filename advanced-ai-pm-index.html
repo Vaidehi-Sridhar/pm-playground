@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Product Management Track - PM Playground</title>
+    <link rel="stylesheet" href="../shared-styles.css">
+    <style>
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .product-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: var(--dark-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--purple), var(--purple-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .cases-list {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .case-card {
+            background: var(--dark-elevated);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--purple);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 64px 1fr auto auto;
+            gap: 1.5rem;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s var(--transition);
+        }
+
+        .case-card:hover {
+            transform: translateX(8px);
+            border-color: var(--purple);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+        }
+
+        .case-number {
+            width: 64px;
+            height: 64px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Fira Code', monospace;
+            color: var(--purple-light);
+        }
+
+        .case-content {
+            flex: 1;
+        }
+
+        .case-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .case-description {
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .case-time {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--gold-light);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .case-arrow {
+            color: var(--text-dim);
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .case-card:hover .case-arrow {
+            transform: translateX(4px);
+        }
+
+        .start-journey {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius-lg);
+        }
+
+        .start-journey h3 {
+            margin-bottom: 1rem;
+        }
+
+        .start-journey p {
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .case-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .case-number {
+                width: 48px;
+                height: 48px;
+                font-size: 1.25rem;
+            }
+
+            .case-time,
+            .case-arrow {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="../index.html">Advanced</a>
+                <span class="sep">/</span>
+                <span class="current">AI Product Management</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+            <a href="../index.html" class="back-btn">← Back to Tracks</a>
+        </div>
+    </div>
+
+    <div class="container" style="padding: 3rem 2rem;">
+        <div class="hero">
+            <div class="product-icon">🤖</div>
+            <h1>AI Product Management</h1>
+            <p>Master LLMs, ethics, cost optimization, and AI product strategy. Write executive memos, analyze trade-offs, and make strategic decisions.</p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-value">6</span>
+                <span class="metric-label">Cases</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">~9 Hours</span>
+                <span class="metric-label">Total Time</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">Expert</span>
+                <span class="metric-label">Difficulty</span>
+            </div>
+        </div>
+
+        <div class="cases-list">
+            <!-- Case 1 -->
+            <a href="case1.html" class="case-card">
+                <div class="case-number">1</div>
+                <div class="case-content">
+                    <div class="case-title">Build vs Buy AI</div>
+                    <div class="case-description">
+                        Decision: Custom LLM ($1.2M, 18 months) vs Claude API ($400K, 6 months) vs Hybrid ($800K, 12 months).
+                        Write 500-word strategy memo with ROI analysis, stakeholder alignment, and risk mitigation.
+                    </div>
+                </div>
+                <div class="case-time">90 min</div>
+                <div class="case-arrow">→</div>
+            </a>
+
+            <!-- Case 2 -->
+            <a href="case2.html" class="case-card">
+                <div class="case-number">2</div>
+                <div class="case-content">
+                    <div class="case-title">Prompt Engineering for Production</div>
+                    <div class="case-description">
+                        Reduce hallucination rate from 15% to <5% without retraining. Test 5 prompt techniques (few-shot, chain-of-thought, constitutional AI) on real production data. Optimize for accuracy, latency, and cost.
+                    </div>
+                </div>
+                <div class="case-time">60 min</div>
+                <div class="case-arrow">→</div>
+            </a>
+
+            <!-- Case 3 -->
+            <a href="case3.html" class="case-card">
+                <div class="case-number">3</div>
+                <div class="case-content">
+                    <div class="case-title">AI Ethics & Bias Detection</div>
+                    <div class="case-description">
+                        Credit approval model shows 23% approval gap between demographic groups. Detect bias sources, propose mitigation strategies, and create ethics framework document for Legal, Diversity, and Engineering teams.
+                    </div>
+                </div>
+                <div class="case-time">90 min</div>
+                <div class="case-arrow">→</div>
+            </a>
+
+            <!-- Case 4 -->
+            <a href="case4.html" class="case-card">
+                <div class="case-number">4</div>
+                <div class="case-content">
+                    <div class="case-title">Human-in-Loop Design</div>
+                    <div class="case-description">
+                        When should AI require human approval? Design approval workflow for 3 use cases: content moderation, financial transactions, medical diagnoses. Balance automation efficiency with safety requirements.
+                    </div>
+                </div>
+                <div class="case-time">60 min</div>
+                <div class="case-arrow">→</div>
+            </a>
+
+            <!-- Case 5 -->
+            <a href="case5.html" class="case-card">
+                <div class="case-number">5</div>
+                <div class="case-content">
+                    <div class="case-title">LLM Cost Optimization</div>
+                    <div class="case-description">
+                        $50K/month token spend, CFO demands 60% reduction. Optimize prompts, implement caching, choose right models for different tasks. Maintain quality while cutting costs to $20K/month.
+                    </div>
+                </div>
+                <div class="case-time">90 min</div>
+                <div class="case-arrow">→</div>
+            </a>
+
+            <!-- Case 6 -->
+            <a href="case6.html" class="case-card">
+                <div class="case-number">6</div>
+                <div class="case-content">
+                    <div class="case-title">AI Product Strategy</div>
+                    <div class="case-description">
+                        CEO wants 12-month AI roadmap. Conduct market research, define vision, set OKRs, create quarterly milestones. Write full strategy doc (800+ words) with competitive analysis and success metrics.
+                    </div>
+                </div>
+                <div class="case-time">120 min</div>
+                <div class="case-arrow">→</div>
+            </a>
+        </div>
+
+        <div class="start-journey">
+            <h3>Ready to Master AI Product Management?</h3>
+            <p>These cases require strategic thinking, stakeholder management, and executive communication. You'll write memos, analyze data, and make complex trade-offs.</p>
+            <a href="case1.html" class="btn-primary" style="max-width: 400px; margin: 0 auto; display: block; text-decoration: none;">
+                Begin with Case 1: Build vs Buy AI →
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Track - PM Playground</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #0a0a0f;
+            --dark-elevated: #13131a;
+            --dark-hover: #1a1a24;
+            --purple: #8b5cf6;
+            --purple-light: #a78bfa;
+            --cyan: #06b6d4;
+            --gold: #f59e0b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--dark-elevated);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .header .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--text);
+        }
+
+        .breadcrumb .sep {
+            color: var(--text-dim);
+        }
+
+        .breadcrumb .current {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .back-btn {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--purple-light);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateX(-2px);
+        }
+
+        /* Main */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .track-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--purple-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* Products Grid */
+        .products {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--dark-elevated);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--product-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 3rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--product-color);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-card.ai-pm {
+            --product-color: #8b5cf6;
+        }
+
+        .product-card.plg {
+            --product-color: #06b6d4;
+        }
+
+        .product-card.growth {
+            --product-color: #f59e0b;
+        }
+
+        .product-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .product-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .product-icon {
+            font-size: 2.5rem;
+        }
+
+        .product-title-group h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.01em;
+        }
+
+        .product-subtitle {
+            font-size: 0.9375rem;
+            color: var(--text-dim);
+        }
+
+        .product-description {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .case-highlights {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .case-highlights-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .highlight::before {
+            content: '→';
+            color: var(--product-color);
+            flex-shrink: 0;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .product-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .metrics-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .difficulty {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .difficulty-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .difficulty-dot.filled {
+            background: var(--product-color);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--product-color), var(--product-color-alt));
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-card.ai-pm .start-btn {
+            --product-color-alt: #a78bfa;
+        }
+
+        .product-card.plg .start-btn {
+            --product-color-alt: #14b8a6;
+        }
+
+        .product-card.growth .start-btn {
+            --product-color-alt: #fbbf24;
+        }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .product-card {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .product-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <span class="current">Advanced Track</span>
+            </div>
+            <a href="../index.html" class="back-btn">← Back to Home</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <div class="track-badge">
+                <span>⚡</span>
+                <span>Advanced Track</span>
+            </div>
+            <h1>Choose Your Specialization</h1>
+            <p>
+                Deep-dive into specialized PM domains. Each track teaches completely different expert-level skills. Progress from Growth fundamentals → PLG strategies → AI innovation.
+            </p>
+        </div>
+
+        <div class="products">
+            <!-- Growth & Metrics Mastery (Track 1 - Foundation) -->
+            <a href="growth-metrics/index.html" class="product-card growth">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-icon">📊</div>
+                        <div class="product-title-group">
+                            <h2>Growth & Metrics Mastery</h2>
+                            <div class="product-subtitle">A/B Testing, Analytics, Data-Driven Decisions</div>
+                        </div>
+                    </div>
+
+                    <p class="product-description">
+                        Master growth through data. Run rigorous experiments, analyze retention cohorts, optimize conversion funnels, and build predictive models.
+                    </p>
+
+                    <div class="case-highlights">
+                        <div class="case-highlights-title">Case Highlights</div>
+                        <div class="highlight">North Star Metric: Define single metric that matters most</div>
+                        <div class="highlight">A/B Test Design: Sample size, duration, statistical significance</div>
+                        <div class="highlight">Retention Analysis: Cohort analysis to identify churn drivers</div>
+                        <div class="highlight">Funnel Optimization: Improve conversion rate at each step</div>
+                        <div class="highlight">User Segmentation: RFM analysis and personalization</div>
+                        <div class="highlight">Predictive Analytics: Forecast growth with machine learning</div>
+                    </div>
+                </div>
+
+                <div class="product-sidebar">
+                    <div class="metrics-box">
+                        <div class="metric">
+                            <span class="metric-label">Cases</span>
+                            <span class="metric-value">6</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Time</span>
+                            <span class="metric-value">~9 hours</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Difficulty</span>
+                            <div class="difficulty">
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot"></div>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Level</span>
+                            <span class="metric-value" style="color: var(--gold);">Foundation</span>
+                        </div>
+                    </div>
+
+                    <button class="start-btn">Start Track →</button>
+                </div>
+            </a>
+
+            <!-- Product-Led Growth -->
+            <a href="plg/index.html" class="product-card plg">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-icon">📈</div>
+                        <div class="product-title-group">
+                            <h2>Product-Led Growth</h2>
+                            <div class="product-subtitle">Viral Loops, Self-Service, PLG Metrics</div>
+                        </div>
+                    </div>
+
+                    <p class="product-description">
+                        Drive growth through product design. Build self-service onboarding, viral mechanics, activation flows, freemium strategies, and expansion revenue engines.
+                    </p>
+
+                    <div class="case-highlights">
+                        <div class="case-highlights-title">Case Highlights</div>
+                        <div class="highlight">Self-Service: Reduce time-to-value from 7 days to 1 day</div>
+                        <div class="highlight">Viral Loops: Build referral program with k-factor >1</div>
+                        <div class="highlight">Activation: Define "aha moment" and improve activation rate</div>
+                        <div class="highlight">Freemium: Decide free vs paid feature split strategy</div>
+                        <div class="highlight">Product-Qualified Leads: Usage signals → Sales handoff</div>
+                        <div class="highlight">Expansion: Design upsell/cross-sell within product</div>
+                    </div>
+                </div>
+
+                <div class="product-sidebar">
+                    <div class="metrics-box">
+                        <div class="metric">
+                            <span class="metric-label">Cases</span>
+                            <span class="metric-value">6</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Time</span>
+                            <span class="metric-value">~9 hours</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Difficulty</span>
+                            <div class="difficulty">
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot"></div>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Level</span>
+                            <span class="metric-value" style="color: var(--cyan);">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <button class="start-btn">Start Track →</button>
+                </div>
+            </a>
+
+            <!-- AI Product Management (Track 3 - Expert/Final) -->
+            <a href="ai-pm/index.html" class="product-card ai-pm">
+                <div class="product-content">
+                    <div class="product-header">
+                        <div class="product-icon">🤖</div>
+                        <div class="product-title-group">
+                            <h2>AI Product Management</h2>
+                            <div class="product-subtitle">LLMs, Ethics, Cost Optimization</div>
+                        </div>
+                    </div>
+
+                    <p class="product-description">
+                        Build AI products from integration to production. Master prompt engineering, bias detection, human-in-loop design, and strategic AI roadmapping.
+                    </p>
+
+                    <div class="case-highlights">
+                        <div class="case-highlights-title">Case Highlights</div>
+                        <div class="highlight">Build vs Buy: Custom LLM ($1.2M) vs Claude API ($400K)</div>
+                        <div class="highlight">Prompt Engineering: Reduce hallucinations from 15% to <5%</div>
+                        <div class="highlight">AI Ethics: Detect and mitigate bias in credit models</div>
+                        <div class="highlight">Human-in-Loop: Design approval workflows for AI decisions</div>
+                        <div class="highlight">Cost Optimization: Cut $50K/month token spend by 60%</div>
+                        <div class="highlight">AI Strategy: Create 12-month roadmap with quarterly OKRs</div>
+                    </div>
+                </div>
+
+                <div class="product-sidebar">
+                    <div class="metrics-box">
+                        <div class="metric">
+                            <span class="metric-label">Cases</span>
+                            <span class="metric-value">6</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Time</span>
+                            <span class="metric-value">~9 hours</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Difficulty</span>
+                            <div class="difficulty">
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                                <div class="difficulty-dot filled"></div>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Level</span>
+                            <span class="metric-value" style="color: var(--purple-light);">Expert</span>
+                        </div>
+                    </div>
+
+                    <button class="start-btn">Start Track →</button>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

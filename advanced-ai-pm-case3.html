@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case 3: AI Ethics & Bias - AI PM Track - PM Playground</title>
+    <link rel="stylesheet" href="../shared-styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="../index.html">Advanced</a>
+                <span class="sep">/</span>
+                <a href="index.html">AI PM</a>
+                <span class="sep">/</span>
+                <span class="current">AI Ethics & Bias</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+            <a href="index.html" class="back-btn">← Back to AI PM Track</a>
+        </div>
+    </div>
+
+    <!-- 3-COLUMN LAYOUT -->
+    <div class="main-layout">
+        <!-- LEFT PANEL - CONTEXT -->
+        <div class="context-panel">
+            <!-- Your Role -->
+            <div class="section">
+                <h3>👤 Your Role</h3>
+                <p>
+                    <strong>Senior PM, Lending Platform</strong><br>
+                    3 years PM experience<br>
+                    Report to: VP of Product<br>
+                    Team: 10 engineers, 2 ML scientists, 1 ethics researcher
+                </p>
+            </div>
+
+            <!-- Current State -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">📊 Model Performance</h3>
+                <div class="metric-row">
+                    <span class="metric-label">Overall Accuracy</span>
+                    <span class="metric-value success">87%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Approval Rate (Group A)</span>
+                    <span class="metric-value">68%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Approval Rate (Group B)</span>
+                    <span class="metric-value danger">45%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Approval Gap</span>
+                    <span class="metric-value danger">23 percentage points</span>
+                </div>
+            </div>
+
+            <!-- Stakeholders -->
+            <div class="section">
+                <h3>👥 Key Stakeholders</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">AW</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Angela Washington</div>
+                            <div class="stakeholder-title">Chief Legal Officer</div>
+                            <div class="stakeholder-concern">"23% gap could be illegal. We need an audit trail."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">MS</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Michael Santos</div>
+                            <div class="stakeholder-title">Head of Diversity & Inclusion</div>
+                            <div class="stakeholder-concern">"This perpetuates historical inequities. Fix root cause."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">TL</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Dr. Tara Lee</div>
+                            <div class="stakeholder-title">Lead ML Scientist</div>
+                            <div class="stakeholder-concern">"Bias is in training data. Simple fixes will hurt accuracy."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">JK</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">James Kim</div>
+                            <div class="stakeholder-title">CFO</div>
+                            <div class="stakeholder-concern">"Lowering standards could increase default rate. Show data."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regulatory Context -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">⚖️ Regulatory Context</h3>
+                <div class="metric-row">
+                    <span class="metric-label">ECOA Compliance</span>
+                    <span class="metric-value warning">Under Review</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">State Regulations</span>
+                    <span class="metric-value">4 states require explainability</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Audit Deadline</span>
+                    <span class="metric-value danger">90 days</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER PANEL - WORKSPACE -->
+        <div class="workspace">
+            <!-- Screen 1: Introduction -->
+            <div id="screen1">
+                <div class="case-badge">
+                    <span>📋</span>
+                    <span>CASE 3 OF 6</span>
+                </div>
+
+                <h1 style="margin-bottom: 1rem;">AI Ethics & Bias Detection</h1>
+                <p style="font-size: 1.125rem; margin-bottom: 2rem;">
+                    Your credit approval model shows a 23% approval gap between demographic groups. Detect the source, propose mitigation, and create an ethics framework.
+                </p>
+
+                <div class="section">
+                    <h3>📌 The Challenge</h3>
+                    <p>
+                        Your AI credit approval model has 87% accuracy and processes 5,000 applications monthly. Internal audit discovered Group A has 68% approval rate while Group B has 45% approval rate - a 23 percentage point gap.
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        Legal says this could violate Equal Credit Opportunity Act (ECOA). You have 90 days to investigate, explain the gap, and propose fixes before regulatory audit.
+                    </p>
+                </div>
+
+                <!-- Data Analysis -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--danger);">
+                    <h3>Root Cause Analysis (Your Team's Findings)</h3>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <strong style="color: var(--text);">1. Training Data Imbalance</strong>
+                            <p style="color: var(--text-muted); margin-top: 0.5rem;">Historical lending data over-represents Group A (78% of training data). Model learned patterns primarily from Group A behavior.</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text);">2. Proxy Features</strong>
+                            <p style="color: var(--text-muted); margin-top: 0.5rem;">ZIP code and "years at current address" correlate with protected characteristics. Model uses these as signals even though demographic data wasn't directly included.</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text);">3. Feature Importance Disparity</strong>
+                            <p style="color: var(--text-muted); margin-top: 0.5rem;">Credit score weighs 40% for Group A but only 25% for Group B. Model relies more on proxy features for Group B due to sparse training data.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Option A: Demographic Parity -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--purple);">
+                    <h3>Approach A: Enforce Demographic Parity</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Approval Gap Reduction:</span>
+                            <strong>23% → 2% (near parity)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Accuracy Impact:</span>
+                            <strong style="color: var(--danger);">87% → 79% (-8%)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Expected Default Rate:</span>
+                            <strong style="color: var(--warning);">5.2% → 7.8% (+2.6%)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong>6 weeks</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Achieves statistical parity, legally defensible, simple to explain to regulators<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> Significant accuracy drop, higher defaults cost money, treats symptoms not root cause
+                    </p>
+                </div>
+
+                <!-- Option B: Equalized Odds -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--cyan);">
+                    <h3>Approach B: Equalized Odds (Calibrated Thresholds)</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Approval Gap Reduction:</span>
+                            <strong>23% → 9% (improved)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Accuracy Impact:</span>
+                            <strong style="color: var(--warning);">87% → 84% (-3%)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Expected Default Rate:</span>
+                            <strong>5.2% → 5.9% (+0.7%)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong>10 weeks</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Balances fairness with accuracy, lower default increase, equalizes true/false positive rates<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> Doesn't fully close gap (9% remains), more complex to explain, doesn't address training data bias
+                    </p>
+                </div>
+
+                <!-- Option C: Retrain with Fairness Constraints -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--gold);">
+                    <h3>Approach C: Retrain with Fairness Constraints + Remove Proxies</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Approval Gap Reduction:</span>
+                            <strong>23% → 6% (substantial improvement)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Accuracy Impact:</span>
+                            <strong style="color: var(--success);">87% → 86% (-1%)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Expected Default Rate:</span>
+                            <strong>5.2% → 5.5% (+0.3%)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong style="color: var(--danger);">16 weeks</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Addresses root cause, minimal accuracy loss, removes proxy features (ZIP code), adds fairness constraints to training<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> Exceeds 90-day deadline (needs 16 weeks), requires new training data, complex ML work, may need interim solution
+                    </p>
+                </div>
+
+                <button class="btn-primary" onclick="showMemoEditor()" style="margin-top: 2rem;">
+                    Write Ethics Framework Memo →
+                </button>
+            </div>
+
+            <!-- Screen 2: Memo Editor -->
+            <div id="screen2" class="hidden">
+                <div class="case-badge">
+                    <span>✍️</span>
+                    <span>ETHICS FRAMEWORK MEMO</span>
+                </div>
+
+                <h2 style="margin-bottom: 1.5rem;">AI Ethics Framework - Credit Approval Bias Mitigation</h2>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">📝 Instructions</h3>
+                    <p>
+                        Write a 500+ word ethics framework memo. Your memo should include:
+                    </p>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li><strong>Executive Summary:</strong> Your recommended approach in 2-3 sentences</li>
+                        <li><strong>Bias Analysis:</strong> Explain the 23% gap - is it disparate treatment or disparate impact?</li>
+                        <li><strong>Approach Comparison:</strong> Compare all three bias mitigation approaches</li>
+                        <li><strong>Recommendation:</strong> Which approach and why (balance fairness, accuracy, legality, timeline)</li>
+                        <li><strong>Implementation Plan:</strong> Phased rollout if you recommend long-term solution</li>
+                        <li><strong>Ongoing Monitoring:</strong> How will you detect bias drift over time?</li>
+                        <li><strong>Ethics Framework:</strong> Create 3-5 principles for all future AI models</li>
+                    </ul>
+                </div>
+
+                <div class="memo-editor">
+                    <textarea
+                        id="memoText"
+                        placeholder="TO: Angela Washington (CLO), Michael Santos (Head of D&I), Dr. Tara Lee (Lead ML Scientist)
+FROM: [Your Name], Senior PM - Lending Platform
+RE: AI Ethics Framework and Credit Approval Bias Mitigation Strategy
+DATE: [Today's Date]
+
+EXECUTIVE SUMMARY
+[Your recommendation in 2-3 sentences]
+
+BIAS ANALYSIS
+[Root cause: training data imbalance, proxy features, feature importance disparity]
+[Is this disparate treatment or disparate impact? Legal implications?]
+
+APPROACH COMPARISON
+[Detailed analysis of Demographic Parity, Equalized Odds, and Retrain with Fairness Constraints]
+
+RECOMMENDATION
+[Which approach and comprehensive reasoning - address 90-day deadline vs long-term fix]
+
+IMPLEMENTATION PLAN
+Phase 1 (Short-term, <90 days): [Immediate mitigation]
+Phase 2 (Long-term, 6 months): [Root cause fix]
+
+ONGOING MONITORING FRAMEWORK
+[How you'll measure fairness metrics monthly: demographic parity, equalized odds, calibration]
+
+AI ETHICS PRINCIPLES (For All Future Models)
+1. [Principle 1]
+2. [Principle 2]
+3. [Principle 3]
+4. [Principle 4]
+5. [Principle 5]
+
+LEGAL & REGULATORY COMPLIANCE
+[How this satisfies ECOA, state explainability requirements, audit trail]"
+                        oninput="updateWordCount()"
+                    ></textarea>
+
+                    <div class="word-count">
+                        <button class="ai-assist-btn" onclick="showAIHint()">
+                            <span>🤖</span>
+                            <span>AI Writing Tips</span>
+                        </button>
+                        <div>
+                            <span class="word-count-number" id="wordCount">0</span>
+                            <span style="color: var(--text-dim);"> / 500 words minimum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="aiHint" class="section hidden" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-top: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">💡 Writing Tips</h3>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li>Distinguish disparate treatment (intentional) vs disparate impact (unintentional but illegal)</li>
+                        <li>Address CFO's concern: quantify cost of +2.6% default rate vs legal/reputation risk</li>
+                        <li>Consider phased approach: quick fix for 90-day audit + long-term retraining</li>
+                        <li>Your ethics principles should be actionable (not just "be fair") - e.g., "Test all models on 5 demographic slices"</li>
+                        <li>Include monitoring plan: fairness metrics aren't one-time checks, they drift over time</li>
+                    </ul>
+                </div>
+
+                <button class="submit-btn" id="submitBtn" disabled onclick="submitMemo()" style="margin-top: 2rem;">
+                    Submit Ethics Framework Memo
+                </button>
+            </div>
+
+            <!-- Screen 3: Results -->
+            <div id="screen3" class="hidden">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                    <h1>Ethics Framework Submitted</h1>
+                    <p style="font-size: 1.125rem; margin-top: 1rem;">
+                        Your bias mitigation strategy and ethics framework have been recorded. Let's review what you learned.
+                    </p>
+                </div>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 2rem;">
+                    <h3>📊 Your Memo</h3>
+                    <div id="submittedMemo" style="margin-top: 1rem; padding: 1.5rem; background: var(--dark-panel); border-radius: var(--radius-md); white-space: pre-wrap; font-size: 0.9375rem; line-height: 1.7; color: var(--text-muted);">
+                    </div>
+                </div>
+
+                <div class="learning-box">
+                    <h3>🎓 Key Learnings: AI Ethics & Bias Detection</h3>
+                    <ul>
+                        <li><strong>Fairness is multi-dimensional:</strong> No single "fairness" definition. Demographic parity, equalized odds, and calibration are different fairness metrics that often conflict</li>
+                        <li><strong>Proxy features perpetuate bias:</strong> Even without demographic data, ZIP code, "years at address," and education level can encode protected characteristics</li>
+                        <li><strong>Training data bias compounds:</strong> 78% Group A in training data → model learns Group A patterns → performs worse on Group B → reinforces bias</li>
+                        <li><strong>Disparate impact vs treatment:</strong> Unintentional bias (disparate impact) is still illegal under ECOA if you can't prove business necessity</li>
+                        <li><strong>Quick fixes have trade-offs:</strong> Post-processing (adjusting thresholds) is fast but doesn't fix root cause. Retraining takes longer but addresses source</li>
+                        <li><strong>Monitoring is mandatory:</strong> Bias drifts over time as data distributions change. Must measure fairness metrics monthly, not just at launch</li>
+                        <li><strong>Ethics frameworks prevent future issues:</strong> Codify principles now (e.g., "test on 5 demographic slices") so all future models follow same standards</li>
+                    </ul>
+                </div>
+
+                <a href="case4.html" class="btn-primary" style="margin-top: 2rem; text-decoration: none; display: block; text-align: center;">
+                    Next: Case 4 - Human-in-Loop Design →
+                </a>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL - RESOURCES -->
+        <div class="resources-panel">
+            <!-- Documents -->
+            <div class="section">
+                <h3>📄 Documents</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                    <div class="resource-doc">
+                        <div class="resource-icon">📊</div>
+                        <div class="resource-title">Fairness Audit Report</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">⚖️</div>
+                        <div class="resource-title">ECOA Compliance Guide</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">🔬</div>
+                        <div class="resource-title">Model Card Template</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">📚</div>
+                        <div class="resource-title">Fairness Metrics Explained</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Tips -->
+            <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2);">
+                <h3 style="color: var(--purple-light);">💡 Strategic Tip</h3>
+                <p style="font-size: 0.9375rem;">
+                    <strong>Fairness metrics often conflict.</strong>
+                    <br><br>
+                    You can't simultaneously achieve demographic parity, equalized odds, and calibration. Choose the metric that aligns with your business context and legal requirements.
+                </p>
+            </div>
+
+            <!-- Frameworks -->
+            <div class="section">
+                <h3>🧰 Fairness Metrics</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; font-size: 0.875rem;">
+                    <div>
+                        <strong style="color: var(--text);">Demographic Parity</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Equal approval rates across groups</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Equalized Odds</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Equal true/false positive rates</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Calibration</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Predicted risk = actual risk for each group</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="section">
+                <h3>📍 Your Progress</h3>
+                <div style="margin-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                        <span style="color: var(--text-muted);">Case 3 of 6</span>
+                        <span style="color: var(--purple-light); font-weight: 600;">50%</span>
+                    </div>
+                    <div style="height: 8px; background: var(--border); border-radius: 999px; overflow: hidden;">
+                        <div style="width: 50%; height: 100%; background: linear-gradient(90deg, var(--purple), var(--purple-light)); transition: width 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved content from localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ai_pm_case3_memo');
+            if (saved) {
+                document.getElementById('memoText').value = saved;
+                updateWordCount();
+            }
+        });
+
+        function showMemoEditor() {
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('memoText').value;
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const countEl = document.getElementById('wordCount');
+            const submitBtn = document.getElementById('submitBtn');
+
+            countEl.textContent = words;
+
+            if (words >= 500) {
+                countEl.classList.add('complete');
+                submitBtn.disabled = false;
+            } else {
+                countEl.classList.remove('complete');
+                submitBtn.disabled = true;
+            }
+
+            // Auto-save to localStorage
+            localStorage.setItem('ai_pm_case3_memo', text);
+        }
+
+        function showAIHint() {
+            const hint = document.getElementById('aiHint');
+            hint.classList.toggle('hidden');
+        }
+
+        function submitMemo() {
+            const memo = document.getElementById('memoText').value;
+            document.getElementById('submittedMemo').textContent = memo;
+
+            document.getElementById('screen2').classList.add('hidden');
+            document.getElementById('screen3').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            // Save completion to localStorage
+            localStorage.setItem('ai_pm_case3_completed', 'true');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 2: Know Your Partners - FoodExpress - PM Playground</title>
+    <style>
+        :root {
+            --primary: #f97316;
+            --primary-dark: #0369a1;
+            --accent: #f59e0b;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --ai: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: white; }
+        .breadcrumb .sep { color: var(--neutral-600); }
+        .breadcrumb .current { color: white; font-weight: 600; }
+        
+        .home-btn {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            color: #f97316;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .home-btn:hover {
+            background: rgba(249, 115, 22, 0.2);
+            transform: translateX(-2px);
+        }
+        
+        /* Content */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .case-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .case-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .case-header p {
+            font-size: 1.125rem;
+            color: var(--neutral-400);
+        }
+        
+        /* Section Cards */
+        .section {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: var(--neutral-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Merchant Grid */
+        .merchant-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin: 30px 0;
+        }
+        .merchant-card {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 12px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .merchant-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        .merchant-card.interviewed {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .merchant-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+        .merchant-card h4 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .merchant-card p {
+            font-size: 0.8125rem;
+            color: var(--neutral-400);
+        }
+        
+        .interview-data {
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            display: none;
+        }
+        .merchant-card.interviewed .interview-data {
+            display: block;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.875rem;
+        }
+        .data-row:last-child { border-bottom: none; }
+        .data-label { color: var(--neutral-400); }
+        .data-value { font-weight: 600; color: white; }
+        
+        /* Focus Selection */
+        .focus-grid {
+            display: grid;
+            gap: 16px;
+            margin: 30px 0;
+        }
+        .focus-card {
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .focus-card:hover {
+            border-color: var(--primary);
+        }
+        .focus-card.selected {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .focus-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 8px;
+        }
+        .focus-card p {
+            color: var(--neutral-400);
+            font-size: 0.875rem;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 32px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .learning-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(14, 165, 233, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+        }
+        .learning-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .learning-box ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+        .learning-box li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .learning-box li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .ai-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--ai);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+        }
+        .ai-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+
+        .ai-suggestion {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            display: none;
+        }
+        .ai-suggestion.show {
+            display: block;
+        }
+        .ai-suggestion h4 {
+            color: var(--ai);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+        }
+        .ai-suggestion p {
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .reality-check {
+            background: rgba(245, 158, 11, 0.08);
+            border-left: 4px solid var(--warning);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+        .reality-check h4 {
+            color: var(--warning);
+            font-size: 0.9375rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .reality-check p {
+            font-size: 0.875rem;
+            line-height: 1.7;
+            color: var(--neutral-400);
+        }
+        .reality-check ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+        .reality-check li {
+            font-size: 0.875rem;
+            margin: 6px 0;
+            color: var(--neutral-400);
+        }
+
+        @media (max-width: 768px) {
+            .merchant-grid { grid-template-columns: repeat(2, 1fr); }
+            .header .container { padding: 0 16px; }
+            .main { padding: 30px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="index.html">FoodExpress</a>
+                <span class="sep">/</span>
+                <span class="current">Know Your Partners</span>
+            </div>
+            <a href="../index.html" class="home-btn">← Back to Home</a>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div id="screen1">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>👥</span>
+                    <span>CASE 2 OF 8</span>
+                </div>
+                <h1>Know Your Partners</h1>
+                <p>Interview different customer types to find your focus</p>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Your Task</h2>
+                <p><strong style="color: var(--warning);">Month 2 as PM.</strong> CEO Arjun pulls you into a strategy meeting.</p>
+                <p style="margin-top: 16px; font-size: 1.05rem; line-height: 1.7;">
+                    "We're spreading ourselves thin. We serve 5 restaurant partner types but don't <em>delight</em> any of them. Your engineering team has capacity for 2 segments MAX. Interview all 5 types. Tell me which 2 we go all-in on."
+                </p>
+                <p style="margin-top: 16px; padding: 12px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; font-size: 0.95rem;">
+                    <strong style="color: var(--warning);">⚠️ The Constraint:</strong> Engineering lead Maya says: "I can only build for 2 segments well. If you pick 3+, we'll build mediocre features for everyone. Pick 2, we'll build amazing features."
+                </p>
+                <p style="margin-top: 16px; color: var(--text); font-weight: 600;">
+                    <strong>Interview all 5 restaurant partner types.</strong> Then choose 2 segments to focus your entire product roadmap on.
+                </p>
+            </div>
+
+            <div class="reality-check">
+                <h4>⏰ REALITY CHECK</h4>
+                <p>In real PM work, this takes <strong>2-3 weeks</strong> because:</p>
+                <ul>
+                    <li>5+ restaurant partner interviews per segment (1-2 hours each)</li>
+                    <li>Cross-functional alignment meetings with Operations, Logistics, Marketing</li>
+                    <li>Data analysis of order patterns and restaurant churn metrics</li>
+                    <li>Executive buy-in and partnership strategy sessions</li>
+                </ul>
+                <p style="margin-top: 12px;"><em>Real example: Swiggy spent 4 months interviewing 80+ restaurants before focusing on Cloud Kitchens and premium restaurants (2015-2016).</em></p>
+            </div>
+
+            <button class="btn-primary" onclick="showMerchantGrid()">
+                Start Interviews →
+            </button>
+        </div>
+        
+        <div id="screen2" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>👥</span>
+                    <span>STEP 1: INTERVIEW</span>
+                </div>
+                <h1>Choose a Merchant to Interview</h1>
+            </div>
+            
+            <div class="merchant-grid">
+                <div class="merchant-card" id="m1" onclick="interview(1, this)">
+                    <div class="icon">🛍️</div>
+                    <h4>Premium Restaurant</h4>
+                    <p>Fine dining</p>
+                    <div class="interview-data">
+                        <div class="data-row">
+                            <span class="data-label">Monthly GMV:</span>
+                            <span class="data-value">₹12L</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Transactions:</span>
+                            <span class="data-value">850/day</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Needs:</span>
+                            <span class="data-value">Fast checkout</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="merchant-card" id="m2" onclick="interview(2, this)">
+                    <div class="icon">💻</div>
+                    <h4>Cloud Kitchen</h4>
+                    <p>Dark kitchens</p>
+                    <div class="interview-data">
+                        <div class="data-row">
+                            <span class="data-label">Monthly MRR:</span>
+                            <span class="data-value">₹8L</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Billing:</span>
+                            <span class="data-value">Monthly/Annual</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Needs:</span>
+                            <span class="data-value">Auto-recurring</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="merchant-card" id="m3" onclick="interview(3, this)">
+                    <div class="icon">👔</div>
+                    <h4>QSR Chain</h4>
+                    <p>Fast food</p>
+                    <div class="interview-data">
+                        <div class="data-row">
+                            <span class="data-label">Monthly GMV:</span>
+                            <span class="data-value">₹3L</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Clients:</span>
+                            <span class="data-value">15-20</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Needs:</span>
+                            <span class="data-value">Invoicing</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="merchant-card" id="m4" onclick="interview(4, this)">
+                    <div class="icon">✂️</div>
+                    <h4>Casual Dining</h4>
+                    <p>Family restaurants</p>
+                    <div class="interview-data">
+                        <div class="data-row">
+                            <span class="data-label">Monthly GMV:</span>
+                            <span class="data-value">₹5L</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Bookings:</span>
+                            <span class="data-value">120/week</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Needs:</span>
+                            <span class="data-value">Deposits</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="merchant-card" id="m5" onclick="interview(5, this)">
+                    <div class="icon">🎨</div>
+                    <h4>Home Chef</h4>
+                    <p>Homemade meals</p>
+                    <div class="interview-data">
+                        <div class="data-row">
+                            <span class="data-label">Monthly GMV:</span>
+                            <span class="data-value">₹6L</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Students:</span>
+                            <span class="data-value">200</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Needs:</span>
+                            <span class="data-value">Easy links</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" style="text-align: center;">
+                <p><strong>Interviewed: <span id="count">0/5</span></strong></p>
+            </div>
+            
+            <button class="btn-primary" id="chooseBtn" disabled onclick="showFocus()">
+                Choose 2 to Focus On →
+            </button>
+        </div>
+        
+        <div id="screen3" style="display: none;">
+            <div class="case-header">
+                <div class="case-badge">
+                    <span>🎯</span>
+                    <span>STEP 2: CHOOSE FOCUS</span>
+                </div>
+                <h1>Pick 2 Merchant Segments</h1>
+                <p>You can't serve everyone. Choose wisely.</p>
+            </div>
+            
+            <div class="focus-grid" id="focusGrid"></div>
+            
+            <div class="section" style="text-align: center;">
+                <p><strong>Selected: <span id="selected">0/2</span></strong></p>
+            </div>
+
+            <button class="ai-btn" onclick="showAISuggestion()">
+                🤖 AI Suggest
+            </button>
+
+            <div class="ai-suggestion" id="aiSuggestion">
+                <h4>💡 AI Mentor Recommendation</h4>
+                <p><strong>Focus on: Premium Restaurant + Cloud Kitchen</strong></p>
+                <p style="margin-top: 12px;">
+                    <strong>Why?</strong> Premium Restaurants (₹12L GMV) value reliability and branding - the core promise of FoodExpress. Cloud Kitchens (₹8L) represent the highest growth segment with predictable bulk delivery orders and loyalty potential.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>📚 Framework:</strong> This applies <em>Clayton Christensen's Jobs-to-be-Done (JTBD)</em> - Premium Restaurants are "hiring" FoodExpress to maintain brand reputation during delivery (job: extend fine dining experience), while Cloud Kitchens are "hiring" us for reliable high-volume logistics (job: scale operations without delivery headaches).
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>🏢 Real Example:</strong> Swiggy initially focused on premium restaurants + cloud kitchens (2015-2017). They ignored street food vendors and casual dining for 2 years, allowing them to perfect delivery operations. By 2017, they had 60% market share in premium delivery before expanding downmarket.
+                </p>
+                <p style="margin-top: 12px;">
+                    <strong>💡 Template You Can Reuse:</strong><br>
+                    <em>"Focus on [Segment A] + [Segment B] because they share [common job-to-be-done], have [X] combined GMV potential, and align with our core strength in [capability]. Defer [Segment C] for now - they need [specialized operations] beyond our current scope."</em>
+                </p>
+            </div>
+
+            <button class="btn-primary" id="submitBtn" disabled onclick="showResults()">
+                Submit Focus →
+            </button>
+        </div>
+        
+        <div id="screen4" style="display: none;">
+            <div class="case-header">
+                <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+                <h1>Focus Chosen</h1>
+            </div>
+            
+            <div class="learning-box">
+                <h3>🎓 What You Learned</h3>
+                <ul>
+                    <li>Different merchants have different needs</li>
+                    <li>Can't build for everyone with limited resources</li>
+                    <li>Focus drives better product decisions</li>
+                    <li>Interview before deciding who to serve</li>
+                </ul>
+            </div>
+            
+            <button class="btn-primary" onclick="window.location.href='case3.html'">
+                Next: Data Analysis →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let interviewed = new Set();
+        let selected = new Set();
+        
+        const merchantData = {
+            1: {name: 'Premium Restaurant', gmv: '₹12L', tx: '850/day', needs: 'Live tracking, priority delivery, branding'},
+            2: {name: 'Cloud Kitchen', gmv: '₹8L', tx: 'Monthly orders', needs: 'Scheduled orders, bulk delivery slots'},
+            3: {name: 'QSR Chain', gmv: '₹3L', tx: '15-20 outlets', needs: 'Multi-location, menu sync, analytics'},
+            4: {name: 'Casual Dining', gmv: '₹5L', tx: '120 orders/week', needs: 'Table reservations, pre-orders, packaging'},
+            5: {name: 'Home Chef', gmv: '₹6L', tx: '200 customers', needs: 'Simple menu, ratings, photo uploads'}
+        };
+        
+        function showMerchantGrid() {
+            document.getElementById('screen1').style.display = 'none';
+            document.getElementById('screen2').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        function interview(id, card) {
+            if (interviewed.has(id)) return;
+            interviewed.add(id);
+            card.classList.add('interviewed');
+            
+            document.getElementById('count').textContent = interviewed.size + '/5';
+            localStorage.setItem('case2_interviewed', interviewed.size);
+            
+            if (interviewed.size === 5) {
+                document.getElementById('chooseBtn').disabled = false;
+            }
+        }
+        
+        function showFocus() {
+            const focusGrid = document.getElementById('focusGrid');
+            focusGrid.innerHTML = '';
+            
+            Object.entries(merchantData).forEach(([id, data]) => {
+                const card = document.createElement('div');
+                card.className = 'focus-card';
+                card.onclick = () => toggleFocus(id, card);
+                card.innerHTML = `
+                    <h3>${data.name}</h3>
+                    <p>${data.gmv} GMV • ${data.needs}</p>
+                `;
+                focusGrid.appendChild(card);
+            });
+            
+            document.getElementById('screen2').style.display = 'none';
+            document.getElementById('screen3').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+        
+        function toggleFocus(id, card) {
+            if (selected.has(id)) {
+                selected.delete(id);
+                card.classList.remove('selected');
+            } else {
+                if (selected.size >= 2) {
+                    alert('Choose only 2 segments');
+                    return;
+                }
+                selected.add(id);
+                card.classList.add('selected');
+            }
+            
+            document.getElementById('selected').textContent = selected.size + '/2';
+            document.getElementById('submitBtn').disabled = selected.size !== 2;
+            
+            localStorage.setItem('case2_focus', JSON.stringify([...selected]));
+        }
+        
+        function showResults() {
+            document.getElementById('screen3').style.display = 'none';
+            document.getElementById('screen4').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function showAISuggestion() {
+            const suggestion = document.getElementById('aiSuggestion');
+            suggestion.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

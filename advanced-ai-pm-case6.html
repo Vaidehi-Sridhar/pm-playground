@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case 6: AI Product Strategy - AI PM Track - PM Playground</title>
+    <link rel="stylesheet" href="../shared-styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="../index.html">Advanced</a>
+                <span class="sep">/</span>
+                <a href="index.html">AI PM</a>
+                <span class="sep">/</span>
+                <span class="current">AI Product Strategy</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+            </div>
+            <a href="index.html" class="back-btn">← Back to AI PM Track</a>
+        </div>
+    </div>
+
+    <!-- 3-COLUMN LAYOUT -->
+    <div class="main-layout">
+        <!-- LEFT PANEL - CONTEXT -->
+        <div class="context-panel">
+            <!-- Your Role -->
+            <div class="section">
+                <h3>👤 Your Role</h3>
+                <p>
+                    <strong>Director of AI Product</strong><br>
+                    5 years PM experience (2 in AI)<br>
+                    Report to: CEO<br>
+                    Team: 25 engineers, 5 ML scientists, 3 PMs, 1 designer
+                </p>
+            </div>
+
+            <!-- Current State -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">📊 Company Context</h3>
+                <div class="metric-row">
+                    <span class="metric-label">ARR</span>
+                    <span class="metric-value">$12M</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Growth Rate</span>
+                    <span class="metric-value warning">15% YoY (slowing)</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Team Size</span>
+                    <span class="metric-value">120 employees</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Runway</span>
+                    <span class="metric-value">18 months</span>
+                </div>
+            </div>
+
+            <!-- Stakeholders -->
+            <div class="section">
+                <h3>👥 Key Stakeholders</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">EZ</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Emily Zhang</div>
+                            <div class="stakeholder-title">CEO</div>
+                            <div class="stakeholder-concern">"I need a 12-month AI roadmap for the board. Show vision AND execution."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">RP</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Raj Patel</div>
+                            <div class="stakeholder-title">VP of Engineering</div>
+                            <div class="stakeholder-concern">"We're at capacity. AI features must deliver ROI, not experiments."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">SC</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Sarah Chen</div>
+                            <div class="stakeholder-title">VP of Sales</div>
+                            <div class="stakeholder-concern">"Competitors launched AI copilots. We're losing deals."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">MK</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Michael Kim</div>
+                            <div class="stakeholder-title">Head of Customer Success</div>
+                            <div class="stakeholder-concern">"Users want better search, not chatbots. Focus on real pain points."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Context -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">🌐 Market Landscape</h3>
+                <div class="metric-row">
+                    <span class="metric-label">Competitors with AI</span>
+                    <span class="metric-value danger">5 of 7 top competitors</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Customer AI Requests</span>
+                    <span class="metric-value">42% of sales calls</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Churn Risk (no AI)</span>
+                    <span class="metric-value danger">+8% annually</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER PANEL - WORKSPACE -->
+        <div class="workspace">
+            <!-- Screen 1: Introduction -->
+            <div id="screen1">
+                <div class="case-badge">
+                    <span>📋</span>
+                    <span>CASE 6 OF 6 - CAPSTONE</span>
+                </div>
+
+                <h1 style="margin-bottom: 1rem;">AI Product Strategy</h1>
+                <p style="font-size: 1.125rem; margin-bottom: 2rem;">
+                    CEO wants a 12-month AI roadmap. Conduct market research, define vision, set OKRs, create quarterly milestones. Write a comprehensive strategy doc (800+ words).
+                </p>
+
+                <div class="section">
+                    <h3>📌 The Challenge</h3>
+                    <p>
+                        Your company is a B2B SaaS platform ($12M ARR, 120 employees). Growth is slowing (15% YoY). 5 of 7 competitors launched AI features. Sales is losing deals: "Do you have an AI copilot?"
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        CEO Emily wants a 12-month AI roadmap for the board meeting in 2 weeks. You need to define: vision, competitive positioning, quarterly OKRs, resource allocation, and success metrics. This is a strategic document, not a feature list.
+                    </p>
+                </div>
+
+                <!-- Market Research Summary -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--purple);">
+                    <h3>Market Research Findings</h3>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <strong style="color: var(--text);">What Customers Actually Want (Survey of 200 users):</strong>
+                            <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.7;">
+                                <li>Better search (78% want this)</li>
+                                <li>Automated report generation (64%)</li>
+                                <li>Smart recommendations (52%)</li>
+                                <li>Conversational chatbot (31% - least requested!)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text);">What Competitors Are Building:</strong>
+                            <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.7;">
+                                <li>All 5 competitors: AI chatbot / copilot</li>
+                                <li>3 competitors: Automated insights</li>
+                                <li>1 competitor: AI-powered search (launched 2 months ago, getting great reviews)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text);">What Sales Says:</strong>
+                            <p style="margin-top: 0.5rem; color: var(--text-muted);">"Prospects check off 'AI copilot' on RFPs. If we don't have it, we're out. But existing customers don't use competitors' chatbots much - they say search is still broken."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Constraints -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--gold);">
+                    <h3>Resource Constraints</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">AI Budget (next 12 months):</span>
+                            <strong>$2M</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Engineering Capacity:</span>
+                            <strong>25 engineers (5 ML, 20 full-stack)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Current AI Spend:</span>
+                            <strong>$15K/month (existing basic ML)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Board Expectation:</span>
+                            <strong>Ship something in Q1, scale in Q2-Q4</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Options -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--cyan);">
+                    <h3>Strategic Directions to Consider</h3>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <strong style="color: var(--text);">Direction A: "AI-First Platform" (Aggressive)</strong>
+                            <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                                Build AI into every product surface. Copilot, search, reports, recommendations - ship 6-8 AI features in 12 months. High investment, high visibility.
+                            </p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text);">Direction B: "Solve One Problem Exceptionally" (Focused)</strong>
+                            <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                                Pick ONE high-impact area (e.g., AI-powered search) and make it world-class. Ignore copilot/chatbot hype. Differentiate on what customers actually need.
+                            </p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--text);">Direction C: "Fast Follow + One Innovation" (Balanced)</strong>
+                            <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                                Ship basic copilot in Q1 (table stakes for sales), then invest Q2-Q4 in differentiated AI feature (search or insights). Balanced risk.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="showMemoEditor()" style="margin-top: 2rem;">
+                    Write 12-Month AI Strategy →
+                </button>
+            </div>
+
+            <!-- Screen 2: Memo Editor -->
+            <div id="screen2" class="hidden">
+                <div class="case-badge">
+                    <span>✍️</span>
+                    <span>STRATEGIC ROADMAP</span>
+                </div>
+
+                <h2 style="margin-bottom: 1.5rem;">12-Month AI Product Strategy & Roadmap</h2>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">📝 Instructions</h3>
+                    <p>
+                        Write an 800+ word strategic roadmap document. Your document should include:
+                    </p>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li><strong>Executive Summary:</strong> Your AI vision in 3-4 sentences</li>
+                        <li><strong>Market Analysis:</strong> What customers want vs what competitors are building</li>
+                        <li><strong>Strategic Direction:</strong> Which of the 3 directions (A/B/C) and comprehensive reasoning</li>
+                        <li><strong>Competitive Positioning:</strong> How will we differentiate in a crowded AI market?</li>
+                        <li><strong>12-Month Roadmap:</strong> Quarterly OKRs and milestones (Q1, Q2, Q3, Q4)</li>
+                        <li><strong>Resource Allocation:</strong> How you'll spend $2M budget across 4 quarters</li>
+                        <li><strong>Success Metrics:</strong> KPIs to measure if AI strategy is working (business + product metrics)</li>
+                        <li><strong>Risks & Mitigation:</strong> What could derail this strategy? How will you prevent it?</li>
+                    </ul>
+                </div>
+
+                <div class="memo-editor">
+                    <textarea
+                        id="memoText"
+                        placeholder="TO: Emily Zhang (CEO), Board of Directors
+FROM: [Your Name], Director of AI Product
+RE: 12-Month AI Product Strategy & Roadmap
+DATE: [Today's Date]
+
+EXECUTIVE SUMMARY
+[Your AI vision in 3-4 sentences - what will we be known for in AI?]
+
+MARKET ANALYSIS
+Customer Needs vs Competitor Moves:
+[Analysis of what customers actually want (search, reports) vs what competitors are building (copilots)]
+[Why this gap creates opportunity for differentiation]
+
+STRATEGIC DIRECTION
+Selected Direction: [A / B / C]
+
+Why this direction:
+[Comprehensive reasoning addressing: customer needs, competitive positioning, sales requirements, resource constraints, board expectations]
+
+COMPETITIVE POSITIONING
+[How we'll differentiate - what's our AI moat?]
+[Why customers will choose us over competitors who already have AI?]
+
+12-MONTH ROADMAP
+
+Q1 (Months 1-3): [Theme]
+Objective: [What are we trying to achieve?]
+Key Results:
+  - KR1: [Measurable outcome]
+  - KR2: [Measurable outcome]
+  - KR3: [Measurable outcome]
+Milestone: [What ships?]
+Budget: $[X]K
+
+Q2 (Months 4-6): [Theme]
+Objective: [What are we trying to achieve?]
+Key Results:
+  - KR1: [Measurable outcome]
+  - KR2: [Measurable outcome]
+  - KR3: [Measurable outcome]
+Milestone: [What ships?]
+Budget: $[X]K
+
+Q3 (Months 7-9): [Theme]
+Objective: [What are we trying to achieve?]
+Key Results:
+  - KR1: [Measurable outcome]
+  - KR2: [Measurable outcome]
+  - KR3: [Measurable outcome]
+Milestone: [What ships?]
+Budget: $[X]K
+
+Q4 (Months 10-12): [Theme]
+Objective: [What are we trying to achieve?]
+Key Results:
+  - KR1: [Measurable outcome]
+  - KR2: [Measurable outcome]
+  - KR3: [Measurable outcome]
+Milestone: [What ships?]
+Budget: $[X]K
+
+RESOURCE ALLOCATION
+Total Budget: $2M across 12 months
+Breakdown:
+  - Engineering: $[X]K (salaries for [Y] engineers)
+  - LLM API costs: $[X]K (estimated at current usage)
+  - Infrastructure: $[X]K (GPU, hosting, monitoring)
+  - Research & Experimentation: $[X]K (10% for innovation)
+
+SUCCESS METRICS
+Business Metrics (How we'll know if AI drives growth):
+  - ARR growth rate: 15% → [Target]%
+  - Win rate (deals mentioning AI): Baseline → [Target]%
+  - Customer retention (AI adopters): Baseline → [Target]%
+
+Product Metrics (How we'll know if AI features work):
+  - AI feature adoption: [Target]% of users within 6 months
+  - User satisfaction (AI features): >[Target]/5 rating
+  - AI-driven actions: [Target] per user per month
+
+RISKS & MITIGATION
+Risk 1: [What could go wrong?]
+Mitigation: [How you'll prevent/handle it]
+
+Risk 2: [What could go wrong?]
+Mitigation: [How you'll prevent/handle it]
+
+Risk 3: [What could go wrong?]
+Mitigation: [How you'll prevent/handle it]
+
+CONCLUSION
+[1-2 sentences on why this strategy positions us to win in AI]"
+                        oninput="updateWordCount()"
+                    ></textarea>
+
+                    <div class="word-count">
+                        <button class="ai-assist-btn" onclick="showAIHint()">
+                            <span>🤖</span>
+                            <span>AI Writing Tips</span>
+                        </button>
+                        <div>
+                            <span class="word-count-number" id="wordCount">0</span>
+                            <span style="color: var(--text-dim);"> / 800 words minimum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="aiHint" class="section hidden" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-top: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">💡 Writing Tips</h3>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li>Customers want search (78%), competitors are building chatbots. This gap is your opportunity to differentiate.</li>
+                        <li>Sales says "we need copilot checkbox for RFPs" - you can ship basic copilot in Q1 for sales, then focus on differentiation Q2-Q4.</li>
+                        <li>OKRs must be measurable: "Ship AI copilot" is a milestone, not an OKR. "Achieve 30% copilot adoption among daily active users" is an OKR.</li>
+                        <li>Budget allocation shows prioritization: If you spend 60% on search and 20% on copilot, that signals search is your differentiation bet.</li>
+                        <li>Address the "why us?" question: If 5 competitors already have AI, why will customers choose our AI? Need a differentiation story.</li>
+                        <li>Risks should be specific: "AI hallucinations damage trust" not "AI might not work". Then show mitigation: "Implement human-in-loop for high-stakes answers".</li>
+                    </ul>
+                </div>
+
+                <button class="submit-btn" id="submitBtn" disabled onclick="submitMemo()" style="margin-top: 2rem;">
+                    Submit AI Strategy Document
+                </button>
+            </div>
+
+            <!-- Screen 3: Results -->
+            <div id="screen3" class="hidden">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+                    <h1>AI Strategy Submitted</h1>
+                    <p style="font-size: 1.125rem; margin-top: 1rem;">
+                        Congratulations! You've completed all 6 cases in the AI Product Management track. Let's review your final learnings.
+                    </p>
+                </div>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 2rem;">
+                    <h3>📊 Your Strategy Document</h3>
+                    <div id="submittedMemo" style="margin-top: 1rem; padding: 1.5rem; background: var(--dark-panel); border-radius: var(--radius-md); white-space: pre-wrap; font-size: 0.9375rem; line-height: 1.7; color: var(--text-muted);">
+                    </div>
+                </div>
+
+                <div class="learning-box">
+                    <h3>🎓 Key Learnings: AI Product Strategy</h3>
+                    <ul>
+                        <li><strong>Customer needs ≠ competitor features:</strong> Customers want better search (78%), competitors build chatbots. Don't blindly copy - find white space</li>
+                        <li><strong>Sales wants checkboxes, customers want solutions:</strong> Ship basic copilot for RFP checkbox (Q1), then invest in differentiated feature (Q2-Q4)</li>
+                        <li><strong>Strategic roadmaps have quarterly themes:</strong> Q1 = Foundation, Q2 = Differentiation, Q3 = Scale, Q4 = Optimization. Each quarter builds on previous</li>
+                        <li><strong>OKRs must tie to business outcomes:</strong> "Ship copilot" is output. "Increase win rate 15% → 25% with AI-enabled deals" is outcome</li>
+                        <li><strong>Resource allocation signals strategy:</strong> $1.2M on search, $500K on copilot = search is differentiation bet. Budget reveals true priorities</li>
+                        <li><strong>Competitive moats in AI are narrow:</strong> Can't compete on model quality (everyone uses same LLMs). Compete on: integration depth, domain data, UX, or specific use case</li>
+                        <li><strong>AI strategy needs success metrics + kill criteria:</strong> If copilot adoption <20% after 6 months, pivot. Define failure conditions upfront</li>
+                        <li><strong>Roadmaps are hypotheses, not commitments:</strong> Market moves fast. Build flexibility: "Q3-Q4 depends on Q1-Q2 learnings" is honest</li>
+                    </ul>
+                </div>
+
+                <div class="section" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(139, 92, 246, 0.1)); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--radius-lg); padding: 2rem; margin-top: 3rem; text-align: center;">
+                    <h2 style="margin-bottom: 1rem;">🎉 AI PM Track Complete!</h2>
+                    <p style="font-size: 1.125rem; margin-bottom: 2rem;">
+                        You've mastered Build vs Buy decisions, Prompt Engineering, AI Ethics, Human-in-Loop Design, Cost Optimization, and Strategic Roadmapping. You're ready to lead AI products in production.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--purple-light);">6</div>
+                            <div style="font-size: 0.875rem; color: var(--text-dim);">Cases Completed</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--purple-light);">~9hrs</div>
+                            <div style="font-size: 0.875rem; color: var(--text-dim);">Practice Time</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--purple-light);">3,500+</div>
+                            <div style="font-size: 0.875rem; color: var(--text-dim);">Words Written</div>
+                        </div>
+                    </div>
+                    <a href="../index.html" class="btn-primary" style="text-decoration: none; display: inline-block; max-width: 400px;">
+                        Explore More Advanced Tracks →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL - RESOURCES -->
+        <div class="resources-panel">
+            <!-- Documents -->
+            <div class="section">
+                <h3>📄 Documents</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                    <div class="resource-doc">
+                        <div class="resource-icon">📊</div>
+                        <div class="resource-title">Customer Survey Results</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">🎯</div>
+                        <div class="resource-title">Competitor Analysis</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">💰</div>
+                        <div class="resource-title">Budget Planning Model</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">📈</div>
+                        <div class="resource-title">Market Trends Report</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Tips -->
+            <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2);">
+                <h3 style="color: var(--purple-light);">💡 Strategic Tip</h3>
+                <p style="font-size: 0.9375rem;">
+                    <strong>Strategy is about saying no.</strong>
+                    <br><br>
+                    You can't build everything. Choose ONE differentiation bet (search OR insights OR copilot) and make it world-class. "Good at everything" means "great at nothing."
+                </p>
+            </div>
+
+            <!-- Frameworks -->
+            <div class="section">
+                <h3>🧰 Strategy Frameworks</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; font-size: 0.875rem;">
+                    <div>
+                        <strong style="color: var(--text);">Customer Needs vs Competitor Moves</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Find white space between what users want and what competitors ignore</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">OKR Framework</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Objectives (qualitative) + Key Results (measurable)</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Resource Allocation</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Budget reveals true strategy priorities</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="section">
+                <h3>📍 Your Progress</h3>
+                <div style="margin-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                        <span style="color: var(--text-muted);">Case 6 of 6</span>
+                        <span style="color: var(--success); font-weight: 600;">100%</span>
+                    </div>
+                    <div style="height: 8px; background: var(--border); border-radius: 999px; overflow: hidden;">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(90deg, var(--success), #10b981); transition: width 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved content from localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ai_pm_case6_memo');
+            if (saved) {
+                document.getElementById('memoText').value = saved;
+                updateWordCount();
+            }
+        });
+
+        function showMemoEditor() {
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('memoText').value;
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const countEl = document.getElementById('wordCount');
+            const submitBtn = document.getElementById('submitBtn');
+
+            countEl.textContent = words;
+
+            if (words >= 800) {
+                countEl.classList.add('complete');
+                submitBtn.disabled = false;
+            } else {
+                countEl.classList.remove('complete');
+                submitBtn.disabled = true;
+            }
+
+            // Auto-save to localStorage
+            localStorage.setItem('ai_pm_case6_memo', text);
+        }
+
+        function showAIHint() {
+            const hint = document.getElementById('aiHint');
+            hint.classList.toggle('hidden');
+        }
+
+        function submitMemo() {
+            const memo = document.getElementById('memoText').value;
+            document.getElementById('submittedMemo').textContent = memo;
+
+            document.getElementById('screen2').classList.add('hidden');
+            document.getElementById('screen3').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            // Save completion to localStorage
+            localStorage.setItem('ai_pm_case6_completed', 'true');
+        }
+    </script>
+</body>
+</html>

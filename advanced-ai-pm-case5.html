@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case 5: LLM Cost Optimization - AI PM Track - PM Playground</title>
+    <link rel="stylesheet" href="../shared-styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="../index.html">Advanced</a>
+                <span class="sep">/</span>
+                <a href="index.html">AI PM</a>
+                <span class="sep">/</span>
+                <span class="current">Cost Optimization</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+            </div>
+            <a href="index.html" class="back-btn">← Back to AI PM Track</a>
+        </div>
+    </div>
+
+    <!-- 3-COLUMN LAYOUT -->
+    <div class="main-layout">
+        <!-- LEFT PANEL - CONTEXT -->
+        <div class="context-panel">
+            <!-- Your Role -->
+            <div class="section">
+                <h3>👤 Your Role</h3>
+                <p>
+                    <strong>Senior PM, AI Platform</strong><br>
+                    3 years PM experience<br>
+                    Report to: VP of Product<br>
+                    Team: 10 engineers, 2 ML engineers
+                </p>
+            </div>
+
+            <!-- Current Spend -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">💰 Current LLM Spend</h3>
+                <div class="metric-row">
+                    <span class="metric-label">Monthly Token Cost</span>
+                    <span class="metric-value danger">$50,000</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Requests/Month</span>
+                    <span class="metric-value">2.5M</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Avg Tokens/Request</span>
+                    <span class="metric-value">4,200</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Cache Hit Rate</span>
+                    <span class="metric-value warning">0% (no caching)</span>
+                </div>
+            </div>
+
+            <!-- Stakeholders -->
+            <div class="section">
+                <h3>👥 Key Stakeholders</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">JC</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Jessica Chen</div>
+                            <div class="stakeholder-title">CFO</div>
+                            <div class="stakeholder-concern">"$50K/month is unsustainable. I need 60% reduction in 90 days."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">DW</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">David Wu</div>
+                            <div class="stakeholder-title">VP of Engineering</div>
+                            <div class="stakeholder-concern">"Don't sacrifice quality. Our 4.8/5 rating depends on accuracy."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">LM</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Lisa Martinez</div>
+                            <div class="stakeholder-title">Head of Customer Success</div>
+                            <div class="stakeholder-concern">"Latency already averages 3.2s. Don't make it slower."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">TK</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Tom Kim</div>
+                            <div class="stakeholder-title">Lead ML Engineer</div>
+                            <div class="stakeholder-concern">"We have engineering capacity for ONE optimization project."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constraints -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">⚠️ Constraints</h3>
+                <div class="metric-row">
+                    <span class="metric-label">Timeline</span>
+                    <span class="metric-value">90 days</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Target Spend</span>
+                    <span class="metric-value success">$20,000/month</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Quality Threshold</span>
+                    <span class="metric-value">Maintain 4.7/5 rating</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER PANEL - WORKSPACE -->
+        <div class="workspace">
+            <!-- Screen 1: Introduction -->
+            <div id="screen1">
+                <div class="case-badge">
+                    <span>📋</span>
+                    <span>CASE 5 OF 6</span>
+                </div>
+
+                <h1 style="margin-bottom: 1rem;">LLM Cost Optimization</h1>
+                <p style="font-size: 1.125rem; margin-bottom: 2rem;">
+                    Your CFO demands 60% cost reduction ($50K → $20K/month). Cut costs through prompt optimization, caching, and model selection without sacrificing quality.
+                </p>
+
+                <div class="section">
+                    <h3>📌 The Challenge</h3>
+                    <p>
+                        Your product uses Claude API for 2.5M requests monthly, costing $50K. CFO says this is unsustainable and demands 60% reduction to $20K/month within 90 days. You cannot reduce features or user experience.
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        Analysis shows: 40% of tokens are in system prompts, 35% are repetitive knowledge base context, and 25% are unique user queries. Current setup uses Sonnet for all requests with zero caching.
+                    </p>
+                </div>
+
+                <!-- Current Cost Breakdown -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--danger);">
+                    <h3>Current Cost Breakdown ($50K/month)</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Sonnet Input Tokens (8B/month @ $3/1M):</span>
+                            <strong>$24,000</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Sonnet Output Tokens (2.5B/month @ $15/1M):</span>
+                            <strong>$37,500</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+                            <span style="color: var(--text-muted);">Total Monthly Cost:</span>
+                            <strong style="color: var(--danger);">$61,500</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); font-size: 0.875rem;">
+                        Note: Actual $50K due to some usage optimization. But 2.5M requests at current token averages = $61.5K baseline.
+                    </p>
+                </div>
+
+                <!-- Strategy A: Prompt Compression + Caching -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--purple);">
+                    <h3>Strategy A: Prompt Compression + Caching</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Prompt Compression (40% shorter):</span>
+                            <strong>-$9,600/month (input tokens)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Prompt Caching (90% cache hit):</span>
+                            <strong>-$12,960/month (cached at 90% discount)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong>6 weeks</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+                            <span style="color: var(--text-muted);">New Monthly Cost:</span>
+                            <strong style="color: var(--gold);">$38,940 (37% reduction)</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Fast implementation, no accuracy loss, maintains Sonnet quality, reduces latency with caching<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> Doesn't hit 60% target ($20K), requires careful prompt rewriting to maintain quality, cache invalidation complexity
+                    </p>
+                </div>
+
+                <!-- Strategy B: Model Routing -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--cyan);">
+                    <h3>Strategy B: Smart Model Routing (Haiku for Simple, Sonnet for Complex)</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Route 70% to Haiku ($0.25/$1.25 per 1M):</span>
+                            <strong>-$35,000/month (Haiku is 12x cheaper)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Keep 30% on Sonnet (complex queries):</span>
+                            <strong>$18,450/month</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong>10 weeks (routing logic + testing)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+                            <span style="color: var(--text-muted);">New Monthly Cost:</span>
+                            <strong style="color: var(--warning);">$26,950 (56% reduction)</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Nearly hits 60% target, Haiku is fast (reduces latency for 70% of requests), scalable approach<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> Doesn't quite reach $20K, routing logic can make mistakes (send complex to Haiku = bad UX), requires ongoing calibration, misrouting risk
+                    </p>
+                </div>
+
+                <!-- Strategy C: Aggressive Multi-Approach -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--gold);">
+                    <h3>Strategy C: Prompt Compression + Caching + Model Routing</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Compress prompts (40% shorter):</span>
+                            <strong>-$9,600/month</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Add caching (90% hit rate):</span>
+                            <strong>-$8,640/month (on compressed prompts)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Route 65% to Haiku:</span>
+                            <strong>-$24,000/month additional</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong style="color: var(--danger);">16 weeks</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+                            <span style="color: var(--text-muted);">New Monthly Cost:</span>
+                            <strong style="color: var(--success);">$19,260 (69% reduction)</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Exceeds 60% target, maximizes all optimization techniques, builds foundation for future scale<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> 16 weeks exceeds 90-day deadline, high implementation complexity, quality risk from stacking optimizations, team only has capacity for ONE project (Tom's constraint)
+                    </p>
+                </div>
+
+                <button class="btn-primary" onclick="showMemoEditor()" style="margin-top: 2rem;">
+                    Write Cost Optimization Strategy →
+                </button>
+            </div>
+
+            <!-- Screen 2: Memo Editor -->
+            <div id="screen2" class="hidden">
+                <div class="case-badge">
+                    <span>✍️</span>
+                    <span>OPTIMIZATION MEMO</span>
+                </div>
+
+                <h2 style="margin-bottom: 1.5rem;">LLM Cost Optimization Strategy</h2>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">📝 Instructions</h3>
+                    <p>
+                        Write a 500+ word cost optimization memo. Your memo should include:
+                    </p>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li><strong>Executive Summary:</strong> Your recommended strategy in 2-3 sentences</li>
+                        <li><strong>Current State Analysis:</strong> Where is the $50K going? What's wasteful?</li>
+                        <li><strong>Strategy Comparison:</strong> Compare all three approaches (cost, timeline, quality risk)</li>
+                        <li><strong>Recommendation:</strong> Which strategy and why (address 90-day constraint vs 60% target)</li>
+                        <li><strong>Implementation Plan:</strong> Week-by-week rollout with A/B testing</li>
+                        <li><strong>Quality Safeguards:</strong> How will you ensure 4.7/5 rating is maintained?</li>
+                        <li><strong>Success Metrics:</strong> What do you measure weekly to validate this is working?</li>
+                    </ul>
+                </div>
+
+                <div class="memo-editor">
+                    <textarea
+                        id="memoText"
+                        placeholder="TO: Jessica Chen (CFO), David Wu (VP Engineering), Lisa Martinez (Customer Success)
+FROM: [Your Name], Senior PM - AI Platform
+RE: LLM Cost Optimization Strategy - $50K to $20K/month
+DATE: [Today's Date]
+
+EXECUTIVE SUMMARY
+[Your recommendation in 2-3 sentences]
+
+CURRENT STATE ANALYSIS
+$50K/month breakdown:
+- 40% system prompts (wasteful, repetitive)
+- 35% knowledge base context (cacheable)
+- 25% unique queries (necessary)
+Key insight: [Your analysis of biggest waste]
+
+STRATEGY COMPARISON
+Strategy A: Prompt Compression + Caching
+  Cost: $38.9K (37% reduction, misses target)
+  Timeline: 6 weeks (meets deadline)
+  Risk: Low
+
+Strategy B: Model Routing
+  Cost: $26.9K (56% reduction, close to target)
+  Timeline: 10 weeks (misses deadline slightly)
+  Risk: Medium (misrouting quality issues)
+
+Strategy C: Combined Approach
+  Cost: $19.2K (69% reduction, exceeds target)
+  Timeline: 16 weeks (exceeds deadline)
+  Risk: High (complexity, only 1 team)
+
+RECOMMENDATION
+[Which strategy you recommend and comprehensive reasoning]
+[How you balance CFO's 60% target vs 90-day deadline vs quality]
+
+PHASED IMPLEMENTATION PLAN
+Week 1-2: [Milestone]
+Week 3-4: [Milestone]
+...
+[Show how you'll hit target within constraints]
+
+QUALITY SAFEGUARDS
+[How you'll A/B test, quality monitoring, rollback criteria]
+[Specific metrics: response accuracy, user satisfaction, latency]
+
+SUCCESS METRICS
+Weekly tracking:
+- Cost per 1K requests (current: $20, target: $8)
+- Quality rating (maintain >4.7/5)
+- Latency P95 (maintain <3.5s)
+- Error rate (<1%)
+
+RISK MITIGATION
+[What could go wrong, how you'll handle it]"
+                        oninput="updateWordCount()"
+                    ></textarea>
+
+                    <div class="word-count">
+                        <button class="ai-assist-btn" onclick="showAIHint()">
+                            <span>🤖</span>
+                            <span>AI Writing Tips</span>
+                        </button>
+                        <div>
+                            <span class="word-count-number" id="wordCount">0</span>
+                            <span style="color: var(--text-dim);"> / 500 words minimum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="aiHint" class="section hidden" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-top: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">💡 Writing Tips</h3>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li>CFO wants 60% ($20K), but Strategy A only hits 37%. Address the gap explicitly - can you do phased approach?</li>
+                        <li>Tom says "ONE optimization project" - Strategy C requires all 3 techniques. How do you handle this constraint?</li>
+                        <li>Show math clearly: "$24K input tokens - 40% compression = $14.4K. Then 90% cached at 90% discount = $1.44K + $2.16K uncached = $3.6K"</li>
+                        <li>Quality risk: Haiku is cheaper but less accurate. How do you validate routing doesn't hurt UX?</li>
+                        <li>Consider phased: Ship Strategy A in 6 weeks (-37%), then Strategy B in next 8 weeks (total -60+%). Incremental wins.</li>
+                    </ul>
+                </div>
+
+                <button class="submit-btn" id="submitBtn" disabled onclick="submitMemo()" style="margin-top: 2rem;">
+                    Submit Optimization Strategy
+                </button>
+            </div>
+
+            <!-- Screen 3: Results -->
+            <div id="screen3" class="hidden">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                    <h1>Optimization Strategy Submitted</h1>
+                    <p style="font-size: 1.125rem; margin-top: 1rem;">
+                        Your cost optimization strategy has been recorded. Let's review what you learned.
+                    </p>
+                </div>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 2rem;">
+                    <h3>📊 Your Memo</h3>
+                    <div id="submittedMemo" style="margin-top: 1rem; padding: 1.5rem; background: var(--dark-panel); border-radius: var(--radius-md); white-space: pre-wrap; font-size: 0.9375rem; line-height: 1.7; color: var(--text-muted);">
+                    </div>
+                </div>
+
+                <div class="learning-box">
+                    <h3>🎓 Key Learnings: LLM Cost Optimization</h3>
+                    <ul>
+                        <li><strong>Prompt compression pays off:</strong> 40% of tokens are system prompts. Shortening "You are a helpful customer service agent. Always be polite..." to "Customer service agent" saves $9,600/month</li>
+                        <li><strong>Caching is free money:</strong> Knowledge base context repeats 90% of the time. Anthropic's prompt caching = 90% discount on cached tokens. $12K → $1.2K overnight</li>
+                        <li><strong>Model routing multiplies savings:</strong> Simple queries ("What are your hours?") don't need Sonnet. Route to Haiku for 12x cost reduction. 70% of queries are simple</li>
+                        <li><strong>Phased beats big bang:</strong> Ship compression+caching in 6 weeks (-37%), then routing in next 8 weeks (-60% total). Incremental de-risks quality</li>
+                        <li><strong>A/B test cost optimizations:</strong> Route 10% traffic to Haiku first. If quality drops <4.7, routing logic needs calibration. Don't ship to 100% untested</li>
+                        <li><strong>Conflicting constraints need trade-offs:</strong> CFO wants 60%, deadline is 90 days, Tom has capacity for ONE project. You can't optimize all three. Pick two.</li>
+                        <li><strong>Output tokens cost more:</strong> Sonnet output = $15/1M vs input $3/1M. Reducing output length (concise mode) has 5x impact of input compression</li>
+                    </ul>
+                </div>
+
+                <a href="case6.html" class="btn-primary" style="margin-top: 2rem; text-decoration: none; display: block; text-align: center;">
+                    Next: Case 6 - AI Product Strategy →
+                </a>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL - RESOURCES -->
+        <div class="resources-panel">
+            <!-- Documents -->
+            <div class="section">
+                <h3>📄 Documents</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                    <div class="resource-doc">
+                        <div class="resource-icon">📊</div>
+                        <div class="resource-title">Token Usage Analysis</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">💰</div>
+                        <div class="resource-title">Anthropic Pricing Calculator</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">🔧</div>
+                        <div class="resource-title">Prompt Caching Guide</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">📈</div>
+                        <div class="resource-title">Model Performance Benchmarks</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Tips -->
+            <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2);">
+                <h3 style="color: var(--purple-light);">💡 Strategic Tip</h3>
+                <p style="font-size: 0.9375rem;">
+                    <strong>Output tokens cost 5x more than input.</strong>
+                    <br><br>
+                    Reducing response length from 500 to 300 tokens saves more than cutting 1,000 input tokens. Optimize outputs first.
+                </p>
+            </div>
+
+            <!-- Frameworks -->
+            <div class="section">
+                <h3>🧰 Cost Optimization Levers</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; font-size: 0.875rem;">
+                    <div>
+                        <strong style="color: var(--text);">Prompt Compression</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Shorter prompts = fewer input tokens</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Prompt Caching</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">90% discount on repeated context</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Model Routing</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Use cheaper models for simple queries</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="section">
+                <h3>📍 Your Progress</h3>
+                <div style="margin-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                        <span style="color: var(--text-muted);">Case 5 of 6</span>
+                        <span style="color: var(--purple-light); font-weight: 600;">83%</span>
+                    </div>
+                    <div style="height: 8px; background: var(--border); border-radius: 999px; overflow: hidden;">
+                        <div style="width: 83%; height: 100%; background: linear-gradient(90deg, var(--purple), var(--purple-light)); transition: width 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved content from localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ai_pm_case5_memo');
+            if (saved) {
+                document.getElementById('memoText').value = saved;
+                updateWordCount();
+            }
+        });
+
+        function showMemoEditor() {
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('memoText').value;
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const countEl = document.getElementById('wordCount');
+            const submitBtn = document.getElementById('submitBtn');
+
+            countEl.textContent = words;
+
+            if (words >= 500) {
+                countEl.classList.add('complete');
+                submitBtn.disabled = false;
+            } else {
+                countEl.classList.remove('complete');
+                submitBtn.disabled = true;
+            }
+
+            // Auto-save to localStorage
+            localStorage.setItem('ai_pm_case5_memo', text);
+        }
+
+        function showAIHint() {
+            const hint = document.getElementById('aiHint');
+            hint.classList.toggle('hidden');
+        }
+
+        function submitMemo() {
+            const memo = document.getElementById('memoText').value;
+            document.getElementById('submittedMemo').textContent = memo;
+
+            document.getElementById('screen2').classList.add('hidden');
+            document.getElementById('screen3').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            // Save completion to localStorage
+            localStorage.setItem('ai_pm_case5_completed', 'true');
+        }
+    </script>
+</body>
+</html>

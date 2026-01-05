@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Case 6: Test Your Product - FoodExpress - PM Playground</title>
+    <style>
+        .header {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--neutral-700, rgba(51, 65, 85, 0.5));
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+        .breadcrumb a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: var(--accent); }
+        .breadcrumb-sep { color: #64748b; }
+        .breadcrumb-current { color: white; font-weight: 600; }
+        .header-actions { display: flex; gap: 12px; }
+        .btn-secondary {
+            background: rgba(100, 116, 139, 0.15);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            color: #94a3b8;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: white;
+        }
+        :root {
+            --primary: #8b5cf6;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-400: #94a3b8;
+            --success: #10b981;
+            --ai: #8b5cf6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--neutral-900);
+            color: white;
+            min-height: 100vh;
+            padding: 32px 24px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        
+        .card {
+    backdrop-filter: blur(10px);
+            background: var(--neutral-800);
+            border: 1px solid var(--neutral-700);
+            border-radius: 16px;
+            padding: 40px;
+        }
+        
+        .prototype-screen {
+            background: white;
+            color: #1f2937;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px 0;
+            min-height: 500px;
+        }
+        .prototype-screen h3 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            color: #1e40af;
+        }
+        
+        .bug-marker {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .bug-marker.marked {
+            background: rgba(239, 68, 68, 0.3);
+            border: 2px solid #ef4444 !important;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .screen-nav {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+        .screen-btn {
+            background: rgba(59, 130, 246, 0.3);
+            border: 2px solid #3b82f6;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .screen-btn.active { background: #3b82f6; }
+        
+        .bug-list {
+            background: rgba(239, 68, 68, 0.15);
+            border: 3px solid rgba(239, 68, 68, 0.4);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 20px 55px;
+    border-radius: 12px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 35px;
+        }
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+        .btn:disabled { opacity: 0.3; }
+        
+        .ai-btn {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            border: none;
+            color: white;
+            padding: 14px 28px;
+    border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+/* Accessibility - Focus States */
+a:focus, button:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+.btn:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+        .progress-bar { display: flex; gap: 8px; align-items: center; }
+        .progress-dot { width: 8px; height: 8px; background: #334155; border-radius: 50%; transition: all 0.3s; }
+        .progress-dot.active { background: var(--accent); transform: scale(1.4); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a>
+                <span class="breadcrumb-sep">/</span>
+                <a href="index.html"><span id="productName"></span></a>
+                <span class="breadcrumb-sep">/</span>
+                <span class="breadcrumb-current">Case <span id="caseNum"></span></span>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="if(confirm('Reset progress?')) { localStorage.clear(); location.reload(); }">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="max-width: 1280px; margin: 0 auto; padding: 32px 24px;">
+    <div style="background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--neutral-700); padding: 14px 0; position: sticky; top: 0; z-index: 100;">
+        <div style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 0.875rem;">
+                <a href="../index.html" style="color: var(--neutral-400); text-decoration: none;">Home</a>
+                <span style="color: var(--neutral-600);">/</span>
+                <a href="index.html" style="color: var(--neutral-400); text-decoration: none;">QuickMart</a>
+                <span style="color: var(--neutral-600);">/</span>
+                <span style="color: white; font-weight: 600;">Case 6</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+            </div>
+        </div>
+    </div>
+    border-radius: 12px;
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+            <div style="font-size: 1.5rem;">🍔</div>
+            <div><h2>FoodExpress</h2></div>
+            <div style="margin-left: auto; opacity: 0.8;">Case 6 of 9</div>
+        </div>
+
+        <div class="card" id="s1">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 3rem; margin-bottom: 24px;">🔍</div>
+                <h1 style="font-size: 2.25rem; margin-bottom: 20px;">Test Your Product</h1>
+                <p style="font-size: 1.125rem; color: #93c5fd;">Find bugs before restaurants do</p>
+            </div>
+
+    border-radius: 12px;
+                <h3 style="font-size: 1.7em; margin-bottom: 20px;">Your Task:</h3>
+                <p style="font-size: 1.125rem; line-height: 2;">
+                    Use FoodExpress restaurant dashboard.<br/>
+                    Try features. Click around. Type in fields.<br/><br/>
+                    Click broken things to mark bugs. Find 7 issues.
+                </p>
+            </div>
+
+            <button class="btn" onclick="startTest()">Open Dashboard →</button>
+        </div>
+
+        <div class="card" id="s2" style="display: none;">
+            <h2 style="font-size: 1.875rem; margin-bottom: 20px;">FoodExpress Restaurant Dashboard</h2>
+            
+            <div class="screen-nav">
+                <button class="screen-btn active" onclick="showScreen(1, this)">Dashboard</button>
+                <button class="screen-btn" onclick="showScreen(2, this)">Create Link</button>
+                <button class="screen-btn" onclick="showScreen(3, this)">Transactions</button>
+                <button class="screen-btn" onclick="showScreen(4, this)">Settings</button>
+            </div>
+
+            <div class="prototype-screen" id="proto1">
+                <h3>Dashboard Overview</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0;">
+    border-radius: 12px;
+                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 10px;">Today's Sales</div>
+                        <div class="bug-marker" onclick="markBug(this, 'Shows ₹0 even with active sales')" style="font-size: 1.875rem; font-weight: bold; color: #1e40af;">₹0</div>
+                    </div>
+    border-radius: 12px;
+                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 10px;">Success Rate</div>
+                        <div style="font-size: 1.875rem; font-weight: bold; color: #059669;">97.2%</div>
+                    </div>
+    border-radius: 12px;
+                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 10px;">Pending Settlement</div>
+                        <div style="font-size: 1.875rem; font-weight: bold; color: #1e40af;">₹8.4L</div>
+                    </div>
+                </div>
+    border-radius: 12px;
+            </div>
+
+            <div class="prototype-screen" id="proto2" style="display: none;">
+                <h3>Create Payment Link</h3>
+                <div style="margin: 30px 0;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Amount (₹)</label>
+    border-radius: 12px;
+                    
+                    <label style="display: block; margin: 20px 0 10px; font-weight: 600;">Description</label>
+    border-radius: 12px;
+                    
+                    <div style="margin-top: 30px;">
+    border-radius: 12px;
+                        <div id="linkStatus" style="margin-top: 15px; color: #6b7280;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prototype-screen" id="proto3" style="display: none;">
+                <h3>Transaction History</h3>
+                
+                <div style="margin-bottom: 20px; text-align: right;">
+    border-radius: 12px;
+                </div>
+
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f3f4f6;">
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #d1d5db;">Date</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #d1d5db;">Amount</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #d1d5db;">Status</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #d1d5db;" class="bug-marker" onclick="markBug(this, 'Column header text cut off')">Customer Na...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="padding: 12px;">Dec 29</td><td>₹2,500</td><td style="color: #059669; font-weight: bold;">Success</td><td>Rahul K.</td></tr>
+                        <tr><td style="padding: 12px;">Dec 29</td><td>₹1,200</td><td style="color: #059669; font-weight: bold;">Success</td><td>Priya S.</td></tr>
+                        <tr><td style="padding: 12px;" class="bug-marker" onclick="markBug(this, 'Date format inconsistent across rows')">Dec 29 14:30</td><td>₹850</td><td style="color: #dc2626; font-weight: bold;">Failed</td><td>Amit P.</td></tr>
+                        <tr><td style="padding: 12px;">Dec 28</td><td>₹5,400</td><td style="color: #059669; font-weight: bold;">Success</td><td>Neha M.</td></tr>
+                        <tr><td style="padding: 12px;">Dec 28</td><td>₹3,200</td><td style="color: #059669; font-weight: bold;">Success</td><td>Karan T.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="prototype-screen" id="proto4" style="display: none;">
+                <h3>Account Settings</h3>
+                <div style="margin: 30px 0;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Business Name</label>
+    border-radius: 12px;
+                    
+                    <label style="display: block; margin: 25px 0 10px; font-weight: 600;">Settlement Bank</label>
+    border-radius: 12px;
+                    
+    border-radius: 12px;
+                    <div id="saveStatus" style="margin-top: 12px; color: #6b7280;"></div>
+                </div>
+            </div>
+
+            <div class="bug-list">
+                <h3 style="font-size: 1.9em; margin-bottom: 20px; color: #fca5a5;">🐛 Bugs Found:</h3>
+                <div id="bugList" style="font-size: 1rem;"></div>
+                
+                <div style="margin-top: 25px;">
+    border-radius: 12px;
+    border-radius: 12px;
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <strong style="font-size: 1.125rem;">Total: <span id="bugCount">0</span>/7</strong>
+                </div>
+            </div>
+
+            <button class="btn" id="categorizeBtn" disabled onclick="categorizeBugs()">🤖 AI: Categorize Bugs →</button>
+        </div>
+
+        <div class="card" id="s3" style="display: none;">
+            <h2 style="font-size: 1.875rem; margin-bottom: 32px; text-align: center;">
+                🤖 AI Bug Categorization
+            </h2>
+
+            <div id="categorized"></div>
+
+    border-radius: 12px;
+                <h3 style="font-size: 1.7em; margin-bottom: 18px;">🎓 What You Learned:</h3>
+                <p style="font-size: 1rem; line-height: 2;">
+                    ✓ Use your product to find issues restaurants face<br/>
+                    ✓ Small UX bugs create big frustration<br/>
+                    ✓ Testing reveals what analytics miss<br/>
+                    ✓ Fix critical bugs (P0) before new features
+                </p>
+            </div>
+
+            <button class="btn" onclick="window.location.href='case7.html'">Case 7: Prioritize Features →</button>
+        </div>
+
+    </div>
+
+    <script>
+        function moveFocus(elementId) {
+            const el = document.getElementById(elementId);
+            if (el) {
+                const heading = el.querySelector("h1, h2");
+                if (heading) {
+                    heading.setAttribute("tabindex", "-1");
+                    heading.focus();
+                    setTimeout(() => heading.removeAttribute("tabindex"), 100);
+                }
+            }
+        }
+        let bugs = [];
+        let linkGenerating = false;
+
+        function startTest() {
+            document.getElementById('s1').style.display = 'none';
+            document.getElementById('s2').style.display = 'block';
+            updateBugList();
+            window.scrollTo(0, 0); setTimeout(() => { const h = document.querySelector("h1, h2"); if (h) { h.tabIndex = -1; h.focus(); } }, 100);
+        }
+
+        function showScreen(num, btn) {
+            document.querySelectorAll('.screen-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.querySelectorAll('.prototype-screen').forEach(s => s.style.display = 'none');
+            document.getElementById('proto' + num).style.display = 'block';
+        }
+
+        function validateAmount() {
+            const val = document.getElementById('amountField').value;
+            const hasLetters = /[a-zA-Z]/.test(val);
+            
+            if (hasLetters && !bugs.includes('Amount field accepts alphabets - should be numbers only')) {
+                markBug(document.getElementById('amountField'), 'Amount field accepts alphabets - should be numbers only');
+            }
+        }
+
+        function generateLink() {
+            if (linkGenerating) return;
+            linkGenerating = true;
+            
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.textContent = 'Generating...';
+            
+            document.getElementById('linkStatus').innerHTML = '<div style="font-size: 0.875rem; color: #f59e0b;">⏳ Generating link...</div>';
+            
+            // Wait 15 seconds
+            setTimeout(() => {
+                document.getElementById('linkStatus').innerHTML = `
+    border-radius: 12px;
+                        ⚠️ Link generated... but that took 15 seconds! Click here if this feels slow.
+                    </div>
+                `;
+                btn.disabled = false;
+                btn.textContent = 'Generate Link';
+                linkGenerating = false;
+            }, 15000);
+        }
+
+        function trySave() {
+            document.getElementById('saveStatus').innerHTML = `
+    border-radius: 12px;
+                    ⚠️ Clicked Save but nothing happened. Click here to mark as bug.
+                </div>
+            `;
+        }
+
+        function markBug(el, description) {
+            if (bugs.includes(description)) return;
+            if (bugs.length >= 7) {
+                alert('Found all 7 bugs!');
+                return;
+            }
+            
+            el.classList.add('marked');
+            bugs.push(description);
+            localStorage.setItem("case6_bugs", bugs.length);
+            updateBugList();
+            
+            if (bugs.length >= 7) {
+                document.getElementById('categorizeBtn').disabled = false;
+            }
+        }
+
+        function addCustomBug() {
+            const input = document.getElementById('customBug');
+            const bug = input.value.trim();
+            
+            if (!bug) {
+                alert('Describe the bug first!');
+                return;
+            }
+            if (bugs.length >= 7) {
+                alert('Maximum 7 bugs!');
+                return;
+            }
+            
+            bugs.push(bug);
+            input.value = '';
+            updateBugList();
+            
+            if (bugs.length >= 7) {
+                document.getElementById('categorizeBtn').disabled = false;
+            }
+        }
+
+        function updateBugList() {
+            const list = document.getElementById('bugList');
+            if (bugs.length === 0) {
+                list.innerHTML = '<p style="color: #9ca3af;">Click broken elements above to mark bugs</p>';
+            } else {
+                list.innerHTML = bugs.map((b, i) => `
+    border-radius: 12px;
+                        <strong>${i + 1}.</strong> ${b}
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('bugCount').textContent = bugs.length;
+        }
+
+        function categorizeBugs() {
+            const p0 = bugs.filter(b => b.includes('₹0') || b.includes('does nothing') || b.includes('not saved'));
+            const p1 = bugs.filter(b => b.includes('15 seconds') || b.includes('slow'));
+            const p2 = bugs.filter(b => !p0.includes(b) && !p1.includes(b));
+            
+            const html = `
+    border-radius: 12px;
+                    <h3 style="font-size: 1.9em; margin-bottom: 20px; color: #ef4444;">P0 - Critical (Fix Now)</h3>
+    border-radius: 12px;
+                </div>
+    border-radius: 12px;
+                    <h3 style="font-size: 1.9em; margin-bottom: 20px; color: #f59e0b;">P1 - High (Fix Soon)</h3>
+    border-radius: 12px;
+                </div>
+    border-radius: 12px;
+                    <h3 style="font-size: 1.9em; margin-bottom: 20px; color: #3b82f6;">P2 - Medium (Schedule)</h3>
+    border-radius: 12px;
+                </div>
+            `;
+            
+            document.getElementById('categorized').innerHTML = html;
+            
+            document.getElementById('s2').style.display = 'none';
+            document.getElementById('s3').style.display = 'block';
+            window.scrollTo(0, 0); setTimeout(() => { const h = document.querySelector("h1, h2"); if (h) { h.tabIndex = -1; h.focus(); } }, 100);
+        }
+        const productMap = {quickpay: "FoodExpress", foodexpress: "FoodExpress", quickmart: "QuickMart"};
+        const path = window.location.pathname;
+        const product = Object.keys(productMap).find(p => path.includes(p));
+        const caseNum = path.match(/case(\d)/)?[1];
+        if (product && caseNum) document.getElementById("breadcrumb").textContent = productMap[product] + " → Case " + caseNum;
+        const productMap = {quickpay: "FoodExpress", foodexpress: "FoodExpress", quickmart: "QuickMart"};
+        const path = window.location.pathname;
+        const product = Object.keys(productMap).find(p => path.includes(p));
+        const caseMatch = path.match(/case(\d)/);
+        if (product) {
+            const pName = document.getElementById("productName");
+            if (pName) pName.textContent = productMap[product];
+        }
+        if (caseMatch) {
+            const cNum = document.getElementById("caseNum");
+            if (cNum) cNum.textContent = caseMatch[1];
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case 4: Human-in-Loop Design - AI PM Track - PM Playground</title>
+    <link rel="stylesheet" href="../shared-styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="../index.html">Advanced</a>
+                <span class="sep">/</span>
+                <a href="index.html">AI PM</a>
+                <span class="sep">/</span>
+                <span class="current">Human-in-Loop Design</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+            <a href="index.html" class="back-btn">← Back to AI PM Track</a>
+        </div>
+    </div>
+
+    <!-- 3-COLUMN LAYOUT -->
+    <div class="main-layout">
+        <!-- LEFT PANEL - CONTEXT -->
+        <div class="context-panel">
+            <!-- Your Role -->
+            <div class="section">
+                <h3>👤 Your Role</h3>
+                <p>
+                    <strong>Senior PM, AI Safety</strong><br>
+                    4 years PM experience<br>
+                    Report to: VP of Product<br>
+                    Team: 12 engineers, 2 ML scientists, 1 UX researcher
+                </p>
+            </div>
+
+            <!-- Current Automation Metrics -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">🤖 Current Automation</h3>
+                <div class="metric-row">
+                    <span class="metric-label">Fully Automated</span>
+                    <span class="metric-value">92%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Human Review</span>
+                    <span class="metric-value">8%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Avg Review Time</span>
+                    <span class="metric-value">45 seconds</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Error Cost (per mistake)</span>
+                    <span class="metric-value danger">$2,400</span>
+                </div>
+            </div>
+
+            <!-- Stakeholders -->
+            <div class="section">
+                <h3>👥 Key Stakeholders</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">RK</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Dr. Rachel Kim</div>
+                            <div class="stakeholder-title">Chief Medical Officer</div>
+                            <div class="stakeholder-concern">"Medical errors are life-threatening. We need 99.9% accuracy."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">AJ</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Alex Johnson</div>
+                            <div class="stakeholder-title">VP of Operations</div>
+                            <div class="stakeholder-concern">"Reviewers are burned out reviewing 500+ decisions daily."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">SP</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Sarah Park</div>
+                            <div class="stakeholder-title">Head of Legal & Compliance</div>
+                            <div class="stakeholder-concern">"Who's liable when AI makes a mistake? We need clear accountability."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">ML</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Mike Lopez</div>
+                            <div class="stakeholder-title">CFO</div>
+                            <div class="stakeholder-concern">"Human review costs $12/hour. Balance cost with safety."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Context -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">⚠️ Risk Assessment</h3>
+                <div class="metric-row">
+                    <span class="metric-label">High-Stakes Decisions</span>
+                    <span class="metric-value">15,000/month</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Current Error Rate</span>
+                    <span class="metric-value danger">0.4%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Monthly Error Cost</span>
+                    <span class="metric-value danger">$144,000</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER PANEL - WORKSPACE -->
+        <div class="workspace">
+            <!-- Screen 1: Introduction -->
+            <div id="screen1">
+                <div class="case-badge">
+                    <span>📋</span>
+                    <span>CASE 4 OF 6</span>
+                </div>
+
+                <h1 style="margin-bottom: 1rem;">Human-in-Loop Design</h1>
+                <p style="font-size: 1.125rem; margin-bottom: 2rem;">
+                    When should AI require human approval? Design approval workflows for 3 use cases: content moderation, financial transactions, and medical diagnoses.
+                </p>
+
+                <div class="section">
+                    <h3>📌 The Challenge</h3>
+                    <p>
+                        Your company uses AI for three critical decision types. Currently, 92% are fully automated. But 0.4% error rate means 60 costly mistakes monthly ($144K). You need to decide which decisions require human review without overwhelming your review team.
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        Design a human-in-loop framework that balances automation efficiency with safety across these three use cases.
+                    </p>
+                </div>
+
+                <!-- Use Case 1: Content Moderation -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--purple);">
+                    <h3>Use Case 1: Content Moderation</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Volume:</span>
+                            <strong>50,000 posts/day</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">AI Confidence:</span>
+                            <strong>High: 82% | Medium: 14% | Low: 4%</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Error Cost:</span>
+                            <strong>False positive (removed good content): $50 reputation damage<br>False negative (missed harmful content): $5,000 legal risk</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--text);">Current Approach:</strong> Auto-remove if AI confidence >95%, auto-approve if <30%, human review for 30-95% (7,000 reviews/day)
+                    </p>
+                    <p style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.875rem;">
+                        <strong>Problem:</strong> Reviewers spend 45 seconds per post = 87 hours daily. Team is burned out. But lowering threshold risks legal liability from missed harmful content.
+                    </p>
+                </div>
+
+                <!-- Use Case 2: Financial Transactions -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--cyan);">
+                    <h3>Use Case 2: Financial Fraud Detection</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Volume:</span>
+                            <strong>8,000 flagged transactions/day</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">AI Fraud Score:</span>
+                            <strong>High risk: 5% | Medium: 22% | Low: 73%</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Error Cost:</span>
+                            <strong>False positive (block legitimate): $200 customer churn<br>False negative (allow fraud): $3,500 average fraud loss</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--text);">Current Approach:</strong> Auto-block high risk (5%), auto-approve low risk (73%), human review medium risk (22% = 1,760 reviews/day)
+                    </p>
+                    <p style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.875rem;">
+                        <strong>Problem:</strong> Medium-risk transactions ($500-$2,000) require 2-minute reviews = 58 hours daily. Customers complain about delays. But auto-blocking medium risk would block 8% legitimate customers.
+                    </p>
+                </div>
+
+                <!-- Use Case 3: Medical Diagnoses -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--gold);">
+                    <h3>Use Case 3: Medical Diagnosis Assistance</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Volume:</span>
+                            <strong>2,500 diagnostic suggestions/day</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">AI Diagnostic Confidence:</span>
+                            <strong>High: 68% | Medium: 24% | Low: 8%</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Error Cost:</span>
+                            <strong>False positive (unnecessary treatment): $1,200 cost<br>False negative (missed diagnosis): $50,000+ malpractice risk + harm</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--text);">Current Approach:</strong> All AI suggestions reviewed by doctors (2,500 reviews/day = 104 hours daily across 13 doctors)
+                    </p>
+                    <p style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.875rem;">
+                        <strong>Problem:</strong> Doctors review every AI suggestion, even routine ones. This creates alert fatigue - doctors start rubber-stamping high-confidence suggestions without careful review. Ironically, this makes mistakes MORE likely.
+                    </p>
+                </div>
+
+                <button class="btn-primary" onclick="showMemoEditor()" style="margin-top: 2rem;">
+                    Write Human-in-Loop Framework →
+                </button>
+            </div>
+
+            <!-- Screen 2: Memo Editor -->
+            <div id="screen2" class="hidden">
+                <div class="case-badge">
+                    <span>✍️</span>
+                    <span>FRAMEWORK MEMO</span>
+                </div>
+
+                <h2 style="margin-bottom: 1.5rem;">Human-in-Loop Decision Framework</h2>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">📝 Instructions</h3>
+                    <p>
+                        Write a 500+ word framework memo. Your memo should include:
+                    </p>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li><strong>Executive Summary:</strong> Your human-in-loop philosophy in 2-3 sentences</li>
+                        <li><strong>Framework Principles:</strong> When should AI require human approval? (3-5 principles)</li>
+                        <li><strong>Use Case 1 (Content Moderation):</strong> Specific approval thresholds and workflow</li>
+                        <li><strong>Use Case 2 (Financial Fraud):</strong> Specific approval thresholds and workflow</li>
+                        <li><strong>Use Case 3 (Medical Diagnosis):</strong> Specific approval thresholds and workflow</li>
+                        <li><strong>Team Impact:</strong> How will this affect reviewer workload and prevent burnout?</li>
+                        <li><strong>Monitoring & Iteration:</strong> How will you measure if thresholds need adjustment?</li>
+                    </ul>
+                </div>
+
+                <div class="memo-editor">
+                    <textarea
+                        id="memoText"
+                        placeholder="TO: Dr. Rachel Kim (CMO), Alex Johnson (VP Ops), Sarah Park (Legal), Mike Lopez (CFO)
+FROM: [Your Name], Senior PM - AI Safety
+RE: Human-in-Loop Decision Framework for AI Systems
+DATE: [Today's Date]
+
+EXECUTIVE SUMMARY
+[Your human-in-loop philosophy in 2-3 sentences]
+
+FRAMEWORK PRINCIPLES
+When should AI decisions require human approval?
+1. [Principle 1]
+2. [Principle 2]
+3. [Principle 3]
+
+USE CASE 1: CONTENT MODERATION
+Decision: [Auto-approve / Auto-remove / Human review thresholds]
+Workflow: [Specific process]
+Expected impact: [Review volume reduction, error rate]
+
+USE CASE 2: FINANCIAL FRAUD DETECTION
+Decision: [Auto-approve / Auto-block / Human review thresholds]
+Workflow: [Specific process]
+Expected impact: [Review volume reduction, false positive/negative rates]
+
+USE CASE 3: MEDICAL DIAGNOSIS ASSISTANCE
+Decision: [Auto-suggest / Require review / Escalation criteria]
+Workflow: [Specific process for doctor involvement]
+Expected impact: [Alert fatigue reduction, safety improvement]
+
+REVIEWER TEAM IMPACT
+[Current: 249 hours daily across all teams]
+[Proposed: X hours daily - show your math]
+[How you'll prevent burnout with remaining reviews]
+
+MONITORING & CALIBRATION
+[Weekly metrics to track: error rates, review times, reviewer accuracy]
+[When to adjust thresholds: specific triggers]
+[Quarterly calibration process]"
+                        oninput="updateWordCount()"
+                    ></textarea>
+
+                    <div class="word-count">
+                        <button class="ai-assist-btn" onclick="showAIHint()">
+                            <span>🤖</span>
+                            <span>AI Writing Tips</span>
+                        </button>
+                        <div>
+                            <span class="word-count-number" id="wordCount">0</span>
+                            <span style="color: var(--text-dim);"> / 500 words minimum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="aiHint" class="section hidden" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-top: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">💡 Writing Tips</h3>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li>Different use cases need different thresholds: medical has highest stakes (false negative = harm), content mod balances speed vs safety</li>
+                        <li>Alert fatigue is real: if doctors review 100% of suggestions, they stop paying attention. Better to review 30% carefully</li>
+                        <li>Show your math on workload: "Changing content mod threshold from 30-95% to 40-90% reduces reviews from 7,000 to 4,500 daily"</li>
+                        <li>Consider confidence + dollar amount: $5 fraud at 70% confidence = auto-approve. $5,000 fraud at 70% = human review</li>
+                        <li>Plan for calibration: thresholds need adjustment as AI improves. What metrics trigger a threshold change?</li>
+                    </ul>
+                </div>
+
+                <button class="submit-btn" id="submitBtn" disabled onclick="submitMemo()" style="margin-top: 2rem;">
+                    Submit Framework Memo
+                </button>
+            </div>
+
+            <!-- Screen 3: Results -->
+            <div id="screen3" class="hidden">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                    <h1>Framework Submitted</h1>
+                    <p style="font-size: 1.125rem; margin-top: 1rem;">
+                        Your human-in-loop framework has been recorded. Let's review what you learned.
+                    </p>
+                </div>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 2rem;">
+                    <h3>📊 Your Memo</h3>
+                    <div id="submittedMemo" style="margin-top: 1rem; padding: 1.5rem; background: var(--dark-panel); border-radius: var(--radius-md); white-space: pre-wrap; font-size: 0.9375rem; line-height: 1.7; color: var(--text-muted);">
+                    </div>
+                </div>
+
+                <div class="learning-box">
+                    <h3>🎓 Key Learnings: Human-in-Loop Design</h3>
+                    <ul>
+                        <li><strong>Alert fatigue is the enemy:</strong> Requiring human review for 100% of decisions makes reviewers rubber-stamp approvals. Better to review 20% carefully than 100% carelessly</li>
+                        <li><strong>Risk-based thresholds:</strong> Medical diagnosis needs higher confidence bar (>95%) than content moderation (>80%) because stakes differ. Context matters</li>
+                        <li><strong>Cost asymmetry drives decisions:</strong> In fraud, false negative ($3,500 loss) costs 17x more than false positive ($200 churn). Optimize for costlier error</li>
+                        <li><strong>Confidence x Impact = Review Need:</strong> Low dollar fraud at 60% confidence? Auto-approve. High dollar fraud at 60%? Human review. Dollar amount matters as much as confidence</li>
+                        <li><strong>Monitoring enables iteration:</strong> Set thresholds, measure false positive/negative rates weekly, adjust. Human-in-loop isn't one-time design, it's continuous calibration</li>
+                        <li><strong>Workload reduction prevents burnout:</strong> Reducing content mod reviews from 7,000 to 3,000 daily means reviewers spend 90 sec per item (quality) instead of 45 sec (rushed)</li>
+                        <li><strong>Accountability requires audit trails:</strong> Every AI decision needs logged reasoning. When mistakes happen, you can trace: was it AI error or human override error?</li>
+                    </ul>
+                </div>
+
+                <a href="case5.html" class="btn-primary" style="margin-top: 2rem; text-decoration: none; display: block; text-align: center;">
+                    Next: Case 5 - LLM Cost Optimization →
+                </a>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL - RESOURCES -->
+        <div class="resources-panel">
+            <!-- Documents -->
+            <div class="section">
+                <h3>📄 Documents</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                    <div class="resource-doc">
+                        <div class="resource-icon">📊</div>
+                        <div class="resource-title">Error Rate Analysis</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">⚖️</div>
+                        <div class="resource-title">Liability Framework</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">👥</div>
+                        <div class="resource-title">Reviewer Workload Report</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">💰</div>
+                        <div class="resource-title">Cost-Benefit Model</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Tips -->
+            <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2);">
+                <h3 style="color: var(--purple-light);">💡 Strategic Tip</h3>
+                <p style="font-size: 0.9375rem;">
+                    <strong>Alert fatigue kills safety.</strong>
+                    <br><br>
+                    When doctors review every AI suggestion, they stop paying attention. Selective review (high-stakes only) maintains vigilance. Quality over quantity.
+                </p>
+            </div>
+
+            <!-- Frameworks -->
+            <div class="section">
+                <h3>🧰 Decision Frameworks</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; font-size: 0.875rem;">
+                    <div>
+                        <strong style="color: var(--text);">Risk Matrix</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Impact × Likelihood = Review Threshold</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Cost Asymmetry</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Optimize for the more expensive error type</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Alert Fatigue Curve</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Review quality drops as volume increases</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="section">
+                <h3>📍 Your Progress</h3>
+                <div style="margin-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                        <span style="color: var(--text-muted);">Case 4 of 6</span>
+                        <span style="color: var(--purple-light); font-weight: 600;">67%</span>
+                    </div>
+                    <div style="height: 8px; background: var(--border); border-radius: 999px; overflow: hidden;">
+                        <div style="width: 67%; height: 100%; background: linear-gradient(90deg, var(--purple), var(--purple-light)); transition: width 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved content from localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ai_pm_case4_memo');
+            if (saved) {
+                document.getElementById('memoText').value = saved;
+                updateWordCount();
+            }
+        });
+
+        function showMemoEditor() {
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('memoText').value;
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const countEl = document.getElementById('wordCount');
+            const submitBtn = document.getElementById('submitBtn');
+
+            countEl.textContent = words;
+
+            if (words >= 500) {
+                countEl.classList.add('complete');
+                submitBtn.disabled = false;
+            } else {
+                countEl.classList.remove('complete');
+                submitBtn.disabled = true;
+            }
+
+            // Auto-save to localStorage
+            localStorage.setItem('ai_pm_case4_memo', text);
+        }
+
+        function showAIHint() {
+            const hint = document.getElementById('aiHint');
+            hint.classList.toggle('hidden');
+        }
+
+        function submitMemo() {
+            const memo = document.getElementById('memoText').value;
+            document.getElementById('submittedMemo').textContent = memo;
+
+            document.getElementById('screen2').classList.add('hidden');
+            document.getElementById('screen3').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            // Save completion to localStorage
+            localStorage.setItem('ai_pm_case4_completed', 'true');
+        }
+    </script>
+</body>
+</html>

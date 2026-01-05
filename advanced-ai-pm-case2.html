@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case 2: Prompt Engineering - AI PM Track - PM Playground</title>
+    <link rel="stylesheet" href="../shared-styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../../index.html">🏠 Home</a>
+                <span class="sep">/</span>
+                <a href="../index.html">Advanced</a>
+                <span class="sep">/</span>
+                <a href="index.html">AI PM</a>
+                <span class="sep">/</span>
+                <span class="current">Prompt Engineering</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+            <a href="index.html" class="back-btn">← Back to AI PM Track</a>
+        </div>
+    </div>
+
+    <!-- 3-COLUMN LAYOUT -->
+    <div class="main-layout">
+        <!-- LEFT PANEL - CONTEXT -->
+        <div class="context-panel">
+            <!-- Your Role -->
+            <div class="section">
+                <h3>👤 Your Role</h3>
+                <p>
+                    <strong>Senior PM, AI Platform</strong><br>
+                    2 years PM experience<br>
+                    Report to: VP of Product<br>
+                    Team: 6 engineers, 1 ML engineer
+                </p>
+            </div>
+
+            <!-- Current State -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">📊 Current State</h3>
+                <div class="metric-row">
+                    <span class="metric-label">Hallucination Rate</span>
+                    <span class="metric-value danger">15%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">User Trust Score</span>
+                    <span class="metric-value warning">6.2/10</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Queries/Day</span>
+                    <span class="metric-value">50,000</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Avg Latency</span>
+                    <span class="metric-value">2.8s</span>
+                </div>
+            </div>
+
+            <!-- Stakeholders -->
+            <div class="section">
+                <h3>👥 Key Stakeholders</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">SC</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Sarah Chen</div>
+                            <div class="stakeholder-title">VP of Product</div>
+                            <div class="stakeholder-concern">"15% hallucination rate is unacceptable. Get it below 5%."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">RT</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Raj Thakur</div>
+                            <div class="stakeholder-title">Head of Engineering</div>
+                            <div class="stakeholder-concern">"No retraining. Work with existing Claude API."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">LM</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Lisa Martinez</div>
+                            <div class="stakeholder-title">Head of Customer Success</div>
+                            <div class="stakeholder-concern">"Customers are losing trust. We need this fixed fast."</div>
+                        </div>
+                    </div>
+
+                    <div class="stakeholder-card">
+                        <div class="stakeholder-avatar">NK</div>
+                        <div class="stakeholder-info">
+                            <div class="stakeholder-name">Neil Kumar</div>
+                            <div class="stakeholder-title">Data Scientist</div>
+                            <div class="stakeholder-concern">"Don't sacrifice latency. We're already at 2.8s."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constraints -->
+            <div class="metric-box">
+                <h3 style="margin-bottom: 1rem; color: var(--text);">⚠️ Constraints</h3>
+                <div class="metric-row">
+                    <span class="metric-label">Timeline</span>
+                    <span class="metric-value">6 weeks</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Budget</span>
+                    <span class="metric-value">$0 (no new tools)</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Latency Target</span>
+                    <span class="metric-value">< 3.5s</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER PANEL - WORKSPACE -->
+        <div class="workspace">
+            <!-- Screen 1: Introduction -->
+            <div id="screen1">
+                <div class="case-badge">
+                    <span>📋</span>
+                    <span>CASE 2 OF 6</span>
+                </div>
+
+                <h1 style="margin-bottom: 1rem;">Prompt Engineering for Production</h1>
+                <p style="font-size: 1.125rem; margin-bottom: 2rem;">
+                    Reduce hallucination rate from 15% to below 5% using only prompt optimization techniques.
+                </p>
+
+                <div class="section">
+                    <h3>📌 The Challenge</h3>
+                    <p>
+                        Your AI-powered customer support assistant has a 15% hallucination rate - it confidently provides incorrect information about products, policies, and troubleshooting steps.
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        Engineering analyzed 5,000 failed queries. You cannot retrain the model. You must use prompt engineering techniques to fix this within 6 weeks.
+                    </p>
+                </div>
+
+                <!-- Current Prompt Analysis -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--danger);">
+                    <h3>Current Prompt (Naive Approach)</h3>
+                    <pre style="background: var(--dark-panel); padding: 1rem; border-radius: var(--radius-md); overflow-x: auto; margin-top: 1rem;"><code>You are a customer support assistant.
+Answer this question: {user_question}
+
+Use this knowledge base: {kb_context}</code></pre>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--danger);">Problems:</strong> No constraints, no verification, no source attribution, no uncertainty handling
+                    </p>
+                </div>
+
+                <!-- Option A: Few-Shot Learning -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--purple);">
+                    <h3>Technique A: Few-Shot Learning + Constraints</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Expected Accuracy Improvement:</span>
+                            <strong>+6% (9% hallucination rate)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Latency Impact:</span>
+                            <strong>+0.4s (3.2s total)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong>2 weeks</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Quick to implement, provides examples of good answers, adds "say I don't know" constraint<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> Doesn't reach <5% target, examples need constant updating, still no verification
+                    </p>
+                </div>
+
+                <!-- Option B: Chain-of-Thought -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--cyan);">
+                    <h3>Technique B: Chain-of-Thought Reasoning</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Expected Accuracy Improvement:</span>
+                            <strong>+9% (6% hallucination rate)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Latency Impact:</span>
+                            <strong>+1.2s (4.0s total)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong>4 weeks</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Forces step-by-step reasoning, catches logical errors, shows work to users<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> Doesn't hit <5% target, adds significant latency (4s), more complex prompt maintenance
+                    </p>
+                </div>
+
+                <!-- Option C: Constitutional AI + Source Attribution -->
+                <div class="section" style="margin-top: 1.5rem; border-left: 4px solid var(--gold);">
+                    <h3>Technique C: Constitutional AI + Source Attribution</h3>
+                    <div style="display: grid; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Expected Accuracy Improvement:</span>
+                            <strong style="color: var(--gold);">+11% (4% hallucination rate)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Latency Impact:</span>
+                            <strong>+0.7s (3.5s total)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Implementation Time:</span>
+                            <strong>5 weeks</strong>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-muted);">
+                        <strong style="color: var(--success);">Pros:</strong> Meets <5% target, adds constitutional rules ("never make up facts"), requires source citations, balanced latency<br>
+                        <strong style="color: var(--danger); margin-top: 0.5rem; display: block;">Cons:</strong> Tight 6-week deadline, requires careful rule design, may reduce answer coverage (more "I don't know" responses)
+                    </p>
+                </div>
+
+                <button class="btn-primary" onclick="showMemoEditor()" style="margin-top: 2rem;">
+                    Write Optimization Memo →
+                </button>
+            </div>
+
+            <!-- Screen 2: Memo Editor -->
+            <div id="screen2" class="hidden">
+                <div class="case-badge">
+                    <span>✍️</span>
+                    <span>OPTIMIZATION MEMO</span>
+                </div>
+
+                <h2 style="margin-bottom: 1.5rem;">Prompt Engineering Strategy - Hallucination Reduction</h2>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">📝 Instructions</h3>
+                    <p>
+                        Write a 500+ word optimization memo recommending one technique. Your memo should include:
+                    </p>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li><strong>Executive Summary:</strong> Your recommendation in 2-3 sentences</li>
+                        <li><strong>Problem Analysis:</strong> Why is hallucination happening and what's at stake?</li>
+                        <li><strong>Technique Comparison:</strong> Objectively compare all three approaches</li>
+                        <li><strong>Recommendation:</strong> Which technique and why (address accuracy vs latency trade-off)</li>
+                        <li><strong>Implementation Plan:</strong> Week-by-week rollout with testing milestones</li>
+                        <li><strong>Success Metrics:</strong> How will you validate this works before full rollout?</li>
+                    </ul>
+                </div>
+
+                <div class="memo-editor">
+                    <textarea
+                        id="memoText"
+                        placeholder="TO: Sarah Chen (VP of Product), Raj Thakur (Head of Engineering)
+FROM: [Your Name], Senior PM - AI Platform
+RE: Prompt Engineering Strategy to Reduce Hallucination Rate
+DATE: [Today's Date]
+
+EXECUTIVE SUMMARY
+[Your recommendation in 2-3 sentences]
+
+PROBLEM ANALYSIS
+[Why hallucinations are happening, customer impact, trust erosion]
+
+TECHNIQUE COMPARISON
+[Detailed analysis of Few-Shot, Chain-of-Thought, and Constitutional AI approaches]
+
+RECOMMENDATION
+[Which technique you recommend and comprehensive reasoning]
+
+IMPLEMENTATION PLAN
+Week 1: [Milestone]
+Week 2: [Milestone]
+...
+Week 6: [Milestone]
+
+TESTING STRATEGY
+[How you'll A/B test, sample size, confidence intervals]
+
+SUCCESS METRICS
+[Hallucination rate < 5%, latency < 3.5s, user trust score improvement]
+
+RISK MITIGATION
+[What could go wrong and how you'll handle it]"
+                        oninput="updateWordCount()"
+                    ></textarea>
+
+                    <div class="word-count">
+                        <button class="ai-assist-btn" onclick="showAIHint()">
+                            <span>🤖</span>
+                            <span>AI Writing Tips</span>
+                        </button>
+                        <div>
+                            <span class="word-count-number" id="wordCount">0</span>
+                            <span style="color: var(--text-dim);"> / 500 words minimum</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="aiHint" class="section hidden" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-top: 1.5rem;">
+                    <h3 style="color: var(--purple-light);">💡 Writing Tips</h3>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                        <li>Address the accuracy vs latency trade-off explicitly (Sarah wants <5%, Neil wants <3.5s)</li>
+                        <li>Include A/B testing plan: what % of traffic, how long, statistical significance threshold</li>
+                        <li>Show you understand prompt engineering is iterative - plan for multiple refinement cycles</li>
+                        <li>Acknowledge "more I don't know responses" may hurt coverage but improve trust</li>
+                        <li>Reference the 50K queries/day - even 1% improvement = 500 better answers daily</li>
+                    </ul>
+                </div>
+
+                <button class="submit-btn" id="submitBtn" disabled onclick="submitMemo()" style="margin-top: 2rem;">
+                    Submit Optimization Memo
+                </button>
+            </div>
+
+            <!-- Screen 3: Results -->
+            <div id="screen3" class="hidden">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                    <h1>Optimization Memo Submitted</h1>
+                    <p style="font-size: 1.125rem; margin-top: 1rem;">
+                        Your prompt engineering strategy has been recorded. Let's review what you learned.
+                    </p>
+                </div>
+
+                <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2); margin-bottom: 2rem;">
+                    <h3>📊 Your Memo</h3>
+                    <div id="submittedMemo" style="margin-top: 1rem; padding: 1.5rem; background: var(--dark-panel); border-radius: var(--radius-md); white-space: pre-wrap; font-size: 0.9375rem; line-height: 1.7; color: var(--text-muted);">
+                    </div>
+                </div>
+
+                <div class="learning-box">
+                    <h3>🎓 Key Learnings: Prompt Engineering for Production</h3>
+                    <ul>
+                        <li><strong>Constraints are critical:</strong> Simple additions like "Never make up facts" or "Cite sources" drastically reduce hallucinations</li>
+                        <li><strong>Latency vs accuracy trade-off:</strong> Chain-of-thought improves accuracy but adds 1.2s - sometimes fast wrong answers hurt more than slow right ones</li>
+                        <li><strong>Constitutional AI principles:</strong> Define rules the model must follow (honesty, attribution, uncertainty admission) before answering</li>
+                        <li><strong>Source attribution prevents fabrication:</strong> Forcing models to cite knowledge base sections makes them admit "not in knowledge base" instead of guessing</li>
+                        <li><strong>A/B testing is mandatory:</strong> Never deploy prompt changes to 100% traffic - hallucination metrics can spike unexpectedly with edge cases</li>
+                        <li><strong>Coverage vs accuracy tension:</strong> Stricter prompts mean more "I don't know" responses - measure both hallucination rate AND answer coverage</li>
+                    </ul>
+                </div>
+
+                <a href="case3.html" class="btn-primary" style="margin-top: 2rem; text-decoration: none; display: block; text-align: center;">
+                    Next: Case 3 - AI Ethics & Bias Detection →
+                </a>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL - RESOURCES -->
+        <div class="resources-panel">
+            <!-- Documents -->
+            <div class="section">
+                <h3>📄 Documents</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                    <div class="resource-doc">
+                        <div class="resource-icon">📊</div>
+                        <div class="resource-title">Hallucination Analysis Report</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">🧪</div>
+                        <div class="resource-title">A/B Test Template</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">📚</div>
+                        <div class="resource-title">Anthropic Prompt Engineering Guide</div>
+                    </div>
+                    <div class="resource-doc">
+                        <div class="resource-icon">⚡</div>
+                        <div class="resource-title">Latency Budget Analysis</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Tips -->
+            <div class="section" style="background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2);">
+                <h3 style="color: var(--purple-light);">💡 Strategic Tip</h3>
+                <p style="font-size: 0.9375rem;">
+                    <strong>Start with constraints before complexity.</strong>
+                    <br><br>
+                    Simple rules like "cite sources" often outperform complex techniques like chain-of-thought. Add complexity only after you've exhausted simple improvements.
+                </p>
+            </div>
+
+            <!-- Frameworks -->
+            <div class="section">
+                <h3>🧰 Prompt Engineering Patterns</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; font-size: 0.875rem;">
+                    <div>
+                        <strong style="color: var(--text);">Few-Shot Learning</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Provide 3-5 example question-answer pairs</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Chain-of-Thought</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Force step-by-step reasoning before answering</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text);">Constitutional AI</strong>
+                        <p style="color: var(--text-muted); margin-top: 0.25rem;">Define principles the model must follow</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="section">
+                <h3>📍 Your Progress</h3>
+                <div style="margin-top: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                        <span style="color: var(--text-muted);">Case 2 of 6</span>
+                        <span style="color: var(--purple-light); font-weight: 600;">33%</span>
+                    </div>
+                    <div style="height: 8px; background: var(--border); border-radius: 999px; overflow: hidden;">
+                        <div style="width: 33%; height: 100%; background: linear-gradient(90deg, var(--purple), var(--purple-light)); transition: width 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved content from localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ai_pm_case2_memo');
+            if (saved) {
+                document.getElementById('memoText').value = saved;
+                updateWordCount();
+            }
+        });
+
+        function showMemoEditor() {
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function updateWordCount() {
+            const text = document.getElementById('memoText').value;
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const countEl = document.getElementById('wordCount');
+            const submitBtn = document.getElementById('submitBtn');
+
+            countEl.textContent = words;
+
+            if (words >= 500) {
+                countEl.classList.add('complete');
+                submitBtn.disabled = false;
+            } else {
+                countEl.classList.remove('complete');
+                submitBtn.disabled = true;
+            }
+
+            // Auto-save to localStorage
+            localStorage.setItem('ai_pm_case2_memo', text);
+        }
+
+        function showAIHint() {
+            const hint = document.getElementById('aiHint');
+            hint.classList.toggle('hidden');
+        }
+
+        function submitMemo() {
+            const memo = document.getElementById('memoText').value;
+            document.getElementById('submittedMemo').textContent = memo;
+
+            document.getElementById('screen2').classList.add('hidden');
+            document.getElementById('screen3').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            // Save completion to localStorage
+            localStorage.setItem('ai_pm_case2_completed', 'true');
+        }
+    </script>
+</body>
+</html>
